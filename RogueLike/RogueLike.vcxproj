@@ -71,6 +71,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -170,6 +171,7 @@
     <ClCompile Include="scripts\Collider.cpp" />
     <ClCompile Include="scripts\ColliderComponent.cpp" />
     <ClCompile Include="scripts\Component.cpp" />
+    <ClCompile Include="scripts\Enemy.cpp" />
     <ClCompile Include="scripts\Field.cpp" />
     <ClCompile Include="scripts\FieldType.cpp" />
     <ClCompile Include="scripts\Game.cpp" />
@@ -203,6 +205,7 @@
     <ClInclude Include="scripts\Collider.h" />
     <ClInclude Include="scripts\ColliderComponent.h" />
     <ClInclude Include="scripts\Component.h" />
+    <ClInclude Include="scripts\Enemy.h" />
     <ClInclude Include="scripts\Field.h" />
     <ClInclude Include="scripts\FieldType.h" />
     <ClInclude Include="scripts\Game.h" />

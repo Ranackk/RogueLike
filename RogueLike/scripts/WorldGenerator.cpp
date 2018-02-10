@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "lodepng.h"
 #include <filesystem>
+#include <detail/_vectorize.hpp>
 
 void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGenerateIn)
 {
@@ -14,16 +15,18 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	/* Initialize arrays */
 	RoomBlueprint* _rooms = new RoomBlueprint[static_cast<unsigned int>(roomGridSize.x * roomGridSize.y)];
 	mapToGenerateIn.m_Fields = new Field [static_cast<unsigned int>(worldFieldSize.x * worldFieldSize.y)];
-
+	
 	/* Read all room blueprints from files */
-	RoomBlueprint* _roomBlueprints = readRoomBlueprintsFromFile(individualRoomSize, "graphics/rooms.png");
+	RoomBlueprint* _roomBlueprints = readRoomBlueprintsFromFile(individualRoomSize, "graphics/rooms.png", mapToGenerateIn);
 
 	/* Fill rooms with the just read blueprints */
 	for (int rX = 0; rX < roomGridSize.x; rX++) {
 		for (int rY = 0; rY < roomGridSize.y; rY++) {
 			RoomBlueprint currentRoom = _rooms[(int)roomGridSize.x * rY + rX];
 			// TODO: Get a random room blueprint
-			currentRoom.fillWithTypes(individualRoomSize, _roomBlueprints[0].getFieldData());
+			int id = 0;
+			currentRoom.fillWithTypes(individualRoomSize, _roomBlueprints[id].getFieldData());
+			currentRoom.fillLightAndEnemyVector(_roomBlueprints[id].m_EnemyPositions, _roomBlueprints[id].m_LightPositions);
 			_rooms[(int)roomGridSize.x * rY + rX] = currentRoom;
 		}
 	}
@@ -47,6 +50,18 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 					mapToGenerateIn.m_Fields[(int)(worldPosition.x + worldPosition.y * worldFieldSize.x)] = Field();
 					mapToGenerateIn.m_Fields[(int)(worldPosition.x + worldPosition.y * worldFieldSize.x)].initialize(&mapToGenerateIn, worldPosition, currentRoom.getFieldTypeAt(glm::vec2(fX, fY)));
 				}
+			}
+
+			/* Create Lights & Enemies*/
+			for (auto it = currentRoom.m_LightPositions.begin(); it != currentRoom.m_LightPositions.end(); ++it) {
+				Light* l = new Light();
+				l->initialize(glm::vec3(topLeftWorldPosition.x + it->x + 0.5, 1, topLeftWorldPosition.y + it->y + 0.5), 30.0f, glm::vec4(0.8, 0.8, 1.3, 1.0), Light::STATIC, true);
+				mapToGenerateIn.m_Lights.push_back(l);
+			}
+			for (auto it = currentRoom.m_EnemyPositions.begin(); it != currentRoom.m_EnemyPositions.end(); ++it) {
+				Enemy* e = new Enemy();
+				e->initialize(&mapToGenerateIn, glm::vec3(topLeftWorldPosition.x + it->x + 0.5, 0, topLeftWorldPosition.y + it->y + 0.5));
+				mapToGenerateIn.m_Enemies.push_back(e);
 			}
 		}
 	}
@@ -83,7 +98,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	delete[] _rooms;
 }
 
-RoomBlueprint* WorldGenerator::readRoomBlueprintsFromFile(const glm::vec2 roomFieldSize, const std::string filePath)
+RoomBlueprint* WorldGenerator::readRoomBlueprintsFromFile(const glm::vec2 roomFieldSize, const std::string filePath, Scene &mapToGenerateIn)
 {
 	/* Load room blueprints from png file */
 	// Load file and decode image.
@@ -117,7 +132,14 @@ RoomBlueprint* WorldGenerator::readRoomBlueprintsFromFile(const glm::vec2 roomFi
 					const unsigned char b = image[static_cast<unsigned int>(4 * (samplePosition.x + samplePosition.y * imgWidth) + 2)];
 					const unsigned char a = image[static_cast<unsigned int>(4 * (samplePosition.x + samplePosition.y * imgWidth) + 3)];
 
-					types[fX + fY * static_cast<int>(roomFieldSize.x)] = FieldType::byColor(r, g, b, a);
+					types[fX + fY * static_cast<int>(roomFieldSize.x)] = FieldType::byColor(r);
+				
+					if (g == 255) {
+						currentBlueprint.m_LightPositions.push_back(glm::vec2(fX, fY));
+					}
+					if (b == 255) {
+						currentBlueprint.m_EnemyPositions.push_back(glm::vec2(fX, fY));
+					}
 				}
 			}
 			currentBlueprint.fillWithTypes(roomFieldSize, types);

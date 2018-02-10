@@ -3,9 +3,9 @@
 #include "Field.h"
 #include "RenderBatch.h"
 #include "Light.h"
-#include "MaterialManager.h"
 #include "Player.h"
 #include "Collider.h"
+#include "Enemy.h"
 
 class CircleCollider;
 
@@ -28,6 +28,7 @@ public:
 
 	void prepareLightsForShaderProgram(const GLuint _shaderProgramID) const;
 
+	class Player* getPlayer() const;
 
 	bool collidesWithSceneGeometry(CircleCollider &checkFor) const;
 
@@ -45,6 +46,10 @@ public:
 	GLuint m_StaticShadowMapCubeTextureDepth;
 	std::shared_ptr<Material> m_DepthMaterial;
 
+	std::vector<Light*> m_Lights;
+	std::vector<Enemy*> m_Enemies;
+
+
 	/* Systems */
 	std::vector<RenderComponent*> m_StaticRenderComponents;
 	std::vector<RenderComponent*> m_DynamicRenderComponents;
@@ -53,10 +58,6 @@ private:
 	glm::vec2 m_FieldSize;
 
 	GLuint m_LightShaderProgrammID;
-	/*int m_LightCount;
-
-	class Light* m_Lights;*/
-	std::vector<Light*> m_Lights;
 
 	void generateMap(const glm::vec2 mapSize);
 

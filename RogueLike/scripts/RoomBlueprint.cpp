@@ -27,6 +27,13 @@ void RoomBlueprint::fillWithTypes(const glm::vec2 _roomSize, FieldType * _fillDa
 			}
 		}
 	}
+
+}
+
+void RoomBlueprint::fillLightAndEnemyVector(const std::vector<glm::vec2> _lightPositions,
+	const std::vector<glm::vec2> _enemyPositions) {
+	this->m_LightPositions = _lightPositions;
+	this->m_EnemyPositions = _enemyPositions;
 }
 
 FieldType RoomBlueprint::getFieldTypeAt(const glm::vec2 _relativePosition) const {

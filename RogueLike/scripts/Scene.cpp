@@ -18,48 +18,26 @@ Scene::Scene() {
 }
 
 Scene::Scene(const glm::vec2 size) {
+	this->m_Lights = std::vector<Light*>();
+	this->m_Enemies = std::vector<Enemy*>();
+
+	/* Setup Player */
+	this->m_Player = new Player();
+	this->m_Player->initialize();
+	this->m_Lights.push_back(m_Player->m_Light);
+
+	/* Setup fields */
 	m_RoomsPerMap = size;
 	m_FieldSize = glm::vec2(m_RoomsPerMap.x * Game::m_s_cRoomWidthInFields, m_RoomsPerMap.y * Game::m_s_cRoomHeightInFields);
 	generateMap(m_RoomsPerMap); 
 
-	//this->m_LightCount = 5;
-	//this->m_Lights = new Light[m_LightCount];
-	
-	/* Setup Player */
-	this->m_Player = new Player();
-	this->m_Player->initialize();
-
-	/* Set up lights */
-	m_Lights = std::vector<Light*>();
-	Light* light1 = new Light();
-	light1->initialize(glm::vec3(7, 4, 15), 20, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), Light::STATIC, true);
-	Light* light2 = new Light();
-	light2->initialize(glm::vec3(20, 1, 24), 30, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), Light::STATIC, true);
-	Light* light3 = new Light();
-	light3->initialize(glm::vec3(45, 4.3, 14), 25, glm::vec4(1.0f, 0.5f, 1.0f, 1.0f), Light::STATIC, true);
-	Light* light4 = new Light();
-	light4->initialize(glm::vec3(32, 1, 22), 30, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), Light::STATIC, true);
-	//this->m_Lights[0].initialize(glm::vec3(7, 4, 15), 20, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), Light::STATIC);
-	//this->m_Lights[1].initialize(glm::vec3(20, 1, 24), 30, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), Light::STATIC);
-	//this->m_Lights[2].initialize(glm::vec3(45, 4.3, 14), 40, glm::vec4(1.0f, 0.5f, 1.0f, 1.0f), Light::STATIC);
-	//this->m_Lights[3].initialize(glm::vec3(32, 1, 22), 30, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), Light::STATIC);
-
-	m_Lights.push_back(m_Player->m_Light);
-	m_Lights.push_back(light1);
-	m_Lights.push_back(light2);
-	m_Lights.push_back(light3);
-	m_Lights.push_back(light4);
-
-	m_DepthMaterial = Game::getInstance()->getMaterialManager()->getMaterialByName("depthMaterial");
+	/* Shadow Mapping */
+	m_DepthMaterial = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_TEC_RenderDistanceToNearestSurfaceIntoDepthBuffer");
 	m_DepthMaterial->setupMatricesOnly();
 
 	RenderEngine::createShadowFrameBufferObject(m_StaticShadowMapFBO, m_StaticShadowMapCubeTextureDepth, m_Lights.size());
 	RenderEngine::createShadowFrameBufferObject(m_DynamicShadowMapFBO, m_DynamicShadowMapCubeTextureDepth, m_Lights.size());
 
-
-	//Collider* circ = new CircleCollider(1);
-	//Collider* box = new BoxCollider(glm::vec2(1, 1));
-	//circ->collidesWith(*box);
 
 }
 
@@ -149,27 +127,6 @@ void Scene::prepareLightsForShaderProgram(const GLuint _shaderProgramID) const {
 		}
 	}
 
-	//// Scene Lights
-	//for (int i = 0; i < m_LightCount - 1; i++) {
-	//	float range;
-	//	glm::vec3 position;
-	//	glm::vec4 color;
-	//	if (m_Lights[i].prepareForRender(range, position, color)) {
-	//		ranges.push_back(range);
-	//		positions.push_back(position);
-	//		colors.push_back(color);
-	//	}
-	//}
-	//// Player light
-	//float range;
-	//glm::vec3 position;
-	//glm::vec4 color;
-	//if (m_Player->m_Light->prepareForRender(range, position, color)) {
-	//	ranges.push_back(range);
-	//	positions.push_back(m_Player->getTransform().getPosition() + m_Player->m_LightOffset);
-	//	colors.push_back(color);
-	//}
-
 	GLenum err = glGetError();
 	if (err != GL_NO_ERROR) {
 		std::cout << "LightPrep-start GL ERROR " << err << std::endl;
@@ -207,20 +164,13 @@ std::vector<Light*> Scene::getLights() const {
 	return m_Lights;
 }
 
+Player* Scene::getPlayer() const {
+	return m_Player;
+}
+
+
 void Scene::generateMap(const glm::vec2 mapSize) {
 	std::cout << "... Generating Scene of size " << mapSize.x << ", " << mapSize.y << std::endl;
-	/* Fields */
-	//m_Fields = new Field[mapSize.x * mapSize.y];
-
-	//for (int iX = 0; iX < mapSize.x; iX++) {
-	//	for (int iY = 0; iY < mapSize.y; iY++) {
-	//		FieldType type = FieldType::FLOOR;
-	//		if (sin(iX * iY * 1.7) >= 0.5f) type = FieldType::WALL;
-	//		m_Fields[iY * mapSize.x + iX] = Field(this, glm::vec2(iX, iY), type);
-	//		m_Fields[iY * mapSize.x + iX].initialize("testmodel", type.toString());
-	//		std::cout << "... Created field " << iX << ", " << iY << " with Type " << type.toString() << std::endl;
-	//	}
-	//}
 
 	WorldGenerator::generateWorld(mapSize, *this); 
 }

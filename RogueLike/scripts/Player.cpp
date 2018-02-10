@@ -18,12 +18,12 @@ void Player::initialize() {
 	this->m_Transform.setLocalScale(glm::vec3(rad * 2,1.5, rad * 2));
 
 	/* Create Render Component */
-	const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier("wall");
+	const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player");
 
-	std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName("wall");
+	std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Player");
 	material->setupBaseShader(glm::vec4(1, 1, 1, 1), texture, Game::getInstance()->getMaterialManager()->m_Skybox);
 
-	const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier("player");
+	const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Player");
 
 	RenderComponent* rc = addComponent<>(new RenderComponent());
 	rc->initialize(modelData, material);

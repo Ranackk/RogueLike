@@ -118,25 +118,22 @@ void Game::initializeManagers() {
 
 	// Load up all needed textures
 	m_TextureManager = new TextureManager();
-	m_TextureManager->loadTextureAs("graphics/stone.png", FieldType::WALL.toString());
-	m_TextureManager->loadTextureAs("graphics/demoTexture.png", FieldType::FLOOR.toString());
+	m_TextureManager->loadTextureAs("graphics/stone.png", "tex_Player");
+	m_TextureManager->loadTextureAs("graphics/stone.png", FieldType::WALL.getTextureIdentifier());
+	m_TextureManager->loadTextureAs("graphics/demoTexture.png", FieldType::FLOOR.getTextureIdentifier());
 
 	// Load up all needed materials
 	m_MaterialManager = new MaterialManager();
-	m_MaterialManager->createMaterialByShader("baseShader", "wall", Material::BASE_SHADER);
-	m_MaterialManager->createMaterialByShader("baseShader", "floor", Material::BASE_SHADER);
-	m_MaterialManager->createMaterialByShader("depthShader", "depthMaterial", Material::MATRICES_ONLY);
-	//m_MaterialManager->createMaterialByShader("depthShader", "depthMaterial", Material::MATRICES_ONLY);
-	//m_MaterialManager->createMaterialByShader("depthColorShader", "depthColorMaterial", Material::MATRICES_ONLY);
-	//Material::compileShader("baseShader");
-	//Material::compileShader("depthShader");
+	m_MaterialManager->createMaterialByShader("baseShader", "mat_Player", Material::BASE_SHADER);
+	m_MaterialManager->createMaterialByShader("baseShader", "mat_Wall", Material::BASE_SHADER);
+	m_MaterialManager->createMaterialByShader("baseShader", "mat_Floor", Material::BASE_SHADER);
+	m_MaterialManager->createMaterialByShader("depthShader", "mat_TEC_RenderDistanceToNearestSurfaceIntoDepthBuffer", Material::MATRICES_ONLY);
 
 	// Load up all the models needed
 	m_ModelManager = new ModelManager();
-	m_ModelManager->loadModelAs("models/player.obj", "player");
-	m_ModelManager->loadModelAs("models/baseFloor.obj", "baseFloor");
-	//m_ModelManager->loadModelAs("models/baseFloor.obj", "player");
-	m_ModelManager->loadModelAs("models/baseWall.obj", "baseWall");
+	m_ModelManager->loadModelAs("models/player.obj", "mesh_Player");
+	m_ModelManager->loadModelAs("models/baseFloor.obj", "mesh_Floor");
+	m_ModelManager->loadModelAs("models/baseWall.obj", "mesh_Wall");
 
 }
 

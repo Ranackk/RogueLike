@@ -23,7 +23,7 @@ void Field::initialize(Scene* map, const glm::vec2 worldGridPosition, const Fiel
 	/* Create Render Component */
 	const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier(fieldType.getTextureIdentifier());
 
-	std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName(fieldType.getTextureIdentifier());
+	std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName(fieldType.getMaterialIdentifer());
 	material->setupBaseShader(glm::vec4(1, 1, 1, 1), texture, Game::getInstance()->getMaterialManager()->m_Skybox);
 
 	const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier(fieldType.getModelIdentifier());
