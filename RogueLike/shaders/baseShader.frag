@@ -34,7 +34,8 @@ vec4 calculateLight(int lightID){
 	vec3 lightDirection = normalize(posWorldSpace.xyz - lPosition);
 	float lambert = clamp(dot(normalWorldSpace.xyz, - lightDirection), 0, 1);
 	
-	vec4 toLightVector = posWorldSpace - vec4(lPosition.xyz, 1);
+	vec4 toLightVector = -(posWorldSpace - vec4(lPosition.xyz, 1));
+	toLightVector.x *= -1;
 
 	float lightDistance01 = clamp(((length(toLightVector.xyz)) - _ClippingPlane.x) / (_ClippingPlane.y - _ClippingPlane.x), 0, 1) - 0.007; 
 

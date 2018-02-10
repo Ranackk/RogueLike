@@ -307,17 +307,17 @@ void RenderEngine::createShadowFrameBufferObject(GLuint &fboHandle, GLuint &cube
 glm::vec3 RenderEngine::getCubeMapFaceDirection(const int face) {
 	switch (face) {
 		// posX
-	case 0: return glm::vec3(1, 0, 0);
-		// negX
 	case 1: return glm::vec3(-1, 0, 0);
+		// negX
+	case 0: return glm::vec3(1, 0, 0);
 		// posY
-	case 2: return glm::vec3(0, 1, 0);
+	case 2: return glm::vec3(0, -1, 0);
 		// negY
-	case 3: return glm::vec3(0, -1, 0);
+	case 3: return glm::vec3(0, 1, 0);
 		// posZ
-	case 4: return glm::vec3(0, 0,1);
+	case 4: return glm::vec3(0, 0, -1);
 		// negZ
-	case 5: return glm::vec3(0, 0, -1);
+	case 5: return glm::vec3(0, 0, 1);
 
 	default: return glm::vec3(0, 0, 0);
 	}
@@ -326,11 +326,11 @@ glm::vec3 RenderEngine::getCubeMapFaceDirection(const int face) {
 glm::vec3 RenderEngine::getCubeMapUpVector(const int face) {
 	switch (face) {
 		// posY
-	case 2: return glm::vec3(0, 0, 1);
+	case 2: return glm::vec3(0, 0, -1);
 		// negY
-	case 3: return glm::vec3(0, 0, -1);
+	case 3: return glm::vec3(0, 0, 1);
 		// everything else
-	default: return glm::vec3(0, -1, 0);
+	default: return glm::vec3(0, 1, 0);
 	}
 }
 
