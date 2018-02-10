@@ -63,15 +63,15 @@ void ModelData::initialize(const std::string modelPath) {
 void ModelData::draw() const
 {
 	// Drawing without VBO Indexing: glDrawArrays(GL_TRIANGLES, 0, verts);
+
 	/* Bind the index Buffer */
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_IndicesBufferID);
 	/* Draw the index Buffer */
 	glDrawElements(GL_TRIANGLES, this->m_IndicesBufferData.size(), GL_UNSIGNED_SHORT, (void*)0);
 
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	/* Unbind the index Buffer */
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 

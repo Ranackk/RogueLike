@@ -216,6 +216,15 @@ void RenderEngine::renderShadowMaps(Scene* _scene, Material* _material) {
 		}
 	}
 
+	/* Set the render target to the screen */
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	/* Set the viewport size */
+	glViewport(0, 0, Game::m_s_cWindowWidth, Game::m_s_cWindowHeight);
+
+
+
+
 	/* Start Rendering to the dynamic shadow map FBO */
 	glBindFramebuffer(GL_FRAMEBUFFER, _scene->m_DynamicShadowMapFBO);
 
@@ -239,6 +248,7 @@ void RenderEngine::renderShadowMaps(Scene* _scene, Material* _material) {
 				std::cout << "Error: " << err << std::endl;
 			}
 
+			//_scene->drawStaticShadowCasters(perspectiveMatrix, viewMatrix, _material);
 			_scene->drawDynamicShadowCasters(perspectiveMatrix, viewMatrix, _material);
 		}
 	}

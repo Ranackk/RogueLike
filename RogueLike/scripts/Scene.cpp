@@ -82,14 +82,12 @@ void Scene::update(GLFWwindow* window, const float deltaTime) {
 
 /* Draws the whole scene to the screen */
 void Scene::drawFull(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial) {
-	/* Draw static geometry */
-	for (unsigned int i = 0; i < m_StaticRenderComponents.size(); i++) {
-		m_StaticRenderComponents[i]->draw(_perspectiveMatrix, _viewMatrix, customMaterial);
-	}
+
 	/* Draw dynamic geometry */
-	for (unsigned int i = 0; i < m_DynamicRenderComponents.size(); i++) {
-		m_DynamicRenderComponents[i]->draw(_perspectiveMatrix, _viewMatrix, customMaterial);
-	}
+	drawDynamicShadowCasters(_perspectiveMatrix, _viewMatrix, customMaterial);
+
+	/* Draw static geometry */
+	drawStaticShadowCasters(_perspectiveMatrix, _viewMatrix, customMaterial);
 }
 
 /* Draws all static objects in the scene that cast shadows */

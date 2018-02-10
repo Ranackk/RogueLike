@@ -50,6 +50,10 @@ void RenderBatchComponent::draw(const glm::mat4x4 _perspectiveMatrix, const glm:
 	if (err != GL_NO_ERROR) {
 		std::cout << "MatStart GL ERROR " << err << std::endl;
 	}
+
+	// Bind Index Buffer
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ModelData.get()->m_IndicesBufferID);
+
 	// Draw
 	glDrawElementsInstanced(GL_TRIANGLES, m_ModelData.get()->m_IndicesBufferData.size(), GL_UNSIGNED_SHORT, (void*)0, m_BatchedModels);
 
@@ -58,6 +62,9 @@ void RenderBatchComponent::draw(const glm::mat4x4 _perspectiveMatrix, const glm:
 	glDisableVertexAttribArray(m_MatrixAttributeID + 1);
 	glDisableVertexAttribArray(m_MatrixAttributeID + 2);
 	glDisableVertexAttribArray(m_MatrixAttributeID + 3);
+
+	// Unbind 
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	/* Unbind */
@@ -90,7 +97,7 @@ void RenderBatchComponent::initialize(const std::shared_ptr<ModelData> _modelDat
 	/* Buffer the matrix data */
 	glBufferData(GL_ARRAY_BUFFER, m_BatchedModels * 16 * sizeof(GLfloat), &m_MatrixBuffer[0], GL_STATIC_DRAW);
 
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	/* Fetch Attribute location of the modelmatrix */
 	m_MatrixAttributeID = glGetAttribLocation(m_Material.get()->getShaderProgramId(), "_InstancedModelMatrix");

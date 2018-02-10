@@ -175,6 +175,8 @@ void Material::unbindMaterial() {
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);
 
+	
+
 }
 
 GLuint Material::getShaderProgramId() const {
