@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{bb0f7fd8-6010-4025-9442-cc14ae3089fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="models">
+      <UniqueIdentifier>{362dc456-6bc8-46aa-a955-6ba8475bf03a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scripts">
+      <UniqueIdentifier>{5a4964cc-1bc4-487e-a70a-50ce56aa3248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scripts\engine">
+      <UniqueIdentifier>{c15b4b78-f324-4408-8df4-124ae6d96366}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scripts\worldgeneration">
+      <UniqueIdentifier>{121ada05-2544-4616-b626-223d161a5506}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scripts\logic">
+      <UniqueIdentifier>{b75272db-9267-49a2-82c2-aa3d09c0ab42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scripts\external">
+      <UniqueIdentifier>{678be6c3-2181-44ee-bb1c-0cf451e604ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scripts\misc">
+      <UniqueIdentifier>{16921727-d1f7-44d7-9a13-53b5be0361d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scripts\gameData">
+      <UniqueIdentifier>{95606160-59d2-4aca-b1d7-2fb1b9a05a50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scripts\engine\systems">
+      <UniqueIdentifier>{ad3e2d88-1f82-433e-81ab-9427b14dde84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scripts\logic\physics">
+      <UniqueIdentifier>{1b4ad5b2-a4b3-4448-b7a1-2217b1bb7d74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scripts\logic\components">
+      <UniqueIdentifier>{586fba1f-abfb-496b-847f-cb8599f0ba97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scripts\logic\datacontainers">
+      <UniqueIdentifier>{8401a332-f02b-4bf3-bf68-1ceb10b8df19}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Planing.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\baseShader.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\baseShader.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\depthShader.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\depthShader.vert">
+      <Filter>shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="models\baseFloor.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\basePassage.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\baseWall.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="anglerfish.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="testmodel.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\player.obj">
+      <Filter>models</Filter>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="scripts\main.cpp">
+      <Filter>scripts\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\Field.cpp">
+      <Filter>scripts\gameData</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\FieldType.cpp">
+      <Filter>scripts\gameData</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\Scene.cpp">
+      <Filter>scripts\gameData</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\RoomBlueprint.cpp">
+      <Filter>scripts\worldgeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\WorldGenerator.cpp">
+      <Filter>scripts\worldgeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\GameObject.cpp">
+      <Filter>scripts\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\lodepng.cpp">
+      <Filter>scripts\external</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\ModelManager.cpp">
+      <Filter>scripts\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\TextureManager.cpp">
+      <Filter>scripts\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\MaterialManager.cpp">
+      <Filter>scripts\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\RenderBatch.cpp">
+      <Filter>scripts\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\Utility.cpp">
+      <Filter>scripts\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\Transform.cpp">
+      <Filter>scripts\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\Game.cpp">
+      <Filter>scripts\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\Camera.cpp">
+      <Filter>scripts\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\Light.cpp">
+      <Filter>scripts\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\RenderEngine.cpp">
+      <Filter>scripts\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\PhysicsEngine.cpp">
+      <Filter>scripts\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\CircleCollider.cpp">
+      <Filter>scripts\logic\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\BoxCollider.cpp">
+      <Filter>scripts\logic\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\Component.cpp">
+      <Filter>scripts\logic\components</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\ColliderComponent.cpp">
+      <Filter>scripts\logic\components</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\RenderComponent.cpp">
+      <Filter>scripts\logic\components</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\Collider.cpp">
+      <Filter>scripts\logic\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\RenderBatchComponent.cpp">
+      <Filter>scripts\logic\components</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\Material.cpp">
+      <Filter>scripts\logic\datacontainers</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\Modeldata.cpp">
+      <Filter>scripts\logic\datacontainers</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\Player.cpp">
+      <Filter>scripts\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\BoxColliderComponent.cpp">
+      <Filter>scripts\logic\components</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\CircleColliderComponent.cpp">
+      <Filter>scripts\logic\components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="scripts\Field.h">
+      <Filter>scripts\gameData</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\FieldType.h">
+      <Filter>scripts\gameData</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\Scene.h">
+      <Filter>scripts\gameData</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\RoomBlueprint.h">
+      <Filter>scripts\worldgeneration</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\WorldGenerator.h">
+      <Filter>scripts\worldgeneration</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\stdafx.h">
+      <Filter>scripts\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\GameObject.h">
+      <Filter>scripts\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\lodepng.h">
+      <Filter>scripts\external</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\ModelManager.h">
+      <Filter>scripts\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\TextureManager.h">
+      <Filter>scripts\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\MaterialManager.h">
+      <Filter>scripts\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\RenderBatch.h">
+      <Filter>scripts\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\Utility.h">
+      <Filter>scripts\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\Transform.h">
+      <Filter>scripts\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\Game.h">
+      <Filter>scripts\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\Camera.h">
+      <Filter>scripts\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\Light.h">
+      <Filter>scripts\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\RenderEngine.h">
+      <Filter>scripts\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\PhysicsEngine.h">
+      <Filter>scripts\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\CircleCollider.h">
+      <Filter>scripts\logic\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\BoxCollider.h">
+      <Filter>scripts\logic\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\Component.h">
+      <Filter>scripts\logic\components</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\ColliderComponent.h">
+      <Filter>scripts\logic\components</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\RenderComponent.h">
+      <Filter>scripts\logic\components</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\Collider.h">
+      <Filter>scripts\logic\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\RenderBatchComponent.h">
+      <Filter>scripts\logic\components</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\Material.h">
+      <Filter>scripts\logic\datacontainers</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\Modeldata.h">
+      <Filter>scripts\logic\datacontainers</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\Player.h">
+      <Filter>scripts\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\BoxColliderComponent.h">
+      <Filter>scripts\logic\components</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\CircleColliderComponent.h">
+      <Filter>scripts\logic\components</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

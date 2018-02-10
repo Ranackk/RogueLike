@@ -1,0 +1,98 @@
+	TOP:
+	> Cache Line Optimization via using Systems (or at least trying for some things, maybe collision should be like it is)
+		> Rendering & Input should be Systems
+	> Font Atlas Loader
+	> <Material>.copy();
+	> UI Rendererer
+
+	> Shadows???
+
+	Todo:
+
+	Current:
+	> Find out why dynamic render components throw random shadows (maybe try out the method of copying tha static map to the dynamic, then render to dynamic again when i get it to work)
+
+	> Add several room types, make a random world generation out of it
+	> Add enemies
+	> Add ability to shoot at enemies
+	> Animate LightStrength over time
+	> INverse Shadow matrices & use inversed lightvector to sample
+
+	Optional:
+	> Add camera shake on damage, based on trauma formular (trauma += dmg - time, shake = pow(trauma, 2))
+	> Add Healthbars
+	> Add items that amplify the projectiles
+	> Add some kind of screen space transitions / effects on certain actions (requires additional fbo)
+
+	Optimization:
+	> Use static & dynamic shadowmaps (combine them?) and render only entities to the dynmaic map, render static map once at game start
+	> Use Geometry shader to redner shadow cube map in one x draw calls instead of six x draw calls
+
+	OR:
+	> Use frustum culing for rendering (makes geometry shader approach useless)
+	======
+
+	> Clean up camera movement to fit with my system | use transform rotation instead of angles?
+	> Create cmaera room focus methods & pers to ortho interpolation
+
+	> Store lighting in rooms via special color channel? (find a way to represent lighting, e.g. voxel torches)
+	> Add enenmies with hp bars (using custom cutoff shader)
+	
+	Juicyness;
+	Fade i out
+	Camera shake ono dmg
+	Camerafahrt at game start over the random dugeon (across, like in mario kart)
+	
+
+	======
+
+	Planning:
+	> Create small game rogue like game with a random world generator
+	> Add custom distance base lighting (only light directly around you)
+	> Add custom shader effects for things such as transitions 
+
+	> Enemy death -> Either plops into its voxels or drops the voxels
+	> Use the voxels to craft your own weapons, voxel per voxel.
+	> To make the rendering less expensive, consider using froms/blueprints which have a premade mesh and just change colors on demand based on the gems/voxels/pixels used
+	> Could add some mining elements like in the old lego games
+
+
+	======
+
+	Fragen:
+	> Wenn ich eine referenz in einer Klasse erstelle, muss sie initialisiert werden im Konstruktor. Wie kann ich verhindern, dass das ein muss ist? Oder brauche ich dann zwangsweise einen pointer?
+	> Sowas wie m_TextureManager = TextureManager(); reicht anscheinen nicht, wenn m_TextureManager vom Typen TextureManager& ist.
+
+	> Wir nutzen referenzen, weil beim returnen von Pointern der Pointer gelöscht werden könnte von außerhalb
+	> Also muss man halt dafür sorgen, dass der Default Constructor alles initialisiert und dann halt später die Werte richtig setzt.
+
+	====
+
+	3D Models need to be triangulated
+	They are currently VBO Indexed & use Instancing
+
+
+
+
+
+
+
+
+
+
+
+
+
+	Performance Monitor:
+
+	11.4ms w/ unbind shader programm
+	4.99ms w/o unbind shader programm
+	4.8 ms w/o unbind, w/o bind every frame
+
+	Enter Instancing:
+	1.7ms  w/ unbind shader programm
+	> binding / undbinding doesnt make a difference as it is not the bottleneck anymore
+	
+	Planned optimization:
+	? Save for each object a room id (if i want hide / unhide)
+	> Make sure fields are accesible by xz koordinate but rendered by batch

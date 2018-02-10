@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{6f4f8d4a-f569-4f63-b580-248ce92fe0ac}</ProjectGuid>
+    <RootNamespace>RogueLike</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>%(SolutionDir)ExternalLibraries\SFML\include;%(SolutionDir)ExternalLibraries\freeglut\include;%(SolutionDir)ExternalLibraries\glfw-3.2.1.bin.WIN32\include;%(SolutionDir)ExternalLibraries\glew-2.1.0-win32\glew-2.1.0\include;%(SolutionDir)ExternalLibraries\glm-0.9.9-a1\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>%(SolutionDir)ExternalLibraries\SFML\lib;%(SolutionDir)ExternalLibraries\glfw-3.2.1.bin.WIN32\lib-vc2015;%(SolutionDir)ExternalLibraries\glew-2.1.0\lib\Release\Win32;%(SolutionDir)ExternalLibraries\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-window-s-d.lib;sfml-graphics-s-d.lib;sfml-system-s-d.lib;sfml-network-s-d.lib;sfml-audio-s-d.lib;sfml-main-d.lib;%(AdditionalDependencies);opengl32.lib;openal32.lib;flac.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;vorbis.lib;ogg.lib;vorbisenc.lib;vorbisfile.lib;ws2_32.lib;glew32.lib;freeglut.lib;glfw3.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>%(SolutionDir)ExternalLibraries\SFML\include;%(SolutionDir)ExternalLibraries\freeglut\include;%(SolutionDir)ExternalLibraries\glfw-3.2.1.bin.WIN32\include;%(SolutionDir)ExternalLibraries\glew-2.1.0-win32\glew-2.1.0\include;%(SolutionDir)ExternalLibraries\glm-0.9.9-a1\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SFML_STATIC;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>%(SolutionDir)ExternalLibraries\SFML\lib;%(SolutionDir)ExternalLibraries\glfw-3.2.1.bin.WIN32\lib-vc2015;%(SolutionDir)ExternalLibraries\glew-2.1.0\lib\Release\Win32;%(SolutionDir)ExternalLibraries\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-window-s.lib;sfml-graphics-s.lib;sfml-system-s.lib;sfml-network-s.lib;sfml-audio-s.lib;sfml-main.lib;%(AdditionalDependencies);opengl32.lib;openal32.lib;flac.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;vorbis.lib;ogg.lib;vorbisenc.lib;vorbisfile.lib;ws2_32.lib;glew32.lib;freeglut.lib;glfw3.lib</AdditionalDependencies>
+      <ShowProgress>LinkVerboseLib</ShowProgress>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="Planing.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\baseShader.frag" />
+    <None Include="shaders\baseShader.vert" />
+    <None Include="shaders\depthShader.frag" />
+    <None Include="shaders\depthShader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="anglerfish.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Object>
+    <Object Include="models\baseFloor.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Object>
+    <Object Include="models\basePassage.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Object>
+    <Object Include="models\baseWall.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Object>
+    <Object Include="models\player.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Object>
+    <Object Include="testmodel.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="scripts\BoxCollider.cpp" />
+    <ClCompile Include="scripts\BoxColliderComponent.cpp" />
+    <ClCompile Include="scripts\Camera.cpp" />
+    <ClCompile Include="scripts\CircleCollider.cpp" />
+    <ClCompile Include="scripts\CircleColliderComponent.cpp" />
+    <ClCompile Include="scripts\Collider.cpp" />
+    <ClCompile Include="scripts\ColliderComponent.cpp" />
+    <ClCompile Include="scripts\Component.cpp" />
+    <ClCompile Include="scripts\Field.cpp" />
+    <ClCompile Include="scripts\FieldType.cpp" />
+    <ClCompile Include="scripts\Game.cpp" />
+    <ClCompile Include="scripts\GameObject.cpp" />
+    <ClCompile Include="scripts\Light.cpp" />
+    <ClCompile Include="scripts\lodepng.cpp" />
+    <ClCompile Include="scripts\main.cpp" />
+    <ClCompile Include="scripts\Material.cpp" />
+    <ClCompile Include="scripts\MaterialManager.cpp" />
+    <ClCompile Include="scripts\Modeldata.cpp" />
+    <ClCompile Include="scripts\ModelManager.cpp" />
+    <ClCompile Include="scripts\PhysicsEngine.cpp" />
+    <ClCompile Include="scripts\Player.cpp" />
+    <ClCompile Include="scripts\RenderBatch.cpp" />
+    <ClCompile Include="scripts\RenderBatchComponent.cpp" />
+    <ClCompile Include="scripts\RenderComponent.cpp" />
+    <ClCompile Include="scripts\RenderEngine.cpp" />
+    <ClCompile Include="scripts\RoomBlueprint.cpp" />
+    <ClCompile Include="scripts\Scene.cpp" />
+    <ClCompile Include="scripts\TextureManager.cpp" />
+    <ClCompile Include="scripts\Transform.cpp" />
+    <ClCompile Include="scripts\Utility.cpp" />
+    <ClCompile Include="scripts\WorldGenerator.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="scripts\BoxCollider.h" />
+    <ClInclude Include="scripts\BoxColliderComponent.h" />
+    <ClInclude Include="scripts\Camera.h" />
+    <ClInclude Include="scripts\CircleCollider.h" />
+    <ClInclude Include="scripts\CircleColliderComponent.h" />
+    <ClInclude Include="scripts\Collider.h" />
+    <ClInclude Include="scripts\ColliderComponent.h" />
+    <ClInclude Include="scripts\Component.h" />
+    <ClInclude Include="scripts\Field.h" />
+    <ClInclude Include="scripts\FieldType.h" />
+    <ClInclude Include="scripts\Game.h" />
+    <ClInclude Include="scripts\GameObject.h" />
+    <ClInclude Include="scripts\Light.h" />
+    <ClInclude Include="scripts\lodepng.h" />
+    <ClInclude Include="scripts\Material.h" />
+    <ClInclude Include="scripts\MaterialManager.h" />
+    <ClInclude Include="scripts\Modeldata.h" />
+    <ClInclude Include="scripts\ModelManager.h" />
+    <ClInclude Include="scripts\PhysicsEngine.h" />
+    <ClInclude Include="scripts\Player.h" />
+    <ClInclude Include="scripts\RenderBatch.h" />
+    <ClInclude Include="scripts\RenderBatchComponent.h" />
+    <ClInclude Include="scripts\RenderComponent.h" />
+    <ClInclude Include="scripts\RenderEngine.h" />
+    <ClInclude Include="scripts\RoomBlueprint.h" />
+    <ClInclude Include="scripts\Scene.h" />
+    <ClInclude Include="scripts\stdafx.h" />
+    <ClInclude Include="scripts\TextureManager.h" />
+    <ClInclude Include="scripts\Transform.h" />
+    <ClInclude Include="scripts\Utility.h" />
+    <ClInclude Include="scripts\WorldGenerator.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
