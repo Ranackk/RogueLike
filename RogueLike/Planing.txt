@@ -1,9 +1,17 @@
+	
+	
+	
 	TOP:
+	> Make shadows of dynmic objects work! Somehow they dont cast shadows atm
+	> Enemies
+
 	> Cache Line Optimization via using Systems (or at least trying for some things, maybe collision should be like it is)
 		> Rendering & Input should be Systems
+
 	> Font Atlas Loader
+	> UI Rendererer Component
+
 	> <Material>.copy();
-	> UI Rendererer
 
 	> Shadows???
 

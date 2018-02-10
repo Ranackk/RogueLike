@@ -46,9 +46,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Planing.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="shaders\baseShader.frag">
       <Filter>shaders</Filter>
     </None>
@@ -277,5 +274,8 @@
     <ClInclude Include="scripts\Enemy.h">
       <Filter>scripts\gameData</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Planing.txt" />
   </ItemGroup>
 </Project>

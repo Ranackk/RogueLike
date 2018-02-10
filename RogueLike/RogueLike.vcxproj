@@ -128,9 +128,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="Planing.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="shaders\baseShader.frag" />
     <None Include="shaders\baseShader.vert" />
     <None Include="shaders\depthShader.frag" />
@@ -229,6 +226,9 @@
     <ClInclude Include="scripts\Transform.h" />
     <ClInclude Include="scripts\Utility.h" />
     <ClInclude Include="scripts\WorldGenerator.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Planing.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
