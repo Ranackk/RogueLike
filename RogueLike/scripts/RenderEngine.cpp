@@ -174,6 +174,7 @@ void RenderEngine::prerenderStaticShadowMaps(Scene* _scene, Material* _material)
 				std::cout << "Error: " << err << std::endl;
 			}
 			_scene->drawStaticShadowCasters(perspectiveMatrix, viewMatrix, _material);
+			_scene->drawDynamicShadowCasters(perspectiveMatrix, viewMatrix, _material);
 		}
 	}
 
@@ -188,6 +189,36 @@ void RenderEngine::renderShadowMaps(Scene* _scene, Material* _material) {
 	/* Create perspective matrix with a FOV of 90, AspectRation of 1, zNear & zFar */
 	const glm::mat4 perspectiveMatrix = glm::perspective(glm::radians(90.0f), 1.0f, Game::m_s_cNearClip, Game::m_s_cFarClip);
 	std::vector<Light*> lights = _scene->getLights();
+
+	/* Start Rendering to the dynamic shadow map FBO */
+	glBindFramebuffer(GL_FRAMEBUFFER, _scene->m_DynamicShadowMapFBO);
+
+	/* Set the viewport size */
+	glViewport(0, 0, Game::m_s_cShadowMapResolution, Game::m_s_cShadowMapResolution);
+
+	/* Loop through all lights to let them render the dynamic objects in the scene */
+	for (int lightID = 0; lightID < _scene->getLightCount(); lightID++) {
+		/* Loop through each face */
+		const glm::mat4x4* viewMatrices = lights[lightID]->getCubeMapViewMatrices();
+		for (int faceID = 0; faceID < 6; faceID++) {
+
+			const glm::mat4 viewMatrix = viewMatrices[faceID];
+
+			glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, _scene->m_DynamicShadowMapCubeTextureDepth, 0, lightID * 6 + faceID);
+			/* Clear the texture */
+			glClear(GL_DEPTH_BUFFER_BIT);
+
+			GLenum err = glGetError();
+			if (err != GL_NO_ERROR) {
+				std::cout << "Error: " << err << std::endl;
+			}
+
+			_scene->drawDynamicShadowCasters(perspectiveMatrix, viewMatrix, _material);
+			//_scene->drawStaticShadowCasters(perspectiveMatrix, viewMatrix, _material);
+		}
+	}
+
+
 
 	/* Start Rendering to the static shadow map FBO */
 	glBindFramebuffer(GL_FRAMEBUFFER, _scene->m_StaticShadowMapFBO);
@@ -223,35 +254,6 @@ void RenderEngine::renderShadowMaps(Scene* _scene, Material* _material) {
 	glViewport(0, 0, Game::m_s_cWindowWidth, Game::m_s_cWindowHeight);
 
 
-
-
-	/* Start Rendering to the dynamic shadow map FBO */
-	glBindFramebuffer(GL_FRAMEBUFFER, _scene->m_DynamicShadowMapFBO);
-
-	/* Set the viewport size */
-	glViewport(0, 0, Game::m_s_cShadowMapResolution, Game::m_s_cShadowMapResolution);
-
-	/* Loop through all lights to let them render the dynamic objects in the scene */
-	for (int lightID = 0; lightID < _scene->getLightCount(); lightID++) {
-		/* Loop through each face */
-		const glm::mat4x4* viewMatrices = lights[lightID]->getCubeMapViewMatrices();
-		for (int faceID = 0; faceID < 6; faceID++) {
-
-			const glm::mat4 viewMatrix = viewMatrices[faceID];
-
-			glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, _scene->m_DynamicShadowMapCubeTextureDepth, 0, lightID * 6 + faceID);
-			/* Clear the texture */
-			glClear(GL_DEPTH_BUFFER_BIT);
-
-			GLenum err = glGetError();
-			if (err != GL_NO_ERROR) {
-				std::cout << "Error: " << err << std::endl;
-			}
-
-			//_scene->drawStaticShadowCasters(perspectiveMatrix, viewMatrix, _material);
-			_scene->drawDynamicShadowCasters(perspectiveMatrix, viewMatrix, _material);
-		}
-	}
 
 	/* Set the render target to the screen */
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

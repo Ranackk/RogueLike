@@ -11,6 +11,6 @@ private:
 	/* Disallow creation of a world generator instance */
 	WorldGenerator() {}
 
-	static RoomBlueprint* readRoomBlueprintsFromFile(const glm::vec2 roomFieldSize, const std::string filePath, Scene& mapToGenerateIn);
+	static RoomBlueprint* readRoomBlueprintsFromFile(const glm::vec2 roomFieldSize, const std::string filePath, Scene& mapToGenerateIn, int* roomCount);
 };
 

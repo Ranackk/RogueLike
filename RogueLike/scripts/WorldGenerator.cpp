@@ -17,14 +17,15 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	mapToGenerateIn.m_Fields = new Field [static_cast<unsigned int>(worldFieldSize.x * worldFieldSize.y)];
 	
 	/* Read all room blueprints from files */
-	RoomBlueprint* _roomBlueprints = readRoomBlueprintsFromFile(individualRoomSize, "graphics/rooms.png", mapToGenerateIn);
+	int roomCount;
+	RoomBlueprint* _roomBlueprints = readRoomBlueprintsFromFile(individualRoomSize, "graphics/rooms.png", mapToGenerateIn, &roomCount);
 
 	/* Fill rooms with the just read blueprints */
 	for (int rX = 0; rX < roomGridSize.x; rX++) {
 		for (int rY = 0; rY < roomGridSize.y; rY++) {
 			RoomBlueprint currentRoom = _rooms[(int)roomGridSize.x * rY + rX];
 			// TODO: Get a random room blueprint
-			int id = 0;
+			const int id = rand() % roomCount;
 			currentRoom.fillWithTypes(individualRoomSize, _roomBlueprints[id].getFieldData());
 			currentRoom.fillLightAndEnemyVector(_roomBlueprints[id].m_EnemyPositions, _roomBlueprints[id].m_LightPositions);
 			_rooms[(int)roomGridSize.x * rY + rX] = currentRoom;
@@ -61,7 +62,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 			}
 			for (auto it = currentRoom.m_EnemyPositions.begin(); it != currentRoom.m_EnemyPositions.end(); ++it) {
 				Enemy* e = new Enemy();
-				e->initialize(&mapToGenerateIn, glm::vec3(topLeftWorldPosition.x + it->x + 0.5, 0, topLeftWorldPosition.y + it->y + 0.5));
+				e->initialize(&mapToGenerateIn, glm::vec3(topLeftWorldPosition.x + it->x + 0.5, 1, topLeftWorldPosition.y + it->y + 0.5));
 				mapToGenerateIn.m_Enemies.push_back(e);
 			}
 		}
@@ -99,7 +100,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	delete[] _rooms;
 }
 
-RoomBlueprint* WorldGenerator::readRoomBlueprintsFromFile(const glm::vec2 roomFieldSize, const std::string filePath, Scene &mapToGenerateIn)
+RoomBlueprint* WorldGenerator::readRoomBlueprintsFromFile(const glm::vec2 roomFieldSize, const std::string filePath, Scene &mapToGenerateIn, int* roomCount)
 {
 	/* Load room blueprints from png file */
 	// Load file and decode image.
@@ -116,6 +117,8 @@ RoomBlueprint* WorldGenerator::readRoomBlueprintsFromFile(const glm::vec2 roomFi
 	
 	const unsigned roomsX = static_cast<unsigned int>(imgWidth / roomFieldSize.x);
 	const unsigned roomsY = static_cast<unsigned int>(imgHeight / roomFieldSize.y);
+
+	*roomCount = roomsX * roomsY;
 
 	RoomBlueprint*_bluePrints = new RoomBlueprint[roomsX * roomsY];
 	for (unsigned int iX = 0; iX < roomsX; iX++) {

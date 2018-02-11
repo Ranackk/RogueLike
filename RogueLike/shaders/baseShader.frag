@@ -46,10 +46,10 @@ vec4 calculateLight(int lightID){
 }
 
 void main(){
-	vec4 tex = texture(_Texture, uv) * 0.2; // * 0.1
+	vec4 tex = texture(_Texture, uv) * 0.3; // * 0.1
 	color = _Diffuse * tex; // * vec4(pos.xyz / pos.w, 1);
 
 	for (int i = 0; i < _LightCount; i++){
-		color += tex * calculateLight(i) * 8;
+		color += tex * calculateLight(i) * 6;
 	}
 }

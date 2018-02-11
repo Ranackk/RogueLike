@@ -70,7 +70,7 @@ void ModelData::draw() const
 	glDrawElements(GL_TRIANGLES, this->m_IndicesBufferData.size(), GL_UNSIGNED_SHORT, (void*)0);
 
 	/* Unbind the index Buffer */
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 

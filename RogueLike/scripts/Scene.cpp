@@ -69,6 +69,10 @@ void Scene::setupSystems() {
 		m_StaticRenderComponents.push_back(component);
 	}
 
+	for (unsigned int i = 0; i < m_Enemies.size(); i++) {
+		m_DynamicRenderComponents.push_back(m_Enemies[i]->getComponent<RenderComponent>());
+	}
+
 	m_DynamicRenderComponents.push_back(m_Player->getComponent<RenderComponent>());
 
 }
@@ -83,11 +87,11 @@ void Scene::update(GLFWwindow* window, const float deltaTime) {
 /* Draws the whole scene to the screen */
 void Scene::drawFull(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial) {
 
+	/* Draw static geometry */
+	drawStaticShadowCasters(_perspectiveMatrix, _viewMatrix, customMaterial);
 	/* Draw dynamic geometry */
 	drawDynamicShadowCasters(_perspectiveMatrix, _viewMatrix, customMaterial);
 
-	/* Draw static geometry */
-	drawStaticShadowCasters(_perspectiveMatrix, _viewMatrix, customMaterial);
 }
 
 /* Draws all static objects in the scene that cast shadows */
