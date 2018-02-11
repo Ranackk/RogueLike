@@ -3,12 +3,13 @@
 #include "BoxCollider.h"
 #include "CircleCollider.h"
 
-namespace CollisionLayer {
+class CollisionLayer {
+public:
 	static const unsigned char NONE = 0b00000000;
 	static const unsigned char MAP = 0b00000001;
 	static const unsigned char FRIENDLY = 0b00000010;
 	static const unsigned char HOSTILE = 0b00000100;
-}
+};
 
 class PhysicsEngine
 {
