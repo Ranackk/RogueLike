@@ -40,25 +40,21 @@ bool PhysicsEngine::layerMaskAllowsCollision(Collider& c1, Collider& c2) {
 	/* Use the collision layer of both colliders to find at which index in the collision layer flag field the flag is 
 	 * located that tells about whether those 2 layers do collide		
 	 */
-	//int n = c1.getCollisionLayer();
-	//int m = c2.getCollisionLayer();
-	//int n = 1;
-	//int m = 2;
+	int n = c1.getCollisionLayer();
+	int m = c2.getCollisionLayer();
 
-	///* Swap the indicies if needed */
-	//if (n > m) {
-	//	const int t = n;
-	//	n = m;
-	//	m = t;
-	//}
+	/* Swap the indicies if needed */
+	if (n > m) {
+		const int t = n;
+		n = m;
+		m = t;
+	}
 
-	//const unsigned char checkFlagIndex = n * m_s_c_CollisionLayers - (pow(n,2) - n) / 2 + m - n; //n * L		- (n^2 - n) / 2		+ m - n
-	///* Transform the index into a number that can be used to bitwise AND the global flag field*/
-	//const unsigned char checkFlag = pow(2, checkFlagIndex);
+	const unsigned char checkFlagIndex = n * m_s_c_CollisionLayers - (pow(n,2) - n) / 2 + m - n; //n * L		- (n^2 - n) / 2		+ m - n
+	/* Transform the index into a number that can be used to bitwise AND the global flag field*/
+	const unsigned char checkFlag = pow(2, checkFlagIndex);
 
-	///* Return true if the flag field is "1" at the checkFlag, "false" if not. */
-	//const unsigned char afterCheck = (m_s_c_CollisionLayerMaskFlagField & checkFlag);
-	//return afterCheck == checkFlag;
-
-	return true;
+	/* Return true if the flag field is "1" at the checkFlag, "false" if not. */
+	const unsigned char afterCheck = (m_s_c_CollisionLayerMaskFlagField & checkFlag);
+	return afterCheck == checkFlag;
 }

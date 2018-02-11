@@ -86,8 +86,8 @@ private:
 	*	Inside the "layerMaskAllowsCollision" method, I use a slightly altered formula to make things a bit faster.
 	*/
 
-	//const static unsigned int m_s_c_CollisionLayerMaskFlagField = 0b1000110; //0b011000100000000;
-	//const static unsigned short m_s_c_CollisionLayers = 5;
+	const static unsigned int m_s_c_CollisionLayerMaskFlagField = 0b1000110; //0b011000100000000;
+	const static unsigned short m_s_c_CollisionLayers = 5;
 
 	static bool layerMaskAllowsCollision(Collider& c1, Collider& c2);
 };
