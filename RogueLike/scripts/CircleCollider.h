@@ -1,6 +1,7 @@
 #pragma once
 #include "ColliderComponent.h"
 #include "Collider.h"
+
 /**
  * \brief Class that describes a Circular ColliderComponent */
 class CircleCollider : public Collider

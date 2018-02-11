@@ -10,106 +10,90 @@ public:
 	static bool collides(BoxCollider &c1, CircleCollider &c2);
 	static bool collides(CircleCollider &c1, CircleCollider &c2);
 
-	enum CollisionLayer : unsigned char{
-		MAP_GEOMTRY		= 0b0000001,
-		FRIENDLY_UNITS	= 0b0000010,
-		HOSTILE_UNITS	= 0b0000100
-	};
 
 private:
-	/* ======================================================================== *
-	 * Expand comment to find out how the collision layer mask flag field works *
-	 * ======================================================================== */
-	/* Collision Layers: 
-	 * 
-	 * This engine uses a layer system to pre-eliminate collisions between objects that should not collide.
-	 * 
-	 * There is a GLOBAL LayerMaskFlagField that is true for the whole Engine.
-	 * Each bit in this field acts as a FLAG that defines if two colliders can collide.
-	 * Each collider is set to a COLLISION LAYER (which is the layers number as an int)
-	 * 
-	 * The LayerMaskFlagField is built like this & supports FIVE (5) layers:
-	 * 
-	 *			Map		Player	Enemy
-	 * Map		n		y		y
-	 * Player			n		y
-	 * Enemy					n
-	 * 
-	 * y = Layers collide
-	 * n = Layers dont collide
-	 * 
-	 * And it is stored in a simple unsigned int variable.
-	 * the last FIVE bits of the field are the		first row of the field in reversed order.
-	 * the last FOUR bits that then follow are the	second row of the field in reversed order.
-	 * and so on.
-	 * (Basically, I write the whole collision triangle in a single line and then reverse its order as that is how binary numbers work.)
-	 * 
-	 * To check, If two layers can collide according to the collision field, the following logic happens inside "layerMaskAllowsCollision":
-	 * FlagField of length "l"
-	 * Layers: A with index "n", B with index "m"
-	 * 
-	 * Step 1	: if n > m, swap n & m	-> Make sure they are in the correct order as I only store a collision flag triangle and not rectangle
-	 * Step 2	: find out at which index "i" the flag that represents the collision of AxB is located. To do that, I use the formular below.
-	 * Step 3	: create a checkFlag variable that is basically 2^i
-	 * Step 4	: bitwise AND the checkFlag variable with the bitfield, e.g.:
-	 *				0b 0000 0110		-> (part of the) Field
-	 *				0b 0000 0010	&	-> checkFlag
-	 *				============
-	 *				0b 0000 0010		-> result
-	 *			 if the result equals the checkFlag, the bitfield allows a collision between those two layers.
-	 *	
-	 *			 		 
-	 * The formula to find the correct index:
-	 * 
-	 * Lets look at this field
-	 *	0 1 2 3 4
-	 *	  5 6 7 8
-	 *	    9 A B
-	 *	      C D
-	 *	        E 
-	 *	(F unused)
-	 *	
-	 *	To get to the "7", we have to take the NUMBER (index+1) of end of the previous row (5), 
-	 *	add the NUMBER (index + 1 -> 4) of the desired column and substract the NUMBER (index + 1, 2) of the desired row.
-	 *	The desired row will be called "n" from now on, the desired column "m"
-	 *	
-	 *	The end of the previous row can be calculated without recursion using Pascal's Triangle: 
-	 *	(n + 1) * L - ((n)^2 + n) / 2)
-	 *	with a Length L of 5,
-	 *	we get for n = ?, the result of
-	 *				0		5
-	 *				1		9
-	 *				2		C
-	 *				3		E
-	 *	which is exactly the first part of the formula.
-	 *	
-	 *	The complete formula then is the following:
-	 *			"end of row NUMBER"					ADD "column"	SUB "row"
-	 *	i =		(n + 1) * L - ((n)^2 + n) / 2)		+ m				- n	
-	 *	
-	 *	Inside the "layerMaskAllowsCollision" method, I use a slightly altered formula to make things a bit faster.
-	 */
 
-	const static unsigned int m_s_c_CollisionLayerMaskFlagField = 0b000000001000110;
-	const static unsigned short m_s_c_CollisionLayers = 5;
+	/* ======================================================================== *
+	* Expand comment to find out how the collision layer mask flag field works *
+	* ======================================================================== */
+	/* Collision Layers:
+	*
+	* This engine uses a layer system to pre-eliminate collisions between objects that should not collide.
+	*
+	* There is a GLOBAL LayerMaskFlagField that is true for the whole Engine.
+	* Each bit in this field acts as a FLAG that defines if two colliders can collide.
+	* Each collider is set to a COLLISION LAYER (which is the layers number as an int)
+	*
+	* The LayerMaskFlagField is built like this & supports FIVE (5) layers:
+	*
+	*			Map		Player	Enemy
+	* Map		n		y		y
+	* Player			n		y
+	* Enemy					n
+	*
+	* y = Layers collide
+	* n = Layers dont collide
+	*
+	* And it is stored in a simple unsigned int variable.
+	* the last FIVE bits of the field are the		first row of the field in reversed order.
+	* the last FOUR bits that then follow are the	second row of the field in reversed order.
+	* and so on.
+	* (Basically, I write the whole collision triangle in a single line and then reverse its order as that is how binary numbers work.)
+	*
+	* To check, If two layers can collide according to the collision field, the following logic happens inside "layerMaskAllowsCollision":
+	* FlagField of length "l"
+	* Layers: A with index "n", B with index "m"
+	*
+	* Step 1	: if n > m, swap n & m	-> Make sure they are in the correct order as I only store a collision flag triangle and not rectangle
+	* Step 2	: find out at which index "i" the flag that represents the collision of AxB is located. To do that, I use the formular below.
+	* Step 3	: create a checkFlag variable that is basically 2^i
+	* Step 4	: bitwise AND the checkFlag variable with the bitfield, e.g.:
+	*				0b 0000 0110		-> (part of the) Field
+	*				0b 0000 0010	&	-> checkFlag
+	*				============
+	*				0b 0000 0010		-> result
+	*			 if the result equals the checkFlag, the bitfield allows a collision between those two layers.
+	*
+	*
+	* The formula to find the correct index:
+	*
+	* Lets look at this field
+	*	0 1 2 3 4
+	*	  5 6 7 8
+	*	    9 A B
+	*	      C D
+	*	        E
+	*	(F unused)
+	*
+	*	To get to the "7", we have to take the NUMBER (index+1) of end of the previous row (5),
+	*	add the NUMBER (index + 1 -> 4) of the desired column and substract the NUMBER (index + 1, 2) of the desired row.
+	*	The desired row will be called "n" from now on, the desired column "m"
+	*
+	*	The end of the previous row can be calculated without recursion using Pascal's Triangle:
+	*	(n + 1) * L - ((n)^2 + n) / 2)
+	*	with a Length L of 5,
+	*	we get for n = ?, the result of
+	*				0		5
+	*				1		9
+	*				2		C
+	*				3		E
+	*	which is exactly the first part of the formula.
+	*
+	*	The complete formula then is the following:
+	*			"end of row NUMBER"					ADD "column"	SUB "row"
+	*	i =		(n + 1) * L - ((n)^2 + n) / 2)		+ m				- n
+	*
+	*	Inside the "layerMaskAllowsCollision" method, I use a slightly altered formula to make things a bit faster.
+	*/
+
+	//const static unsigned int m_s_c_CollisionLayerMaskFlagField = 0b1000110; //0b011000100000000;
+	//const static unsigned short m_s_c_CollisionLayers = 5;
 
 	static bool layerMaskAllowsCollision(Collider& c1, Collider& c2);
 };
 
 
-/* =======================================================================
- * THE OLD AND SOMEWHAT OUTDATED COMMENT ABOUT THE LAYER MASK.
- * WILL STILL HOLD ONTO IT AS IT HAS SOME EXAMPLES TO PROOF IT IS WORKING!
- * =======================================================================
- */
- 
- /* 
- * 
- * 
- * 
- * 
- * 
- * The games collision layer mask supports up 5 layers
+/* The games collision layer mask supports up 5 layers
 * S = Static Geometry
 * F = Friendly Units (Player, Player Projectiles)
 * E = Enemy units (Enemies, Enemy Projectiles)

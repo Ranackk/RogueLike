@@ -1,7 +1,5 @@
 #pragma once
-#include "ColliderComponent.h"
 #include "Collider.h"
-
 
 /**
  * \brief Class that describes an Axis Aligned Rectangular ColliderComponent */

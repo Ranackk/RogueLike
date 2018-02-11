@@ -1,7 +1,6 @@
 #pragma once
 #include "GameObject.h"
 #include <memory>
-#include "PhysicsEngine.h"
 
 class CircleCollider;
 class BoxCollider;
@@ -19,7 +18,7 @@ public:
 
 	virtual ~Collider();
 
-	void setCollisionLayer(const PhysicsEngine::CollisionLayer _layer) { m_CollisionLayer = _layer; }
+	void setCollisionLayer(const unsigned char _layer) { m_CollisionLayer = _layer; }
 	unsigned char getCollisionLayer() const { return m_CollisionLayer; }
 private:
 	std::shared_ptr<GameObject> m_GameObject = nullptr;
