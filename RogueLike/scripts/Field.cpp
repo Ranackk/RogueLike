@@ -36,7 +36,7 @@ void Field::initialize(Scene* map, const glm::vec2 worldGridPosition, const Fiel
 		BoxColliderComponent* cc = addComponent(new BoxColliderComponent());
 		BoxCollider bc = BoxCollider(glm::vec2(1, 1), glm::vec3(-0.5, 0, -0.5));
 		bc.initialize(std::shared_ptr<Field>(this));
-		bc.setCollisionLayer(CollisionLayer::MAP);
+		bc.setCollisionLayer(CollisionLayer::MAP_GEOMETRY);
 		cc->initialize(bc);
 	}
 }
