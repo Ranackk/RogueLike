@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include <memory>
+#include "PhysicsEngine.h"
 
 class CircleCollider;
 class BoxCollider;
@@ -17,7 +18,13 @@ public:
 	virtual bool collidesWithBox(BoxCollider& boxCollider) = 0;
 
 	virtual ~Collider();
+
+	void setCollisionLayer(const PhysicsEngine::CollisionLayer _layer) { m_CollisionLayer = _layer; }
+	unsigned char getCollisionLayer() const { return m_CollisionLayer; }
 private:
 	std::shared_ptr<GameObject> m_GameObject = nullptr;
+
+	// By default, the layer of the collider is 0, which is "not set". It can not collide with anything!
+	unsigned char m_CollisionLayer = 0x00000000;
 
 };

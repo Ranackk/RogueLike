@@ -28,12 +28,15 @@
 //}
 
 bool PhysicsEngine::collides(BoxCollider& c1, BoxCollider& c2) {
+	if (!layerMaskAllowsCollision(c1, c2)) return false;
 	std::cout << "Box Box Collision not implemented yet!";
 	return false;
 }
 
  bool PhysicsEngine::collides(BoxCollider &c1, CircleCollider &c2)
 {
+	 if (!layerMaskAllowsCollision(c1, c2)) return false;
+
 	const glm::vec3 dist = glm::abs((c1.getTransform().getPosition() - c1.m_MidpointOffset) - (c2.getTransform().getPosition() - c2.m_MidpointOffset));
 
 	/* If the distance between box and circle is bigger than box radius & circle radius, there is no collision*/
@@ -49,8 +52,34 @@ bool PhysicsEngine::collides(BoxCollider& c1, BoxCollider& c2) {
 }
  bool PhysicsEngine::collides(CircleCollider &c1, CircleCollider &c2)
 {
+	 if (!layerMaskAllowsCollision(c1, c2)) return false;
+
 	const float dist = glm::distance(c1.getTransform().getPosition(), c2.getTransform().getPosition());
 
 	/* Check if the distance is smaller than the combined radius of both circles */
 	return (dist <= c1.m_Radius + c2.m_Radius);
+}
+
+bool PhysicsEngine::layerMaskAllowsCollision(Collider& c1, Collider& c2) {
+	/* Use the collision layer of both colliders to find at which index in the collision layer flag field the flag is 
+	 * located that tells about whether those 2 layers do collide		
+	 */
+	const int n = c1.getCollisionLayer();
+	const int m = c2.getCollisionLayer();
+
+	/* Swap the indicies if needed */
+	if (n > m) {
+		const int t = n;
+		n = m;
+		m = t;
+	}
+
+	const unsigned char checkFlagIndex = n * m_s_c_CollisionLayers - (pow(n,2) - n) / 2 + m - n; //n * L		- (n^2 - n) / 2		+ m - n
+	/* Transform the index into a number that can be used to bitwise AND the global flag field*/
+	const unsigned char checkFlag = pow(2, checkFlagIndex);
+
+	/* Return true if the flag field is "1" at the checkFlag, "false" if not. */
+	const unsigned char afterCheck = (m_s_c_CollisionLayerMaskFlagField & checkFlag);
+	return afterCheck == checkFlag;
+
 }

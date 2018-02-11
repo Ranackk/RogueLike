@@ -34,7 +34,8 @@ void Field::initialize(Scene* map, const glm::vec2 worldGridPosition, const Fiel
 	if (m_FieldType.getPassing() == FieldType::BLOCKED) {
 		BoxColliderComponent* cc = addComponent(new BoxColliderComponent());
 		BoxCollider bc = BoxCollider(glm::vec2(1, 1), glm::vec3(-0.5, 0, -0.5));
-		bc.initialize(std::shared_ptr<Field>(this));
+		bc.initialize(std::shared_ptr<Field>(this)); 
+		bc.setCollisionLayer(PhysicsEngine::CollisionLayer::MAP_GEOMTRY);
 		cc->initialize(bc);
 	}
 }

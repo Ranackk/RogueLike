@@ -31,6 +31,7 @@ void Player::initialize() {
 	CircleColliderComponent* cc = addComponent<>(new CircleColliderComponent());
 	CircleCollider circC = CircleCollider(rad, glm::vec3(0, 0, 0));
 	circC.initialize(std::shared_ptr<Player>(this));
+	circC.setCollisionLayer(PhysicsEngine::CollisionLayer::FRIENDLY_UNITS);
 	cc->initialize(circC);
 
 	m_LightOffset = glm::vec3(0, 1, 0);
