@@ -133,7 +133,6 @@ void Material::bindMaterial(glm::mat4x4 _perspectiveMatrix, glm::mat4x4 _viewMat
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, this->p_skyboxID);
 		glUniform1i(this->uniformSkybox, 1);
-		
 		break;
 	case UI_BASE_SHADER:
 		// Main Texture - Texture Unit 0
@@ -142,11 +141,22 @@ void Material::bindMaterial(glm::mat4x4 _perspectiveMatrix, glm::mat4x4 _viewMat
 		glUniform1i(this->uniformTexture, 0);
 		break;
 	}
-
+	err = glGetError();
+	if (err != GL_NO_ERROR) {
+		std::cout << "Mat End GL ERROR " << err << std::endl;
+	}
 	/* Matrices */
 	glUniformMatrix4fv(this->uniformModelMatrix, 1, GL_FALSE, &_modelMatrix[0][0]);
+	err = glGetError();
+	if (err != GL_NO_ERROR) {
+		std::cout << "Mat End GL ERROR " << err << std::endl;
+	}
 	glUniformMatrix4fv(this->uniformViewMatrix, 1, GL_FALSE, &_viewMatrix[0][0]);
 	glUniformMatrix4fv(this->uniformProjectionMatrix, 1, GL_FALSE, &_perspectiveMatrix[0][0]);
+	err = glGetError();
+	if (err != GL_NO_ERROR) {
+		std::cout << "Mat End GL ERROR " << err << std::endl;
+	}
 
 	/* Clipping Plane */
 	glUniform2f(this->uniformClippingPlane, Game::m_s_cNearClip, Game::m_s_cFarClip);

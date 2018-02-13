@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Collider.h"
 #include "Enemy.h"
+#include "HUDRenderComponent.h"
 
 class CircleCollider;
 
@@ -23,6 +24,8 @@ public:
 	void drawFull(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial = nullptr);
 	void drawStaticShadowCasters(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial);
 	void drawDynamicShadowCasters(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial);
+	void drawHudElements(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial);
+
 	void drawStaticShadowMaps();
 	void drawDynamicShadowMaps();
 
@@ -50,9 +53,10 @@ public:
 	std::vector<Enemy*> m_Enemies;
 
 
-	/* Systems */
+	/* Systems */ // TODO: Move the static systems to arrays for cache line optimization
 	std::vector<RenderComponent*> m_StaticRenderComponents;
 	std::vector<RenderComponent*> m_DynamicRenderComponents;
+	std::vector<HUDRenderComponent*> m_HudRenderComponents;
 private:
 	glm::vec2 m_RoomsPerMap;
 	glm::vec2 m_FieldSize;
@@ -61,6 +65,6 @@ private:
 
 	void generateMap(const glm::vec2 mapSize);
 
-
+	class GameObject* m_TestUI;
 };
 

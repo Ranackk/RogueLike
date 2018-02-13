@@ -114,10 +114,10 @@ bool Utility::loadShader(const std::string shaderName, GLuint &outID) {
 }
 bool Utility::getQuadPrimitiveData(std::vector<glm::vec3>& _vertexBufferData, std::vector<glm::vec2>& _uvBufferData, std::vector<glm::vec3>& _normalsBufferData, std::vector<unsigned short>& _indicesBufferData) {
 	_vertexBufferData = std::vector<glm::vec3>();
-	_vertexBufferData.push_back(glm::vec3(0.5f, 0.5f, 0.0f));
-	_vertexBufferData.push_back(glm::vec3(-0.5f, 0.5f, 0.0f));
-	_vertexBufferData.push_back(glm::vec3(0.5f, -0.5f, 0.0f));
-	_vertexBufferData.push_back(glm::vec3(-0.5f, -0.5f, 0.0f));
+	_vertexBufferData.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
+	_vertexBufferData.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
+	_vertexBufferData.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
+	_vertexBufferData.push_back(glm::vec3(1.0f, 1.0f, 0.0f));
 
 	_uvBufferData = std::vector<glm::vec2>();
 	_uvBufferData.push_back(glm::vec2(1.0f, 0.0f));
@@ -135,7 +135,9 @@ bool Utility::getQuadPrimitiveData(std::vector<glm::vec3>& _vertexBufferData, st
 	_indicesBufferData.push_back(0);
 	_indicesBufferData.push_back(1);
 	_indicesBufferData.push_back(2);
+	_indicesBufferData.push_back(1);
 	_indicesBufferData.push_back(3);
+	_indicesBufferData.push_back(2);
 
 	return true;
 }

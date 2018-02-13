@@ -60,21 +60,34 @@ Scene::~Scene()
 }
 
 void Scene::setupSystems() {
-	m_StaticRenderComponents = std::vector<RenderComponent*>();
 	// TODO: ADD VECTOR OF PHYSICS COMPONENTS -> Fields, Entities (Projectile, Enemy)
 
+	/* Static Rendering */
+	m_StaticRenderComponents = std::vector<RenderComponent*>();
 	for (unsigned int i = 0; i < m_FieldBatches.size(); i++) {
-		RenderComponent* component = m_FieldBatches[i].getComponent<RenderComponent>();
-
-		m_StaticRenderComponents.push_back(component);
+		m_StaticRenderComponents.push_back(m_FieldBatches[i].getComponent<RenderComponent>());
 	}
 
+	/* Dynamic Rendering */
+	m_DynamicRenderComponents = std::vector<RenderComponent*>();
 	for (unsigned int i = 0; i < m_Enemies.size(); i++) {
 		m_DynamicRenderComponents.push_back(m_Enemies[i]->getComponent<RenderComponent>());
 	}
-
 	m_DynamicRenderComponents.push_back(m_Player->getComponent<RenderComponent>());
 
+	/* HUD Rendering */
+	m_HudRenderComponents = std::vector<HUDRenderComponent*>();
+	
+	m_TestUI = new GameObject();
+
+	std::shared_ptr<Material> uiMat = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_UITest");
+	uiMat->setupBaseUiShader(Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player"));
+
+	HUDRenderComponent* uiComp = new HUDRenderComponent();
+	m_TestUI->addComponent(uiComp);
+	uiComp->initialize(uiMat, glm::vec2(0.9f, 0.8f), glm::vec2(.1f, .2f));
+
+	m_HudRenderComponents.push_back(uiComp);
 }
 
 void Scene::update(GLFWwindow* window, const float deltaTime) {
@@ -89,8 +102,12 @@ void Scene::drawFull(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _vi
 
 	/* Draw static geometry */
 	drawStaticShadowCasters(_perspectiveMatrix, _viewMatrix, customMaterial);
+
 	/* Draw dynamic geometry */
 	drawDynamicShadowCasters(_perspectiveMatrix, _viewMatrix, customMaterial);
+
+	/* Draw HUD */
+	drawHudElements(_perspectiveMatrix, _viewMatrix, customMaterial);
 
 }
 
@@ -105,6 +122,13 @@ void Scene::drawStaticShadowCasters(const glm::mat4x4 _perspectiveMatrix, const 
 void Scene::drawDynamicShadowCasters(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial) {
 	for (unsigned int i = 0; i < m_DynamicRenderComponents.size(); i++) {
 		m_DynamicRenderComponents[i]->draw(_perspectiveMatrix, _viewMatrix, customMaterial);
+	}
+}
+
+/* Draws all hud elements in the scene */
+void Scene::drawHudElements(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial) {
+	for (unsigned int i = 0; i < m_HudRenderComponents.size(); i++) {
+		m_HudRenderComponents[i]->draw(_perspectiveMatrix, _viewMatrix, customMaterial);
 	}
 }
 
