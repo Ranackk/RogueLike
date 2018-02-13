@@ -8,11 +8,11 @@
 class HUDRenderComponent : public RenderComponent
 {
 protected:
-	glm::vec2 m_HUDTransform_Percentage_TopLeft;
+	glm::vec2 m_HUDTransform_Percentage_BottomLeft;
 	glm::vec2 m_HUDTransform_Percentage_Dimensions;
 
 public:
 	void draw(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial) override;
-	void initialize(const std::shared_ptr<Material> _material, const glm::vec2 _percentageTopLeft, const glm::vec2 _percentageDimensions);
+	void initialize(const std::shared_ptr<Material> _material, const glm::vec2 _percentageBottomLeft, const glm::vec2 _percentageDimensions);
 };
 

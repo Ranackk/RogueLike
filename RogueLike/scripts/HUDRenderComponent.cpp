@@ -17,7 +17,7 @@ void HUDRenderComponent::draw(const glm::mat4x4 _perspectiveMatrix, const glm::m
 // WARNING: Call this method AFTER adding the component to a game object!
 void HUDRenderComponent::initialize(const std::shared_ptr<Material> _material, const glm::vec2 _positionTopLeft, const glm::vec2 _dimensions) {
 	m_HUDTransform_Percentage_Dimensions = _dimensions;
-	m_HUDTransform_Percentage_TopLeft = _positionTopLeft;
+	m_HUDTransform_Percentage_BottomLeft = _positionTopLeft;
 
 	this->m_Material = _material;
 	this->m_GameObject->getTransform().setLocalPosition(glm::vec3(-1 + 2 *_positionTopLeft.x , -1 + 2 * _positionTopLeft.y, 0));
