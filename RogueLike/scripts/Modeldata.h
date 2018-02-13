@@ -5,9 +5,16 @@ class Camera;
 class GameObject;
 class Material;
 
+enum Primitives {
+	QUAD
+};
+
 class ModelData
 {
 public:
+
+	// TODO: Primitve init via code (get modeldata by primitive type, use static map to modelmanager!
+
 	int verts;
 
 	//GLfloat *vertexBufferData; 
@@ -25,8 +32,8 @@ public:
 	//GLuint vertexColorBufferID;
 
 	ModelData();
-	void initialize(const std::string modelPath);
+	//void initialize(const std::string modelPath);
+	void initialize(std::vector<unsigned short> _indexBufferData, std::vector<glm::vec3> _vertexBufferData, std::vector<glm::vec2> _uvBufferData, std::vector<glm::vec3> _normalsBufferData);
 	void draw() const;
 	~ModelData();
 };
-

@@ -176,6 +176,9 @@
     <ClCompile Include="scripts\Enemy.cpp">
       <Filter>scripts\gameData</Filter>
     </ClCompile>
+    <ClCompile Include="scripts\HUDRenderComponent.cpp">
+      <Filter>scripts\logic\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scripts\Field.h">
@@ -273,6 +276,9 @@
     </ClInclude>
     <ClInclude Include="scripts\Enemy.h">
       <Filter>scripts\gameData</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\HUDRenderComponent.h">
+      <Filter>scripts\logic\components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
