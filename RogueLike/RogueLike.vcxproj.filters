@@ -58,6 +58,12 @@
     <None Include="shaders\depthShader.vert">
       <Filter>shaders</Filter>
     </None>
+    <None Include="shaders\baseUIShader.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\baseUIShader.vert">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Object Include="models\baseFloor.obj">

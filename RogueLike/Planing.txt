@@ -10,6 +10,7 @@
 
 	> Cache Line Optimization via using Systems (or at least trying for some things, maybe collision should be like it is)
 		> Rendering & Input should be Systems
+		> NEVERMIND: Just use an array with a set size for all static render elements (always rooms*roomX*roomY). Linear memory layout! 
 
 	> Font Atlas Loader
 	> UI Rendererer Component

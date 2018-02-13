@@ -12,23 +12,6 @@
 
 std::map<std::string, GLuint> Material::compiledShaders;
 
-//Material::Material(std::string shaderName, const glm::vec4 _diffuseColor, const GLuint _textureID) {
-//	this->p_diffuseColor = _diffuseColor;
-//	this->p_textureID = _textureID;
-//
-//	if (compiledShaders.find(shaderName) != compiledShaders.end()) {
-//		this->shaderProgramID = compiledShaders[shaderName];
-//	}
-//	else {
-//		std::cout << "There is no material with identifier " << shaderName.c_str() << " - Falling back to default!" << std::endl;
-//		return;
-//	}
-//
-//
-//	setupUniforms();
-//}
-
-
 Material::Material(std::string shaderName) {
 	if (compiledShaders.find(shaderName) != compiledShaders.end()) {
 		this->shaderProgramID = compiledShaders[shaderName];
@@ -53,8 +36,7 @@ void Material::setupMatricesOnly() {
 
 	this->uniformUseInstancing = glGetUniformLocation(this->shaderProgramID, "_UseInstancing");
 }
-
-void Material::setupBaseShader(glm::vec4 _diffuseColor, GLuint _textureID, GLuint _skyboxID) {
+void Material::setupBaseShader(const glm::vec4 _diffuseColor, const GLuint _textureID, const GLuint _skyboxID) {
 	setupMatricesOnly();
 
 	m_Type = BASE_SHADER;
@@ -69,8 +51,22 @@ void Material::setupBaseShader(glm::vec4 _diffuseColor, GLuint _textureID, GLuin
 	/* Test Area */
 	p_skyboxID = _skyboxID; 
 	this->uniformSkybox = glGetUniformLocation(this->shaderProgramID, "_Skybox");
-
 }
+void Material::setupBaseUiShader(const GLuint _textureID) {
+	setupMatricesOnly();
+
+	m_Type = UI_BASE_SHADER;
+	this->p_textureID = _textureID;
+	this->uniformTexture = glGetUniformLocation(this->shaderProgramID, "_Texture");
+}
+
+void Material::setTexture(const GLuint texture) {
+	p_textureID = texture;
+}
+void Material::setDiffuse(const glm::vec4 diffuse) {
+	p_diffuseColor = diffuse;
+}
+
 
 void Material::compileShader(std::string path) {
 	// If the table doesnt exist, create one
@@ -98,6 +94,9 @@ void Material::bindMaterial(glm::mat4x4 _perspectiveMatrix, glm::mat4x4 _viewMat
 	if (err != GL_NO_ERROR) {
 		std::cout << "MatStart GL ERROR " << err << std::endl;
 	}
+
+	/* Buffers */
+
 	// Bind Position Buffer
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferID);
@@ -116,40 +115,34 @@ void Material::bindMaterial(glm::mat4x4 _perspectiveMatrix, glm::mat4x4 _viewMat
 	// Bind Program
 	glUseProgram(this->shaderProgramID);
 
-	err = glGetError();
-	if (err != GL_NO_ERROR) {
-		std::cout << "Pre Lights  GL ERROR " << err << std::endl;
-	}
-	if (m_Type == BASE_SHADER) {
+	/* Uniforms */
+	/* Material specific values */
+	switch (m_Type) {
+	case MATRICES_ONLY:
+		break;
+	case BASE_SHADER:
 		// Setup Lights
 		RenderEngine::prepareSceneLightsForShaderProgram(Game::getInstance()->getCurrentScene(), this->shaderProgramID);
-		err = glGetError();
-		if (err != GL_NO_ERROR) {
-			std::cout << "Post Lights  GL ERROR " << err << std::endl;
-		}
 		// Diffuse Color
 		glUniform4f(this->uniformDiffuseColor, this->p_diffuseColor.x, this->p_diffuseColor.y, this->p_diffuseColor.z, this->p_diffuseColor.w);
-		err = glGetError();
-		if (err != GL_NO_ERROR) {
-			std::cout << "Post Lights  GL ERROR " << err << std::endl;
-		}
 		// Main Texture - Texture Unit 0
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, this->p_textureID);
 		glUniform1i(this->uniformTexture, 0);
-		err = glGetError();
-		if (err != GL_NO_ERROR) {
-			std::cout << "Post Lights  GL ERROR " << err << std::endl;
-		}
 		// Skybox Texture - Texture Unit 1
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, this->p_skyboxID);
 		glUniform1i(this->uniformSkybox, 1);
+		
+		break;
+	case UI_BASE_SHADER:
+		// Main Texture - Texture Unit 0
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, this->p_textureID);
+		glUniform1i(this->uniformTexture, 0);
+		break;
 	}
-	err = glGetError();
-	if (err != GL_NO_ERROR) {
-		std::cout << "Post Lights  GL ERROR " << err << std::endl;
-	}
+
 	/* Matrices */
 	glUniformMatrix4fv(this->uniformModelMatrix, 1, GL_FALSE, &_modelMatrix[0][0]);
 	glUniformMatrix4fv(this->uniformViewMatrix, 1, GL_FALSE, &_viewMatrix[0][0]);
@@ -158,7 +151,7 @@ void Material::bindMaterial(glm::mat4x4 _perspectiveMatrix, glm::mat4x4 _viewMat
 	/* Clipping Plane */
 	glUniform2f(this->uniformClippingPlane, Game::m_s_cNearClip, Game::m_s_cFarClip);
 
-	/* instacing */
+	/* Instancing */
 	glUniform1i(this->uniformUseInstancing, _instanced);
 
 	err = glGetError();

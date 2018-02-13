@@ -116,24 +116,35 @@ void Game::initializeManagers() {
 	// Let the RenderEngine create a window
 	m_Window = RenderEngine::createWindow();
 
-	// Load up all needed textures
+	/* Load up all needed textures */
 	m_TextureManager = new TextureManager();
-	m_TextureManager->loadTextureAs("graphics/stone.png", "tex_Player");
+	// MAP
 	m_TextureManager->loadTextureAs("graphics/stone.png", FieldType::WALL.getTextureIdentifier());
 	m_TextureManager->loadTextureAs("graphics/demoTexture.png", FieldType::FLOOR.getTextureIdentifier());
+	// ENTITIES
+	m_TextureManager->loadTextureAs("graphics/stone.png", "tex_Player");
 
-	// Load up all needed materials
+
+	/* Load up all needed materials */
 	m_MaterialManager = new MaterialManager();
-	m_MaterialManager->createMaterialByShader("baseShader", "mat_Player", Material::BASE_SHADER);
+	// TEC
+	m_MaterialManager->createMaterialByShader("depthShader", "mat_TEC_RenderDistanceToNearestSurfaceIntoDepthBuffer", Material::MATRICES_ONLY);
+	// MAP
 	m_MaterialManager->createMaterialByShader("baseShader", "mat_Wall", Material::BASE_SHADER);
 	m_MaterialManager->createMaterialByShader("baseShader", "mat_Floor", Material::BASE_SHADER);
-	m_MaterialManager->createMaterialByShader("depthShader", "mat_TEC_RenderDistanceToNearestSurfaceIntoDepthBuffer", Material::MATRICES_ONLY);
+	// ENTITIES
+	m_MaterialManager->createMaterialByShader("baseShader", "mat_Player", Material::BASE_SHADER);
+	// UI
+	m_MaterialManager->createMaterialByShader("baseUIShader", "mat_UITest", Material::UI_BASE_SHADER);
 
-	// Load up all the models needed
+
+	/* Load up all the models needed */
 	m_ModelManager = new ModelManager();
-	m_ModelManager->loadModelAs("models/player.obj", "mesh_Player");
+	// MAP
 	m_ModelManager->loadModelAs("models/baseFloor.obj", "mesh_Floor");
 	m_ModelManager->loadModelAs("models/baseWall.obj", "mesh_Wall");
+	// ENTITES
+	m_ModelManager->loadModelAs("models/player.obj", "mesh_Player");
 
 }
 
