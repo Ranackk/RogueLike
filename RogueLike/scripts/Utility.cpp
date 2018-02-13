@@ -112,26 +112,32 @@ bool Utility::loadShader(const std::string shaderName, GLuint &outID) {
 	outID = programID;
 	return true;
 }
-bool Utility::getQuadPrimitiveData(std::vector<glm::vec3>& _vertexBufferData, std::vector<glm::vec2>& _uvBufferData, std::vector<glm::vec3>& _normalsBufferData, std::vector<unsigned short>& _indexBufferData) {
-	std::vector<glm::vec3> in_vertexBufferData = std::vector<glm::vec3>();
-	in_vertexBufferData.push_back(glm::vec3(0.5f, 0.5f, 0.0f));
-	in_vertexBufferData.push_back(glm::vec3(-0.5f, 0.5f, 0.0f));
-	in_vertexBufferData.push_back(glm::vec3(0.5f, -0.5f, 0.0f));
-	in_vertexBufferData.push_back(glm::vec3(-0.5f, -0.5f, 0.0f));
+bool Utility::getQuadPrimitiveData(std::vector<glm::vec3>& _vertexBufferData, std::vector<glm::vec2>& _uvBufferData, std::vector<glm::vec3>& _normalsBufferData, std::vector<unsigned short>& _indicesBufferData) {
+	_vertexBufferData = std::vector<glm::vec3>();
+	_vertexBufferData.push_back(glm::vec3(0.5f, 0.5f, 0.0f));
+	_vertexBufferData.push_back(glm::vec3(-0.5f, 0.5f, 0.0f));
+	_vertexBufferData.push_back(glm::vec3(0.5f, -0.5f, 0.0f));
+	_vertexBufferData.push_back(glm::vec3(-0.5f, -0.5f, 0.0f));
 
-	std::vector<glm::vec2> in_uvBufferData = std::vector<glm::vec2>();
-	in_uvBufferData.push_back(glm::vec2(1.0f, 0.0f));
-	in_uvBufferData.push_back(glm::vec2(0.0f, 0.0f));
-	in_uvBufferData.push_back(glm::vec2(1.0f, 1.0f));
-	in_uvBufferData.push_back(glm::vec2(0.0f, 1.0f));
+	_uvBufferData = std::vector<glm::vec2>();
+	_uvBufferData.push_back(glm::vec2(1.0f, 0.0f));
+	_uvBufferData.push_back(glm::vec2(0.0f, 0.0f));
+	_uvBufferData.push_back(glm::vec2(1.0f, 1.0f));
+	_uvBufferData.push_back(glm::vec2(0.0f, 1.0f));
 	
-	std::vector<glm::vec3> in_normalsBufferData = std::vector<glm::vec3>();
-	in_normalsBufferData.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
-	in_normalsBufferData.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
-	in_normalsBufferData.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
-	in_normalsBufferData.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
+	_normalsBufferData = std::vector<glm::vec3>();
+	_normalsBufferData.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
+	_normalsBufferData.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
+	_normalsBufferData.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
+	_normalsBufferData.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
 
-	return indexVbo(in_vertexBufferData, in_uvBufferData, in_normalsBufferData, _indexBufferData, _vertexBufferData, _uvBufferData, _normalsBufferData);
+	_indicesBufferData = std::vector<unsigned short>();
+	_indicesBufferData.push_back(0);
+	_indicesBufferData.push_back(1);
+	_indicesBufferData.push_back(2);
+	_indicesBufferData.push_back(3);
+
+	return true;
 }
 bool Utility::loadObj(const char *path, std::vector<glm::vec3> &_outVertecies, std::vector<glm::vec2> &_outUVs, std::vector<glm::vec3> &_outNormals)
 {
