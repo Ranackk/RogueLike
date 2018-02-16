@@ -126,7 +126,7 @@ void RenderEngine::copyCubeMapArray(const GLuint staticShadowMapCubeTextureDepth
 	}
 }
 
-void RenderEngine::renderSceneFromCamera(Scene* _scene, Camera* _camera) {
+void RenderEngine::renderSceneFromCamera(Scene* _scene, CameraComponent* _camera) {
 	glEnable(GL_DEPTH_TEST);
 	//glCullFace(GL_FRONT);
 
@@ -146,7 +146,7 @@ void RenderEngine::renderSceneFromCamera(Scene* _scene, Camera* _camera) {
 void RenderEngine::prerenderStaticShadowMaps(Scene* _scene, Material* _material) {
 	/* Create perspective matrix with a FOV of 90, AspectRation of 1, zNear & zFar */
 	const glm::mat4 perspectiveMatrix = glm::perspective(glm::radians(90.0f), 1.0f, Game::m_s_cNearClip, Game::m_s_cFarClip);
-	std::vector<Light*> lights = _scene->getLights();
+	std::vector<LightComponent*> lights = _scene->getLights();
 
 	/* Start Rendering to the FBO */
 	glBindFramebuffer(GL_FRAMEBUFFER, _scene->m_StaticShadowMapFBO);
@@ -188,7 +188,7 @@ void RenderEngine::prerenderStaticShadowMaps(Scene* _scene, Material* _material)
 void RenderEngine::renderShadowMaps(Scene* _scene, Material* _material) {
 	/* Create perspective matrix with a FOV of 90, AspectRation of 1, zNear & zFar */
 	const glm::mat4 perspectiveMatrix = glm::perspective(glm::radians(90.0f), 1.0f, Game::m_s_cNearClip, Game::m_s_cFarClip);
-	std::vector<Light*> lights = _scene->getLights();
+	std::vector<LightComponent*> lights = _scene->getLights();
 
 	/* Start Rendering to the dynamic shadow map FBO */
 	glBindFramebuffer(GL_FRAMEBUFFER, _scene->m_DynamicShadowMapFBO);

@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "Material.h"
 
-class Camera : public GameObject
+class CameraComponent : public UpdateComponent
 {
 	//static const int WIDTH = 640;
 	//static const int HEIGHT = 480;
@@ -12,9 +12,9 @@ public:
 	glm::mat4x4 m_ViewMatrix;
 	// View & Projection Matrix
 
-	Camera();
+	CameraComponent();
 	void initialize();
-	~Camera();
+	~CameraComponent();
 
 	void update(GLFWwindow* window, const float ellapsed) override;
 

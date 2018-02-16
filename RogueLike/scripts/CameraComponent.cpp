@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Camera.h"
+#include "CameraComponent.h"
 #include <gtc/matrix_transform.hpp>
 #include "Transform.h"
 #include "Game.h"
@@ -8,13 +8,15 @@ const float Game::m_s_cNearClip = 0.01f;
 const float Game::m_s_cFarClip = 70.0f;
 
 
-Camera::Camera()
+CameraComponent::CameraComponent()
 {
 
 }
 
-void Camera::initialize() {
-	this->m_Transform = Transform(glm::vec3(25, 20, 30), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
+void CameraComponent::initialize() {
+	this->m_GameObject->getTransform().setLocalPosition(glm::vec3(25, 20, 30));	
+	//= Transform(glm::vec3(25, 20, 30), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
+
 	//this->m_ProjectionMatrix = glm::ortho(0, 1, 0, 1, -20, 100);
 	this->m_ProjectionMatrix = glm::perspective(
 		glm::radians(60.0f),
@@ -32,10 +34,10 @@ void Camera::initialize() {
 	);
 }
 
-Camera::~Camera() {
+CameraComponent::~CameraComponent() {
 }
 
-void Camera::update(GLFWwindow* window ,const float ellapesd)
+void CameraComponent::update(GLFWwindow* window ,const float ellapesd)
 {
 	// TODO: Move actual input to another class
 	double xPos, yPos;
@@ -63,47 +65,50 @@ void Camera::update(GLFWwindow* window ,const float ellapesd)
 	// Up vector
 	glm::vec3 up = glm::cross(right, direction);
 
+	Transform _transform = this->m_GameObject->getTransform();
+
 	float moveSpeed = speed;
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) moveSpeed *= 3;
 	// Move forward
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		m_Transform.setLocalPosition(m_Transform.getLocalPosition() + direction * ellapesd * moveSpeed);
+		_transform.setLocalPosition(_transform.getLocalPosition() + direction * ellapesd * moveSpeed);
 	}
 	// Move backward
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		m_Transform.setLocalPosition(m_Transform.getLocalPosition() - direction * ellapesd * moveSpeed);
+		_transform.setLocalPosition(_transform.getLocalPosition() - direction * ellapesd * moveSpeed);
 	}
 	// Strafe left
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		m_Transform.setLocalPosition(m_Transform.getLocalPosition() - right * ellapesd * moveSpeed);
+		_transform.setLocalPosition(_transform.getLocalPosition() - right * ellapesd * moveSpeed);
 	}
 	// Strafe right
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		m_Transform.setLocalPosition(m_Transform.getLocalPosition() + right * ellapesd * moveSpeed);
+		_transform.setLocalPosition(_transform.getLocalPosition() + right * ellapesd * moveSpeed);
 	}
 	// UP
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-		m_Transform.setLocalPosition(m_Transform.getLocalPosition() + up * ellapesd * moveSpeed);
+		_transform.setLocalPosition(_transform.getLocalPosition() + up * ellapesd * moveSpeed);
 	}
 	// DOWN
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-		m_Transform.setLocalPosition(m_Transform.getLocalPosition() - up * ellapesd * moveSpeed);
+		_transform.setLocalPosition(_transform.getLocalPosition() - up * ellapesd * moveSpeed);
 	}
+	m_GameObject->getTransform().setLocalPosition(_transform.getLocalPosition());
 
 	// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
 	m_ProjectionMatrix = glm::perspective(glm::radians(45.0f), (float)Game::m_s_cWindowWidth / Game::m_s_cWindowHeight, Game::m_s_cNearClip, Game::m_s_cFarClip);
-	// Camera matrix
+	// CameraComponent matrix
 	m_ViewMatrix = glm::lookAt(
-		m_Transform.getLocalPosition(),           // Camera is here
-		m_Transform.getLocalPosition() + direction, // and looks here : at the same position, plus "direction"
+		_transform.getLocalPosition(),           // CameraComponent is here
+		_transform.getLocalPosition() + direction, // and looks here : at the same position, plus "direction"
 		up                  // Head is up (set to 0,-1,0 to look upside-down)
 	);
 
-	//std::cout << "Camera Direction: " << direction.x << ", " << direction.y << ", " << direction.z << std::endl;
-	//std::cout << "Camera UP: " << up.x << ", " << up.y << ", " << up.z << std::endl;
+	//std::cout << "CameraComponent Direction: " << direction.x << ", " << direction.y << ", " << direction.z << std::endl;
+	//std::cout << "CameraComponent UP: " << up.x << ", " << up.y << ", " << up.z << std::endl;
 }
 
-glm::mat4x4 Camera::getViewMatrix() const
+glm::mat4x4 CameraComponent::getViewMatrix() const
 {
 	return m_ViewMatrix;
 	//return this->m_Transform.getObjectMatrix();

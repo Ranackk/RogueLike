@@ -4,9 +4,9 @@
 #include <gtx/dual_quaternion.hpp>
 #include "TextureManager.h"
 #include "Game.h"
-#include "Camera.h"
-#include "Camera.h"
-#include "Camera.h"
+#include "CameraComponent.h"
+#include "CameraComponent.h"
+#include "CameraComponent.h"
 #include <mmintrin.h>
 #include <detail/_vectorize.hpp>
 

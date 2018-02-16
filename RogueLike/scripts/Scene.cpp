@@ -15,16 +15,16 @@ Scene::Scene() {
 	m_Fields = nullptr;
 
 	//m_LightCount = 0;
-	m_Lights = std::vector<Light*>();
+	m_Lights = std::vector<LightComponent*>();
 	m_LightShaderProgrammID = 0;
 }
 
 Scene::Scene(const glm::vec2 size) {
-	this->m_Lights = std::vector<Light*>();
+	this->m_Lights = std::vector<LightComponent*>();
 	this->m_Enemies = std::vector<EnemyComponent*>();
 
 	/* Setup PlayerComponent */
-	GameObject* gO = new GameObject();
+	GameObject* gO = new GameObject("Player");
 	this->m_Player = gO->addComponent(new PlayerComponent());
 	this->m_Player->initialize();
 	this->m_Lights.push_back(m_Player->m_Light);
@@ -124,7 +124,7 @@ void Scene::setupSystems() {
 void Scene::update(GLFWwindow* window, const float deltaTime) {
 	m_Player->getGameObject()->update(window, deltaTime);
 	for (auto it = m_Lights.begin(); it < m_Lights.end(); ++it) {
-		(*it)->update(window, deltaTime);
+		(*it)->getGameObject()->update(window, deltaTime);
 	}
 
 	for (int i = 0; i < m_EnemyPools.size(); i++) {
@@ -221,7 +221,7 @@ int Scene::getLightCount() const {
 	return m_Lights.size();
 }
 
-std::vector<Light*> Scene::getLights() const {
+std::vector<LightComponent*> Scene::getLights() const {
 	return m_Lights;
 }
 

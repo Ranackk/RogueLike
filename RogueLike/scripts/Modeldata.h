@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 
-class Camera;
+class CameraComponent;
 class GameObject;
 class Material;
 

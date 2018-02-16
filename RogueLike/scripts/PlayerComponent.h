@@ -1,14 +1,14 @@
 #pragma once
 #include "stdafx.h"
 #include "GameObject.h"
-#include "Light.h"
+#include "LightComponent.h"
 
 class PlayerComponent : public UpdateComponent
 {
 public:
 	PlayerComponent();
 	void initialize();
-	class Light* m_Light;
+	class LightComponent* m_Light;
 	float m_MovementSpeed;
 
 	glm::vec3 m_LightOffset;

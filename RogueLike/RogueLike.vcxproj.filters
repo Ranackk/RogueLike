@@ -164,12 +164,6 @@
     <ClCompile Include="scripts\Game.cpp">
       <Filter>scripts\engine</Filter>
     </ClCompile>
-    <ClCompile Include="scripts\Camera.cpp">
-      <Filter>scripts\logic</Filter>
-    </ClCompile>
-    <ClCompile Include="scripts\Light.cpp">
-      <Filter>scripts\logic</Filter>
-    </ClCompile>
     <ClCompile Include="scripts\RenderEngine.cpp">
       <Filter>scripts\engine\systems</Filter>
     </ClCompile>
@@ -230,6 +224,12 @@
     <ClCompile Include="scripts\PlayerComponent.cpp">
       <Filter>scripts\logic</Filter>
     </ClCompile>
+    <ClCompile Include="scripts\CameraComponent.cpp">
+      <Filter>scripts\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\LightComponent.cpp">
+      <Filter>scripts\logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scripts\Field.h">
@@ -273,12 +273,6 @@
     </ClInclude>
     <ClInclude Include="scripts\Game.h">
       <Filter>scripts\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="scripts\Camera.h">
-      <Filter>scripts\logic</Filter>
-    </ClInclude>
-    <ClInclude Include="scripts\Light.h">
-      <Filter>scripts\logic</Filter>
     </ClInclude>
     <ClInclude Include="scripts\RenderEngine.h">
       <Filter>scripts\engine\systems</Filter>
@@ -338,6 +332,12 @@
       <Filter>scripts\logic\components</Filter>
     </ClInclude>
     <ClInclude Include="scripts\PlayerComponent.h">
+      <Filter>scripts\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\CameraComponent.h">
+      <Filter>scripts\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\LightComponent.h">
       <Filter>scripts\logic</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,7 +3,7 @@
 #include "ModelData.h"
 #include "GameObject.h"
 #include "Utility.h"
-#include "Camera.h"
+#include "CameraComponent.h"
 #include "Material.h"
 
 /*

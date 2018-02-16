@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "GameObject.h"
 
-class Camera;
+class CameraComponent;
 class Scene;
 
 class RenderEngine
@@ -15,7 +15,7 @@ public:
 	static GLuint createVertexArrayObjectVAO();
 
 	static void copyCubeMapArray(GLuint staticShadowMapCubeTextureDepth, GLuint dynamicShadowMapCubeTextureDepth, int arrayLength);
-	static void renderSceneFromCamera(Scene* _scene, Camera* _camera);
+	static void renderSceneFromCamera(Scene* _scene, CameraComponent* _camera);
 	static void prerenderStaticShadowMaps(Scene* _scene, Material* _material);
 	static void renderShadowMaps(Scene* _scene, Material* _material);
 

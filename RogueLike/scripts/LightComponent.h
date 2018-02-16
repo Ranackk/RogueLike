@@ -3,7 +3,7 @@
 #include "Material.h"
 #include "Scene.h"
 
-class Light : public GameObject
+class LightComponent : public UpdateComponent
 {
 public:
 	enum LightStasis {
@@ -28,7 +28,7 @@ public:
 
 	static int m_s_LightCount;
 
-	Light();
+	LightComponent();
 
 	void initialize(const glm::vec3 _lightPosition, const float _lightRange, const glm::vec4 _lightColor, const LightStasis _isStatic, const bool _flicker);
 	bool prepareForRender(float &range, glm::vec3 &position, glm::vec4 &color);

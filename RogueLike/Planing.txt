@@ -1,5 +1,8 @@
 	
-	
+	!!! Add "UpdateComponents" Vector to "Scene"
+	-> Move every game object child to component/update component
+	-> Make sure pooled objects can be updated
+	-> Implmenet projectiles (very basic pls)
 	
 	TOP:
 	> Make shadows of dynmic objects work! Somehow they dont cast shadows atm

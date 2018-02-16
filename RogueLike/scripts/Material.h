@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include <map>
-#include "Camera.h"
+#include "CameraComponent.h"
 
 class Material
 {
@@ -37,7 +37,7 @@ private:
 
 	GLuint shaderProgramID;
 
-	/* Matrix, Light Uniform GLuints */
+	/* Matrix, LightComponent Uniform GLuints */
 	GLuint uniformModelMatrix;
 	GLuint uniformViewMatrix;
 	GLuint uniformProjectionMatrix;

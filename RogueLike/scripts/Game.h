@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "TextureManager.h"
 #include "Scene.h"
-#include "Camera.h"
+#include "CameraComponent.h"
 #include "ModelManager.h"
 #include "RenderEngine.h"
 #include "MaterialManager.h"
@@ -60,12 +60,12 @@ private:
 
 	GLFWwindow* m_Window;
 
-	Camera* m_Camera;
+	CameraComponent* m_Camera;
 	Scene* m_Scene;
 
 	//GLuint m_LightShaderProgrammID;
 	//int m_LightCount;
-	//Light* m_Lights;
+	//LightComponent* m_Lights;
 
 	//void initializeWindow();
 	//void createVAO();

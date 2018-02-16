@@ -1,6 +1,6 @@
 #pragma once
 #include "EnemyComponent.h"
-#include "Light.h"
+#include "LightComponent.h"
 class FieldType;
 
 class RoomBlueprint

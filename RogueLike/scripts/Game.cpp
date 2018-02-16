@@ -149,7 +149,8 @@ void Game::initializeManagers() {
 }
 
 void Game::initializeGameComponents() {
-	this->m_Camera = new Camera();
+	GameObject* gO = new GameObject("Camera");
+	this->m_Camera = gO->addComponent(new CameraComponent());
 	this->m_Camera->initialize();
 
 	this->m_Scene = new Scene(glm::vec2(4, 4));
@@ -167,14 +168,13 @@ void Game::createStaticShadowMaps() const {
 }
 
 
-
 void Game::draw() const {
 	RenderEngine::renderSceneFromCamera(m_Scene, m_Camera);
 }
 
 void Game::update(double ellapsedTime) {
 	m_Scene->update(m_Window, ellapsedTime);
-	m_Camera->update(m_Window, ellapsedTime);
+	m_Camera->getGameObject()->update(m_Window, ellapsedTime);
 }
 
 TextureManager* Game::getTextureManager() const {

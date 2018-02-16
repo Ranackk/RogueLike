@@ -208,7 +208,7 @@
   <ItemGroup>
     <ClCompile Include="scripts\BoxCollider.cpp" />
     <ClCompile Include="scripts\BoxColliderComponent.cpp" />
-    <ClCompile Include="scripts\Camera.cpp" />
+    <ClCompile Include="scripts\CameraComponent.cpp" />
     <ClCompile Include="scripts\CircleCollider.cpp" />
     <ClCompile Include="scripts\CircleColliderComponent.cpp" />
     <ClCompile Include="scripts\Collider.cpp" />
@@ -221,7 +221,7 @@
     <ClCompile Include="scripts\GameObject.cpp" />
     <ClCompile Include="scripts\GameObjectPool.cpp" />
     <ClCompile Include="scripts\HUDRenderComponent.cpp" />
-    <ClCompile Include="scripts\Light.cpp" />
+    <ClCompile Include="scripts\LightComponent.cpp" />
     <ClCompile Include="scripts\lodepng.cpp" />
     <ClCompile Include="scripts\main.cpp" />
     <ClCompile Include="scripts\Material.cpp" />
@@ -246,7 +246,7 @@
   <ItemGroup>
     <ClInclude Include="scripts\BoxCollider.h" />
     <ClInclude Include="scripts\BoxColliderComponent.h" />
-    <ClInclude Include="scripts\Camera.h" />
+    <ClInclude Include="scripts\CameraComponent.h" />
     <ClInclude Include="scripts\CircleCollider.h" />
     <ClInclude Include="scripts\CircleColliderComponent.h" />
     <ClInclude Include="scripts\Collider.h" />
@@ -259,7 +259,7 @@
     <ClInclude Include="scripts\GameObject.h" />
     <ClInclude Include="scripts\GameObjectPool.h" />
     <ClInclude Include="scripts\HUDRenderComponent.h" />
-    <ClInclude Include="scripts\Light.h" />
+    <ClInclude Include="scripts\LightComponent.h" />
     <ClInclude Include="scripts\lodepng.h" />
     <ClInclude Include="scripts\Material.h" />
     <ClInclude Include="scripts\MaterialManager.h" />

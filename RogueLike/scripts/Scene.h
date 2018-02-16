@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "Field.h"
 #include "RenderBatch.h"
-#include "Light.h"
+#include "LightComponent.h"
 #include "PlayerComponent.h"
 #include "Collider.h"
 #include "EnemyComponent.h"
@@ -40,7 +40,7 @@ public:
 
 	glm::vec2 getRoomsPerMap() const;
 	int getLightCount() const;
-	std::vector<class Light*> getLights() const;
+	std::vector<class LightComponent*> getLights() const;
 
 	class PlayerComponent* m_Player;
 	Field* m_Fields;
@@ -52,7 +52,7 @@ public:
 	GLuint m_StaticShadowMapCubeTextureDepth;
 	std::shared_ptr<Material> m_DepthMaterial;
 
-	std::vector<Light*> m_Lights;
+	std::vector<LightComponent*> m_Lights;
 	std::vector<EnemyComponent*> m_Enemies;		// Only used for creation, then forgotten
 	std::vector<GameObjectPool> m_EnemyPools;
 

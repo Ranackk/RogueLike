@@ -37,12 +37,14 @@ void PlayerComponent::initialize() {
 
 	m_LightOffset = glm::vec3(0, 1, 0);
 
-	/* Add Light */
-	m_Light = new Light();
-	m_Light->initialize(glm::vec3(), 30, glm::vec4(0.5, 0.5, 2.5, 1), Light::DYNAMIC, false);
+	/* Add LightComponent */
+	GameObject* gO = new GameObject("Player Light");
+	m_Light = gO->addComponent(new LightComponent());
+	m_Light->initialize(glm::vec3(), 30, glm::vec4(0.5, 0.5, 2.5, 1), LightComponent::DYNAMIC, false);
 	//m_Light.getTransform().setParent(&m_Transform);		// TODO: Implement Parenting System
-	m_GameObject->getTransform().addChildTransform(&m_Light->getTransform());
-	m_Light->getTransform().setLocalPosition(m_LightOffset);
+	m_GameObject->getTransform().addChildTransform(&m_Light->getGameObject()->getTransform());
+	m_Light->getGameObject()->getTransform().setLocalPosition(m_LightOffset);
+
 }
 
 // TODO: Add scene to update method
@@ -86,5 +88,5 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 
 
 	//std::cout << "PlayerComponent Position: " << m_Transform.getPosition().x << ", " << m_Transform.getPosition().y << ", " << m_Transform.getPosition().z <<
-		//" ||| Light Pos: " << m_Light->getTransform().getPosition().x << ", " << m_Light->getTransform().getPosition().y << ", " << m_Light->getTransform().getPosition().z << std::endl;
+		//" ||| LightComponent Pos: " << m_Light->getTransform().getPosition().x << ", " << m_Light->getTransform().getPosition().y << ", " << m_Light->getTransform().getPosition().z << std::endl;
 }

@@ -4,17 +4,19 @@
 #include "UpdateComponent.h"
 
 class Material;
-class Camera;
+class CameraComponent;
 
 class GameObject
 {
 public:
 	GameObject();
+	explicit GameObject(std::string _name);
 	virtual ~GameObject() {}
 
 	virtual void update(GLFWwindow* window, const float deltaTime);
 
 	Transform& getTransform() { return m_Transform; }
+	std::string getName() const { return m_Name; }
 
 	template <class T>
 	T* addComponent(T* component);
@@ -23,6 +25,7 @@ public:
 
 protected:
 	Transform m_Transform;
+	std::string m_Name;
 
 	std::vector<class Component*> m_Components;
 
