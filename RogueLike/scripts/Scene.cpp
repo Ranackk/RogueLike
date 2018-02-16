@@ -69,11 +69,26 @@ void Scene::setupSystems() {
 	}
 
 	/* Dynamic Rendering */
+	// Enemies
 	m_DynamicRenderComponents = std::vector<RenderComponent*>();
+	// Basic
+	//for (unsigned int i = 0; i < m_Enemies.size(); i++) {
+	//	m_DynamicRenderComponents.push_back(m_Enemies[i]->getComponent<RenderComponent>());
+	//}
+
+	// Batched
+	RenderBatch enemyBatch = RenderBatch();
+	RenderComponent* rc = m_Enemies[0]->getComponent<RenderComponent>();
+	std::vector<GameObject> enemies = std::vector<GameObject>();
 	for (unsigned int i = 0; i < m_Enemies.size(); i++) {
-		m_DynamicRenderComponents.push_back(m_Enemies[i]->getComponent<RenderComponent>());
+		enemies.push_back(*m_Enemies[i]);
 	}
+	enemyBatch.initialize(rc->getModelData(), rc->getMaterial(), enemies);
+	m_DynamicRenderComponents.push_back(enemyBatch.getComponent<RenderComponent>());
+
+	// Rendering
 	m_DynamicRenderComponents.push_back(m_Player->getComponent<RenderComponent>());
+
 
 	/* HUD Rendering */
 	m_HudRenderComponents = std::vector<HUDRenderComponent*>();

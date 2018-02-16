@@ -51,6 +51,7 @@ public:
 
 	std::vector<Light*> m_Lights;
 	std::vector<Enemy*> m_Enemies;
+	std::vector<RenderBatch> m_EnemyBatches;
 
 
 	/* Systems */ // TODO: Move the static systems to arrays for cache line optimization
