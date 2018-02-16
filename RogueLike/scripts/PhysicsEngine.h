@@ -35,10 +35,10 @@ private:
 	*
 	* The LayerMaskFlagField is built like this & supports FIVE (5) layers:
 	*
-	*			Map		Player	Enemy
+	*			Map		PlayerComponent	EnemyComponent
 	* Map		n		y		y
-	* Player			n		y
-	* Enemy					n
+	* PlayerComponent			n		y
+	* EnemyComponent					n
 	*
 	* y = Layers collide
 	* n = Layers dont collide
@@ -104,8 +104,8 @@ private:
 
 /* The games collision layer mask supports up 5 layers
 * S = Static Geometry
-* F = Friendly Units (Player, Player Projectiles)
-* E = Enemy units (Enemies, Enemy Projectiles)
+* F = Friendly Units (PlayerComponent, PlayerComponent Projectiles)
+* E = EnemyComponent units (Enemies, EnemyComponent Projectiles)
 * ?! = Not used at the moment
 *
 *		SFE?!
@@ -119,8 +119,8 @@ private:
 * Everytime, before a complicated collision check is executed, I test if the two colliders may collide depending on this layerMask:
 *
 *					   SEF? !///
-* Static Geometry = 0b0110 0000 -> Can collide with Friendly & Enemy Units
-* Friendly Units  = 0b1010 0000 -> Can collide with Static G.& Enemy Units
+* Static Geometry = 0b0110 0000 -> Can collide with Friendly & EnemyComponent Units
+* Friendly Units  = 0b1010 0000 -> Can collide with Static G.& EnemyComponent Units
 *
 *
 *

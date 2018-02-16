@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "Enemy.h"
+#include "EnemyComponent.h"
 #include "CircleColliderComponent.h"
 
 class Projectile : public GameObject

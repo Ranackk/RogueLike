@@ -214,7 +214,7 @@
     <ClCompile Include="scripts\Collider.cpp" />
     <ClCompile Include="scripts\ColliderComponent.cpp" />
     <ClCompile Include="scripts\Component.cpp" />
-    <ClCompile Include="scripts\Enemy.cpp" />
+    <ClCompile Include="scripts\EnemyComponent.cpp" />
     <ClCompile Include="scripts\Field.cpp" />
     <ClCompile Include="scripts\FieldType.cpp" />
     <ClCompile Include="scripts\Game.cpp" />
@@ -229,7 +229,7 @@
     <ClCompile Include="scripts\Modeldata.cpp" />
     <ClCompile Include="scripts\ModelManager.cpp" />
     <ClCompile Include="scripts\PhysicsEngine.cpp" />
-    <ClCompile Include="scripts\Player.cpp" />
+    <ClCompile Include="scripts\PlayerComponent.cpp" />
     <ClCompile Include="scripts\Projectile.cpp" />
     <ClCompile Include="scripts\RenderBatch.cpp" />
     <ClCompile Include="scripts\RenderBatchComponent.cpp" />
@@ -239,6 +239,7 @@
     <ClCompile Include="scripts\Scene.cpp" />
     <ClCompile Include="scripts\TextureManager.cpp" />
     <ClCompile Include="scripts\Transform.cpp" />
+    <ClCompile Include="scripts\UpdateComponent.cpp" />
     <ClCompile Include="scripts\Utility.cpp" />
     <ClCompile Include="scripts\WorldGenerator.cpp" />
   </ItemGroup>
@@ -251,7 +252,7 @@
     <ClInclude Include="scripts\Collider.h" />
     <ClInclude Include="scripts\ColliderComponent.h" />
     <ClInclude Include="scripts\Component.h" />
-    <ClInclude Include="scripts\Enemy.h" />
+    <ClInclude Include="scripts\EnemyComponent.h" />
     <ClInclude Include="scripts\Field.h" />
     <ClInclude Include="scripts\FieldType.h" />
     <ClInclude Include="scripts\Game.h" />
@@ -265,7 +266,7 @@
     <ClInclude Include="scripts\Modeldata.h" />
     <ClInclude Include="scripts\ModelManager.h" />
     <ClInclude Include="scripts\PhysicsEngine.h" />
-    <ClInclude Include="scripts\Player.h" />
+    <ClInclude Include="scripts\PlayerComponent.h" />
     <ClInclude Include="scripts\Projectile.h" />
     <ClInclude Include="scripts\RenderBatch.h" />
     <ClInclude Include="scripts\RenderBatchComponent.h" />
@@ -276,6 +277,7 @@
     <ClInclude Include="scripts\stdafx.h" />
     <ClInclude Include="scripts\TextureManager.h" />
     <ClInclude Include="scripts\Transform.h" />
+    <ClInclude Include="scripts\UpdateComponent.h" />
     <ClInclude Include="scripts\Utility.h" />
     <ClInclude Include="scripts\WorldGenerator.h" />
   </ItemGroup>

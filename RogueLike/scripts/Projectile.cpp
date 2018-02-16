@@ -19,12 +19,12 @@ void Projectile::update(GLFWwindow* window, const float deltaTime) {
 	}
 
 	// Collision with Enemies
-	Enemy& hit = Enemy();
+	EnemyComponent& hit = EnemyComponent();
 	if (Game::getInstance()->getCurrentScene()->collidesWithEnemies(*m_CircleCollider, hit)) {
 		std::cout << "Projectile hit enemy!" << std::endl;
 	}
 
-	// Collision with Player
+	// Collision with PlayerComponent
 	if (Game::getInstance()->getCurrentScene()->collidesWithPlayer(*m_CircleCollider)) {
 		std::cout << "Projectile hit player!" << std::endl;
 	}

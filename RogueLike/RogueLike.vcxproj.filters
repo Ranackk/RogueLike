@@ -203,17 +203,11 @@
     <ClCompile Include="scripts\Modeldata.cpp">
       <Filter>scripts\logic\datacontainers</Filter>
     </ClCompile>
-    <ClCompile Include="scripts\Player.cpp">
-      <Filter>scripts\logic</Filter>
-    </ClCompile>
     <ClCompile Include="scripts\BoxColliderComponent.cpp">
       <Filter>scripts\logic\components</Filter>
     </ClCompile>
     <ClCompile Include="scripts\CircleColliderComponent.cpp">
       <Filter>scripts\logic\components</Filter>
-    </ClCompile>
-    <ClCompile Include="scripts\Enemy.cpp">
-      <Filter>scripts\gameData</Filter>
     </ClCompile>
     <ClCompile Include="scripts\HUDRenderComponent.cpp">
       <Filter>scripts\logic\components</Filter>
@@ -225,6 +219,15 @@
       <Filter>scripts\gameData</Filter>
     </ClCompile>
     <ClCompile Include="scripts\GameObjectPool.cpp">
+      <Filter>scripts\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\EnemyComponent.cpp">
+      <Filter>scripts\gameData</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\UpdateComponent.cpp">
+      <Filter>scripts\logic\components</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\PlayerComponent.cpp">
       <Filter>scripts\logic</Filter>
     </ClCompile>
   </ItemGroup>
@@ -310,17 +313,11 @@
     <ClInclude Include="scripts\Modeldata.h">
       <Filter>scripts\logic\datacontainers</Filter>
     </ClInclude>
-    <ClInclude Include="scripts\Player.h">
-      <Filter>scripts\logic</Filter>
-    </ClInclude>
     <ClInclude Include="scripts\BoxColliderComponent.h">
       <Filter>scripts\logic\components</Filter>
     </ClInclude>
     <ClInclude Include="scripts\CircleColliderComponent.h">
       <Filter>scripts\logic\components</Filter>
-    </ClInclude>
-    <ClInclude Include="scripts\Enemy.h">
-      <Filter>scripts\gameData</Filter>
     </ClInclude>
     <ClInclude Include="scripts\HUDRenderComponent.h">
       <Filter>scripts\logic\components</Filter>
@@ -332,6 +329,15 @@
       <Filter>scripts\gameData</Filter>
     </ClInclude>
     <ClInclude Include="scripts\GameObjectPool.h">
+      <Filter>scripts\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\EnemyComponent.h">
+      <Filter>scripts\gameData</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\UpdateComponent.h">
+      <Filter>scripts\logic\components</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\PlayerComponent.h">
       <Filter>scripts\logic</Filter>
     </ClInclude>
   </ItemGroup>

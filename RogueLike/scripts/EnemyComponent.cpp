@@ -1,18 +1,18 @@
 #include "stdafx.h"
-#include "Enemy.h"
+#include "EnemyComponent.h"
 #include "Game.h"
 #include "CircleColliderComponent.h"
 #include "PhysicsEngine.h"
 
 
-Enemy::Enemy()
+EnemyComponent::EnemyComponent()
 {
 	m_CircleCollider = nullptr;
 }
 
-void Enemy::initialize(Scene* _scene, const glm::vec3 _position) {
-	m_Transform.setLocalPosition(_position);
-	m_Transform.setLocalScale(glm::vec3(0.2f));
+void EnemyComponent::initialize(Scene* _scene, const glm::vec3 _position) {
+	m_GameObject->getTransform().setLocalPosition(_position);
+	m_GameObject->getTransform().setLocalScale(glm::vec3(0.2f));
 	m_MovementSpeed = 5.0f + 1.2f;
 	m_Scene = _scene;
 
@@ -24,30 +24,30 @@ void Enemy::initialize(Scene* _scene, const glm::vec3 _position) {
 
 	const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Player");
 
-	RenderComponent* rc = addComponent<>(new RenderComponent());
+	RenderComponent* rc = m_GameObject->addComponent<>(new RenderComponent());
 	rc->initialize(modelData, material);
 
 	/* Collider */
-	CircleColliderComponent* cc = addComponent<>(new CircleColliderComponent());
+	CircleColliderComponent* cc = m_GameObject->addComponent<>(new CircleColliderComponent());
 	m_CircleCollider = new CircleCollider(0.5f, glm::vec3(0, 0, 0));
-	m_CircleCollider->initialize(std::shared_ptr<Enemy>(this));
+	m_CircleCollider->initialize(std::shared_ptr<GameObject>(m_GameObject));
 	cc->initialize(*m_CircleCollider);
 }
 
-void Enemy::update(GLFWwindow* window, const float deltaTime) {
-	m_Transform.translate(glm::vec3(0, 0, deltaTime));
-	std::cout << "Pos: " << m_Transform.getLocalPosition().z << std::endl;
+void EnemyComponent::update(GLFWwindow* window, const float deltaTime) {
+	m_GameObject->getTransform().translate(glm::vec3(0, 0, deltaTime));
+	//std::cout << "Pos: " << m_GameObject->getTransform().getLocalPosition().z << std::endl;
 }
 
-void Enemy::die() {
+void EnemyComponent::die() {
 	m_Alive = false;
-	std::cout << "Enemy dead!" << std::endl;
+	std::cout << "EnemyComponent dead!" << std::endl;
 }
 
-bool Enemy::isAlive() const {
+bool EnemyComponent::isAlive() const {
 	return m_Alive;
 }
 
-Enemy::~Enemy() {
+EnemyComponent::~EnemyComponent() {
 	delete m_CircleCollider;
 }

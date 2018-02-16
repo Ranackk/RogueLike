@@ -4,7 +4,7 @@
 #include "Material.h"
 
 
-class Player;
+class PlayerComponent;
 using namespace std;
 
 /*

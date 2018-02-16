@@ -7,7 +7,7 @@
 #include "ModelManager.h"
 #include "RenderEngine.h"
 #include "MaterialManager.h"
-#include "Player.h"
+#include "PlayerComponent.h"
 
 class Game
 {

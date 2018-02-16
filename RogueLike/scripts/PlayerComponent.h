@@ -3,10 +3,10 @@
 #include "GameObject.h"
 #include "Light.h"
 
-class Player : public GameObject
+class PlayerComponent : public UpdateComponent
 {
 public:
-	Player();
+	PlayerComponent();
 	void initialize();
 	class Light* m_Light;
 	float m_MovementSpeed;

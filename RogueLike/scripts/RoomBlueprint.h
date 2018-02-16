@@ -1,5 +1,5 @@
 #pragma once
-#include "Enemy.h"
+#include "EnemyComponent.h"
 #include "Light.h"
 class FieldType;
 

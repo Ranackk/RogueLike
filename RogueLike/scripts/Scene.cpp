@@ -21,10 +21,11 @@ Scene::Scene() {
 
 Scene::Scene(const glm::vec2 size) {
 	this->m_Lights = std::vector<Light*>();
-	this->m_Enemies = std::vector<Enemy*>();
+	this->m_Enemies = std::vector<EnemyComponent*>();
 
-	/* Setup Player */
-	this->m_Player = new Player();
+	/* Setup PlayerComponent */
+	GameObject* gO = new GameObject();
+	this->m_Player = gO->addComponent(new PlayerComponent());
 	this->m_Player->initialize();
 	this->m_Lights.push_back(m_Player->m_Light);
 
@@ -62,7 +63,7 @@ Scene::~Scene()
 }
 
 void Scene::setupSystems() {
-	// TODO: ADD VECTOR OF PHYSICS COMPONENTS -> Fields, Entities (Projectile, Enemy)
+	// TODO: ADD VECTOR OF PHYSICS COMPONENTS -> Fields, Entities (Projectile, EnemyComponent)
 
 	/* Static Rendering */
 	m_StaticRenderComponents = std::vector<RenderComponent*>();
@@ -83,11 +84,11 @@ void Scene::setupSystems() {
 	// Setup pool for all enemies (all same for now)
 	{
 		GameObjectPool enemyPool = GameObjectPool();
-		RenderComponent* rc = m_Enemies[0]->getComponent<RenderComponent>();
+		RenderComponent* rc = m_Enemies[0]->getGameObject()->getComponent<RenderComponent>();
 		enemyPool.initialize(128, rc->getModelData(), rc->getMaterial());
 		std::vector<GameObject*> enemyGOs;
 		for (int i = 0; i < m_Enemies.size(); i++) {
-			enemyGOs.push_back(m_Enemies[i]);
+			enemyGOs.push_back(m_Enemies[i]->getGameObject());
 		}
 		enemyPool.initWithGameObjectVector(enemyGOs);
 		enemyPool.updateRenderBatch();
@@ -102,7 +103,7 @@ void Scene::setupSystems() {
 	
 
 	// Rendering
-	m_DynamicRenderComponents.push_back(m_Player->getComponent<RenderComponent>());
+	m_DynamicRenderComponents.push_back(m_Player->getGameObject()->getComponent<RenderComponent>());
 
 
 	/* HUD Rendering */
@@ -121,7 +122,7 @@ void Scene::setupSystems() {
 }
 
 void Scene::update(GLFWwindow* window, const float deltaTime) {
-	m_Player->update(window, deltaTime);
+	m_Player->getGameObject()->update(window, deltaTime);
 	for (auto it = m_Lights.begin(); it < m_Lights.end(); ++it) {
 		(*it)->update(window, deltaTime);
 	}
@@ -224,7 +225,7 @@ std::vector<Light*> Scene::getLights() const {
 	return m_Lights;
 }
 
-Player* Scene::getPlayer() const {
+PlayerComponent* Scene::getPlayer() const {
 	return m_Player;
 }
 
@@ -235,10 +236,10 @@ void Scene::generateMap(const glm::vec2 mapSize) {
 	WorldGenerator::generateWorld(mapSize, *this); 
 }
 
-bool Scene::collidesWithEnemies(Collider& checkFor, Enemy& colliderHit) const {
+bool Scene::collidesWithEnemies(Collider& checkFor, EnemyComponent& colliderHit) const {
 	// Enemies
 	for (int i = 0; i < m_Enemies.size(); i++) {
-		CircleCollider enemyCollider = m_Enemies[i]->getComponent<CircleColliderComponent>()->getCollider();
+		CircleCollider enemyCollider = m_Enemies[i]->getGameObject()->getComponent<CircleColliderComponent>()->getCollider();
 		if (enemyCollider.collidesWith(checkFor)) {
 			colliderHit = (*m_Enemies[i]);
 			return true;
@@ -248,7 +249,7 @@ bool Scene::collidesWithEnemies(Collider& checkFor, Enemy& colliderHit) const {
 }
 
 bool Scene::collidesWithPlayer(Collider& checkFor) const {
-	return (m_Player->getComponent<CircleColliderComponent>()->getCollider().collidesWith(checkFor));
+	return (m_Player->getGameObject()->getComponent<CircleColliderComponent>()->getCollider().collidesWith(checkFor));
 }
 
 bool Scene::collidesWithSceneGeometry(CircleCollider& checkFor) const {

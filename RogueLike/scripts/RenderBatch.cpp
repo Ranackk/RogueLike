@@ -114,13 +114,13 @@ void RenderBatch::initialize(const std::shared_ptr<ModelData> _modelDataToUse,
 	const std::shared_ptr<Material> _materialToUse, const std::vector<GameObject> _objectsToBatch) {
 	m_RenderBatchComponent = addComponent<>(new RenderBatchComponent());
 	m_RenderBatchComponent->initialize(_modelDataToUse, _materialToUse, _objectsToBatch);
-
+	 
 	m_BatchObjects = _objectsToBatch;
 }
 
 void RenderBatch::update(GLFWwindow* window, const float deltaTime) {
 	for (int i = 0; i < m_BatchObjects.size(); i++) {
-		// CURRENT BUG: BatchObjects needs to be of Type Enemy, Projectile and so on. (Best case: template. But templat5e brings a lot of other problems)
+		// CURRENT BUG: BatchObjects needs to be of Type EnemyComponent, Projectile and so on. (Best case: template. But templat5e brings a lot of other problems)
 		m_BatchObjects[i].update(window, deltaTime);
 	}
 	m_RenderBatchComponent->updateBatch(generateObjectMatrices(), m_BatchObjects.size());

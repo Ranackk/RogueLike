@@ -3,9 +3,9 @@
 #include "Field.h"
 #include "RenderBatch.h"
 #include "Light.h"
-#include "Player.h"
+#include "PlayerComponent.h"
 #include "Collider.h"
-#include "Enemy.h"
+#include "EnemyComponent.h"
 #include "HUDRenderComponent.h"
 #include "GameObjectPool.h"
 
@@ -32,17 +32,17 @@ public:
 
 	void prepareLightsForShaderProgram(const GLuint _shaderProgramID) const;
 
-	class Player* getPlayer() const;
+	class PlayerComponent* getPlayer() const;
 
 	bool collidesWithSceneGeometry(CircleCollider &checkFor) const;
-	bool collidesWithEnemies(Collider& checkFor, Enemy& colliderHit) const;
+	bool collidesWithEnemies(Collider& checkFor, EnemyComponent& colliderHit) const;
 	bool collidesWithPlayer(Collider& checkFor) const;
 
 	glm::vec2 getRoomsPerMap() const;
 	int getLightCount() const;
 	std::vector<class Light*> getLights() const;
 
-	class Player* m_Player;
+	class PlayerComponent* m_Player;
 	Field* m_Fields;
 	std::vector<RenderBatch> m_FieldBatches;
 
@@ -53,7 +53,7 @@ public:
 	std::shared_ptr<Material> m_DepthMaterial;
 
 	std::vector<Light*> m_Lights;
-	std::vector<Enemy*> m_Enemies;		// Only used for creation, then forgotten
+	std::vector<EnemyComponent*> m_Enemies;		// Only used for creation, then forgotten
 	std::vector<GameObjectPool> m_EnemyPools;
 
 
