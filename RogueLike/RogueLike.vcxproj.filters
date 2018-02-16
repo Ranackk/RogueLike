@@ -44,6 +44,9 @@
     <Filter Include="scripts\logic\datacontainers">
       <UniqueIdentifier>{8401a332-f02b-4bf3-bf68-1ceb10b8df19}</UniqueIdentifier>
     </Filter>
+    <Filter Include="models\map">
+      <UniqueIdentifier>{646eac17-116a-4f91-8bef-583a05e04eef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\baseShader.frag">
@@ -83,6 +86,39 @@
     </Object>
     <Object Include="models\player.obj">
       <Filter>models</Filter>
+    </Object>
+    <Object Include="models\Wall_02.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\Wall_03.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\Wall_01.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\Wall_04.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\map\Wall_v02_arch_left.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_v02_arch_right.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_v02_basic.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_v02_basic_broken.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_v02_column.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_v02_column_broken.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_v02_window.obj">
+      <Filter>models\map</Filter>
     </Object>
   </ItemGroup>
   <ItemGroup>

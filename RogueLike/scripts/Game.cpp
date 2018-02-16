@@ -142,7 +142,7 @@ void Game::initializeManagers() {
 	m_ModelManager = new ModelManager();
 	// MAP
 	m_ModelManager->loadModelAs("models/baseFloor.obj", "mesh_Floor");
-	m_ModelManager->loadModelAs("models/baseWall.obj", "mesh_Wall");
+	m_ModelManager->loadModelAs("models/map/Wall_v02_basic.obj", "mesh_Wall");
 	// ENTITES
 	m_ModelManager->loadModelAs("models/player.obj", "mesh_Player");
 
