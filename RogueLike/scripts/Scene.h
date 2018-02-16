@@ -7,6 +7,7 @@
 #include "Collider.h"
 #include "Enemy.h"
 #include "HUDRenderComponent.h"
+#include "GameObjectPool.h"
 
 class CircleCollider;
 
@@ -34,6 +35,8 @@ public:
 	class Player* getPlayer() const;
 
 	bool collidesWithSceneGeometry(CircleCollider &checkFor) const;
+	bool collidesWithEnemies(Collider& checkFor, Enemy& colliderHit) const;
+	bool collidesWithPlayer(Collider& checkFor) const;
 
 	glm::vec2 getRoomsPerMap() const;
 	int getLightCount() const;
@@ -50,8 +53,8 @@ public:
 	std::shared_ptr<Material> m_DepthMaterial;
 
 	std::vector<Light*> m_Lights;
-	std::vector<Enemy*> m_Enemies;
-	std::vector<RenderBatch> m_EnemyBatches;
+	std::vector<Enemy*> m_Enemies;		// Only used for creation, then forgotten
+	std::vector<GameObjectPool> m_EnemyPools;
 
 
 	/* Systems */ // TODO: Move the static systems to arrays for cache line optimization

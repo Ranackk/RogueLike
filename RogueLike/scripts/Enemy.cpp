@@ -35,7 +35,8 @@ void Enemy::initialize(Scene* _scene, const glm::vec3 _position) {
 }
 
 void Enemy::update(GLFWwindow* window, const float deltaTime) {
-
+	m_Transform.translate(glm::vec3(0, 0, deltaTime));
+	std::cout << "Pos: " << m_Transform.getLocalPosition().z << std::endl;
 }
 
 void Enemy::die() {

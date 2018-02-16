@@ -7,6 +7,8 @@
 #include "PhysicsEngine.h"
 #include "BoxColliderComponent.h"
 #include "CircleCollider.h"
+#include "CircleColliderComponent.h"
+#include "GameObjectPool.h"
 
 // Does not create the map yet!
 Scene::Scene() {
@@ -77,14 +79,27 @@ void Scene::setupSystems() {
 	//}
 
 	// Batched
-	RenderBatch enemyBatch = RenderBatch();
-	RenderComponent* rc = m_Enemies[0]->getComponent<RenderComponent>();
-	std::vector<GameObject> enemies = std::vector<GameObject>();
-	for (unsigned int i = 0; i < m_Enemies.size(); i++) {
-		enemies.push_back(*m_Enemies[i]);
+	m_EnemyPools = std::vector<GameObjectPool>();
+	// Setup pool for all enemies (all same for now)
+	{
+		GameObjectPool enemyPool = GameObjectPool();
+		RenderComponent* rc = m_Enemies[0]->getComponent<RenderComponent>();
+		enemyPool.initialize(128, rc->getModelData(), rc->getMaterial());
+		std::vector<GameObject*> enemyGOs;
+		for (int i = 0; i < m_Enemies.size(); i++) {
+			enemyGOs.push_back(m_Enemies[i]);
+		}
+		enemyPool.initWithGameObjectVector(enemyGOs);
+		enemyPool.updateRenderBatch();
+
+		m_EnemyPools.push_back(enemyPool);
 	}
-	enemyBatch.initialize(rc->getModelData(), rc->getMaterial(), enemies);
-	m_DynamicRenderComponents.push_back(enemyBatch.getComponent<RenderComponent>());
+
+	// Add all pools to rendering
+	for (int i = 0; i < m_EnemyPools.size(); i++) {
+		m_DynamicRenderComponents.push_back(m_EnemyPools[i].getRenderBatch().getComponent<RenderComponent>());
+	}
+	
 
 	// Rendering
 	m_DynamicRenderComponents.push_back(m_Player->getComponent<RenderComponent>());
@@ -109,6 +124,10 @@ void Scene::update(GLFWwindow* window, const float deltaTime) {
 	m_Player->update(window, deltaTime);
 	for (auto it = m_Lights.begin(); it < m_Lights.end(); ++it) {
 		(*it)->update(window, deltaTime);
+	}
+
+	for (int i = 0; i < m_EnemyPools.size(); i++) {
+		m_EnemyPools[i].getRenderBatch().update(window, deltaTime);
 	}
 }
 
@@ -214,6 +233,22 @@ void Scene::generateMap(const glm::vec2 mapSize) {
 	std::cout << "... Generating Scene of size " << mapSize.x << ", " << mapSize.y << std::endl;
 
 	WorldGenerator::generateWorld(mapSize, *this); 
+}
+
+bool Scene::collidesWithEnemies(Collider& checkFor, Enemy& colliderHit) const {
+	// Enemies
+	for (int i = 0; i < m_Enemies.size(); i++) {
+		CircleCollider enemyCollider = m_Enemies[i]->getComponent<CircleColliderComponent>()->getCollider();
+		if (enemyCollider.collidesWith(checkFor)) {
+			colliderHit = (*m_Enemies[i]);
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Scene::collidesWithPlayer(Collider& checkFor) const {
+	return (m_Player->getComponent<CircleColliderComponent>()->getCollider().collidesWith(checkFor));
 }
 
 bool Scene::collidesWithSceneGeometry(CircleCollider& checkFor) const {

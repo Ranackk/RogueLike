@@ -2,6 +2,7 @@
 #include "ModelData.h"
 #include "Field.h"
 #include "RenderComponent.h"
+#include "RenderBatchComponent.h"
 
 //class RenderBatch : protected RenderGameObject
 //{
@@ -28,7 +29,6 @@
 //	void initialize(const std::shared_ptr<ModelData> _modelDataToUse, const std::shared_ptr<Material> _materialToUse,
 //		std::vector<RenderGameObject> _renderGameObjectsWithSameModelAndMaterial);
 //};
-
 class RenderBatch : public GameObject {
 public:
 	RenderBatch();
@@ -36,5 +36,13 @@ public:
 	void initialize(const std::shared_ptr<ModelData> _modelDataToUse,
 		const std::shared_ptr<Material> _materialToUse, std::vector<GameObject> _objectsToBatch);
 
-	void update(GLFWwindow* window, const float deltaTime) override {}
+	void update(GLFWwindow* window, const float deltaTime) override;
+	
+	void updateBatch(std::vector<GameObject> _ObjectsToBatch);
+
+private:
+	RenderBatchComponent* m_RenderBatchComponent;
+	std::vector<GameObject> m_BatchObjects;
+
+	glm::mat4x4* generateObjectMatrices();
 };

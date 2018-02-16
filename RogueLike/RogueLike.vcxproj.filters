@@ -155,9 +155,6 @@
     <ClCompile Include="scripts\MaterialManager.cpp">
       <Filter>scripts\engine</Filter>
     </ClCompile>
-    <ClCompile Include="scripts\RenderBatch.cpp">
-      <Filter>scripts\logic</Filter>
-    </ClCompile>
     <ClCompile Include="scripts\Utility.cpp">
       <Filter>scripts\misc</Filter>
     </ClCompile>
@@ -221,6 +218,15 @@
     <ClCompile Include="scripts\HUDRenderComponent.cpp">
       <Filter>scripts\logic\components</Filter>
     </ClCompile>
+    <ClCompile Include="scripts\Projectile.cpp">
+      <Filter>scripts\gameData</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\RenderBatch.cpp">
+      <Filter>scripts\gameData</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\GameObjectPool.cpp">
+      <Filter>scripts\logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scripts\Field.h">
@@ -255,9 +261,6 @@
     </ClInclude>
     <ClInclude Include="scripts\MaterialManager.h">
       <Filter>scripts\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="scripts\RenderBatch.h">
-      <Filter>scripts\logic</Filter>
     </ClInclude>
     <ClInclude Include="scripts\Utility.h">
       <Filter>scripts\misc</Filter>
@@ -321,6 +324,15 @@
     </ClInclude>
     <ClInclude Include="scripts\HUDRenderComponent.h">
       <Filter>scripts\logic\components</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\Projectile.h">
+      <Filter>scripts\gameData</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\RenderBatch.h">
+      <Filter>scripts\gameData</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\GameObjectPool.h">
+      <Filter>scripts\logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -219,6 +219,7 @@
     <ClCompile Include="scripts\FieldType.cpp" />
     <ClCompile Include="scripts\Game.cpp" />
     <ClCompile Include="scripts\GameObject.cpp" />
+    <ClCompile Include="scripts\GameObjectPool.cpp" />
     <ClCompile Include="scripts\HUDRenderComponent.cpp" />
     <ClCompile Include="scripts\Light.cpp" />
     <ClCompile Include="scripts\lodepng.cpp" />
@@ -229,6 +230,7 @@
     <ClCompile Include="scripts\ModelManager.cpp" />
     <ClCompile Include="scripts\PhysicsEngine.cpp" />
     <ClCompile Include="scripts\Player.cpp" />
+    <ClCompile Include="scripts\Projectile.cpp" />
     <ClCompile Include="scripts\RenderBatch.cpp" />
     <ClCompile Include="scripts\RenderBatchComponent.cpp" />
     <ClCompile Include="scripts\RenderComponent.cpp" />
@@ -254,6 +256,7 @@
     <ClInclude Include="scripts\FieldType.h" />
     <ClInclude Include="scripts\Game.h" />
     <ClInclude Include="scripts\GameObject.h" />
+    <ClInclude Include="scripts\GameObjectPool.h" />
     <ClInclude Include="scripts\HUDRenderComponent.h" />
     <ClInclude Include="scripts\Light.h" />
     <ClInclude Include="scripts\lodepng.h" />
@@ -263,6 +266,7 @@
     <ClInclude Include="scripts\ModelManager.h" />
     <ClInclude Include="scripts\PhysicsEngine.h" />
     <ClInclude Include="scripts\Player.h" />
+    <ClInclude Include="scripts\Projectile.h" />
     <ClInclude Include="scripts\RenderBatch.h" />
     <ClInclude Include="scripts\RenderBatchComponent.h" />
     <ClInclude Include="scripts\RenderComponent.h" />

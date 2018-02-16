@@ -95,10 +95,20 @@ void RenderBatchComponent::initialize(const std::shared_ptr<ModelData> _modelDat
 	glBindBuffer(GL_ARRAY_BUFFER, this->m_MatrixBufferID);
 
 	/* Buffer the matrix data */
-	glBufferData(GL_ARRAY_BUFFER, m_BatchedModels * 16 * sizeof(GLfloat), &m_MatrixBuffer[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, m_BatchedModels * 16 * sizeof(GLfloat), &m_MatrixBuffer[0], GL_DYNAMIC_DRAW);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	/* Fetch Attribute location of the modelmatrix */
 	m_MatrixAttributeID = glGetAttribLocation(m_Material.get()->getShaderProgramId(), "_InstancedModelMatrix");
+}
+
+void RenderBatchComponent::updateBatch(glm::mat4x4* _matrixBuffer, const int size) {
+	m_MatrixBuffer = _matrixBuffer;
+	m_BatchedModels = size;
+
+	/* Buffer the matrix data */
+	glBindBuffer(GL_ARRAY_BUFFER, this->m_MatrixBufferID);
+	glBufferData(GL_ARRAY_BUFFER, m_BatchedModels * 16 * sizeof(GLfloat), &m_MatrixBuffer[0], GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

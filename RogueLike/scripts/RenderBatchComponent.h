@@ -16,5 +16,6 @@ public:
 	void draw(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial) override;
 	void initialize(const std::shared_ptr<ModelData> _modelDataToUse, const std::shared_ptr<Material> _materialToUse,
 		std::vector<GameObject> _ObjectsToBatch);
+	void updateBatch(glm::mat4x4* _matrixBuffer, int size);
 };
 
