@@ -269,4 +269,5 @@ __pycache__/
 # Custom Ignores
 /RogueLike/profiling_*.csv
 /RogueLike/planing.txt
-!/RogueLike/models/*
+!/RogueLike/models/*.obj
+!/RogueLike/models/map/*.obj
