@@ -36,7 +36,7 @@ void EnemyComponent::initialize(Scene* _scene, const glm::vec3 _position) {
 
 void EnemyComponent::update(GLFWwindow* window, const float deltaTime) {
 	m_GameObject->getTransform().translate(glm::vec3(0, 0, deltaTime));
-	//std::cout << "Pos: " << m_GameObject->getTransform().getLocalPosition().z << std::endl;
+	std::cout << "Enemy: " << getGameObject()->getName().c_str() << "Pos: " << m_GameObject->getTransform().getLocalPosition().z << std::endl;
 }
 
 void EnemyComponent::die() {

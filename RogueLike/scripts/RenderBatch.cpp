@@ -124,6 +124,7 @@ void RenderBatch::update(GLFWwindow* window, const float deltaTime) {
 		m_BatchObjects[i].update(window, deltaTime);
 	}
 	m_RenderBatchComponent->updateBatch(generateObjectMatrices(), m_BatchObjects.size());
+	// CURRENT BUG: render batch doesnt update positions (baybe refs arent right)
 }
 
 void RenderBatch::updateBatch(const std::vector<GameObject> _ObjectsToBatch) {
