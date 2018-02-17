@@ -12,6 +12,11 @@ using namespace std;
  */
 
 Game* Game::m_s_Instance = nullptr;
+const float Game::m_s_cNearClip = 1.0f;
+const float Game::m_s_cFarClip = 70.0f;
+const float Game::m_s_cShadowNearClip = 0.01f;
+const float Game::m_s_cShadowFarClip = 30.0f;
+
 
 const string Game::m_s_cWindowTitle = "Ranogue!";
 
@@ -142,7 +147,7 @@ void Game::initializeManagers() {
 	m_ModelManager = new ModelManager();
 	// MAP
 	m_ModelManager->loadModelAs("models/baseFloor.obj", "mesh_Floor");
-	m_ModelManager->loadModelAs("models/map/Wall_v02_basic.obj", "mesh_Wall");
+	m_ModelManager->loadModelAs("models/map/Wall_v02_basic_x.obj", "mesh_Wall");
 	// ENTITES
 	m_ModelManager->loadModelAs("models/player.obj", "mesh_Player");
 

@@ -22,7 +22,7 @@ uniform samplerCubeArrayShadow _LightDynamicShadowMaps;
 uniform samplerCube _Skybox;
 uniform vec4 _Diffuse;
 
-uniform vec2 _ClippingPlane;
+uniform vec2 _ShadowClippingPlane;
 
 vec4 calculateLight(int lightID){
 	float lRange = _LightRanges[lightID];
@@ -37,7 +37,7 @@ vec4 calculateLight(int lightID){
 	vec4 toLightVector = -(posWorldSpace - vec4(lPosition.xyz, 1));
 	toLightVector.x *= -1;
 
-	float lightDistance01 = clamp(((length(toLightVector.xyz)) - _ClippingPlane.x) / (_ClippingPlane.y - _ClippingPlane.x), 0, 1) - 0.007; 
+	float lightDistance01 = clamp(((length(toLightVector.xyz)) - _ShadowClippingPlane.x) / (_ShadowClippingPlane.y - _ShadowClippingPlane.x), 0, 1) - 0.01; // - 0.007 
 
 	float cubeMapShadowSampleStat = texture(_LightStaticShadowMaps, vec4(toLightVector.xyz, lightID), lightDistance01);
 	float cubeMapShadowSampleDynm = texture(_LightDynamicShadowMaps, vec4(toLightVector.xyz, lightID), lightDistance01);

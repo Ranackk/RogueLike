@@ -30,7 +30,9 @@ public:
 
 	static const int m_s_cMipMapMaxLevel = 4;
 
-	static const int m_s_cShadowMapResolution = 256;
+	static const float m_s_cShadowNearClip;
+	static const float m_s_cShadowFarClip;
+	static const int m_s_cShadowMapResolution = 256 * 2;		//Performance tests (2 lights): 256 -> 5.7ms, 512 -> 6.5ms
 
 	void createStaticShadowMaps() const;
 	Game();

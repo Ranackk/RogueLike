@@ -54,6 +54,7 @@ private:
 	GLuint p_skyboxID;
 	GLuint uniformSkybox;
 	GLint uniformClippingPlane;
+	GLint uniformShadowClippingPlane;
 	GLint uniformUseInstancing;
 };
 

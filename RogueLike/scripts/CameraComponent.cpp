@@ -4,8 +4,7 @@
 #include "Transform.h"
 #include "Game.h"
 
-const float Game::m_s_cNearClip = 0.01f;
-const float Game::m_s_cFarClip = 70.0f;
+
 
 
 CameraComponent::CameraComponent()

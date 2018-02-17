@@ -118,7 +118,7 @@ void RenderEngine::copyCubeMapArray(const GLuint staticShadowMapCubeTextureDepth
                                     const GLuint dynamicShadowMapCubeTextureDepth, const int arrayLength) {
 	glCopyImageSubData(staticShadowMapCubeTextureDepth, GL_TEXTURE_CUBE_MAP_ARRAY, 0, 0, 0, 0,
 		dynamicShadowMapCubeTextureDepth, GL_TEXTURE_CUBE_MAP_ARRAY, 0, 0, 0, 0,
-		256, 256, arrayLength * 6);
+		Game::m_s_cShadowMapResolution, Game::m_s_cShadowMapResolution, arrayLength * 6);
 
 	const GLenum err = glGetError();
 	if (err != GL_NO_ERROR) {
@@ -145,7 +145,7 @@ void RenderEngine::renderSceneFromCamera(Scene* _scene, CameraComponent* _camera
 
 void RenderEngine::prerenderStaticShadowMaps(Scene* _scene, Material* _material) {
 	/* Create perspective matrix with a FOV of 90, AspectRation of 1, zNear & zFar */
-	const glm::mat4 perspectiveMatrix = glm::perspective(glm::radians(90.0f), 1.0f, Game::m_s_cNearClip, Game::m_s_cFarClip);
+	const glm::mat4 perspectiveMatrix = glm::perspective(glm::radians(90.0f), 1.0f, Game::m_s_cShadowNearClip, Game::m_s_cShadowFarClip);
 	std::vector<LightComponent*> lights = _scene->getLights();
 
 	/* Start Rendering to the FBO */
@@ -187,7 +187,7 @@ void RenderEngine::prerenderStaticShadowMaps(Scene* _scene, Material* _material)
 
 void RenderEngine::renderShadowMaps(Scene* _scene, Material* _material) {
 	/* Create perspective matrix with a FOV of 90, AspectRation of 1, zNear & zFar */
-	const glm::mat4 perspectiveMatrix = glm::perspective(glm::radians(90.0f), 1.0f, Game::m_s_cNearClip, Game::m_s_cFarClip);
+	const glm::mat4 perspectiveMatrix = glm::perspective(glm::radians(90.0f), 1.0f, Game::m_s_cShadowNearClip, Game::m_s_cShadowFarClip);
 	std::vector<LightComponent*> lights = _scene->getLights();
 
 	/* Start Rendering to the dynamic shadow map FBO */
@@ -283,7 +283,7 @@ void RenderEngine::createShadowFrameBufferObject(GLuint &fboHandle, GLuint &cube
 	glTexParameteri(GL_TEXTURE_CUBE_MAP_ARRAY, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP_ARRAY, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
 
-	glTexImage3D(GL_TEXTURE_CUBE_MAP_ARRAY, 0, GL_DEPTH_COMPONENT16, 256, 256, _lightCount * 6, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+	glTexImage3D(GL_TEXTURE_CUBE_MAP_ARRAY, 0, GL_DEPTH_COMPONENT16, Game::m_s_cShadowMapResolution, Game::m_s_cShadowMapResolution, _lightCount * 6, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 
 	//for (int faceID = 0; faceID < 6; faceID++) {
 	//	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + faceID, 0, GL_DEPTH_COMPONENT16, 256, 256, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
