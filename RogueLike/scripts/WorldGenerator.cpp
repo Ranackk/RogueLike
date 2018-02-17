@@ -62,10 +62,10 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 				mapToGenerateIn.m_Lights.push_back(l);
 			}
 			for (auto it = currentRoom.m_EnemyPositions.begin(); it != currentRoom.m_EnemyPositions.end(); ++it) {
-				if (mapToGenerateIn.m_Enemies.size() >= 1) continue;
+				//if (mapToGenerateIn.m_Enemies.size() >= 1) continue;
 				GameObject* go = new GameObject("Scene Enemy " + mapToGenerateIn.m_Enemies.size());
 				EnemyComponent* e = go->addComponent(new EnemyComponent());
-				e->initialize(&mapToGenerateIn, glm::vec3(topLeftWorldPosition.x + it->x + 0.5, 1, topLeftWorldPosition.y + it->y + 0.5));
+				e->initialize(&mapToGenerateIn, glm::vec3(topLeftWorldPosition.x + it->x + 0.5, 0.0f, topLeftWorldPosition.y + it->y + 0.5));
 				mapToGenerateIn.m_Enemies.push_back(e);
 			}
 		}

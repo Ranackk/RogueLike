@@ -26,4 +26,8 @@ private:
 	Scene* m_Scene;
 	float m_MovementSpeed;
 	CircleCollider* m_CircleCollider;
+
+	// DEMO AI (Replace Later)
+	glm::vec3 m_StartPosition;
+	float m_AliveTime;
 };

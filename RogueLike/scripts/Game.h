@@ -63,12 +63,6 @@ private:
 	CameraComponent* m_Camera;
 	Scene* m_Scene;
 
-	//GLuint m_LightShaderProgrammID;
-	//int m_LightCount;
-	//LightComponent* m_Lights;
-
-	//void initializeWindow();
-	//void createVAO();
 	void initializeManagers();
 	void initializeGameComponents();
 

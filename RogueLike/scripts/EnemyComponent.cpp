@@ -12,7 +12,7 @@ EnemyComponent::EnemyComponent()
 
 void EnemyComponent::initialize(Scene* _scene, const glm::vec3 _position) {
 	m_GameObject->getTransform().setLocalPosition(_position);
-	m_GameObject->getTransform().setLocalScale(glm::vec3(0.2f));
+	m_GameObject->getTransform().setLocalScale(glm::vec3(0.5f, 1.0f, 0.5));
 	m_MovementSpeed = 5.0f + 1.2f;
 	m_Scene = _scene;
 
@@ -32,10 +32,17 @@ void EnemyComponent::initialize(Scene* _scene, const glm::vec3 _position) {
 	m_CircleCollider = new CircleCollider(0.5f, glm::vec3(0, 0, 0));
 	m_CircleCollider->initialize(std::shared_ptr<GameObject>(m_GameObject));
 	cc->initialize(*m_CircleCollider);
+
+	/* Basic AI */
+	m_StartPosition = _position;
 }
 
 void EnemyComponent::update(GLFWwindow* window, const float deltaTime) {
-	m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() + glm::vec3(deltaTime / 2.0f, 0, 0));
+	m_AliveTime += deltaTime;
+
+	const glm::vec3 newPosition = m_StartPosition + glm::vec3(cos(m_AliveTime), 0.0f, sin(m_AliveTime));
+
+	m_GameObject->getTransform().setLocalPosition(newPosition);
 	//std::cout << "Enemy: " << getGameObject()->getName().c_str() << "Pos: " << m_GameObject->getTransform().getLocalPosition().z << std::endl;
 }
 
