@@ -74,23 +74,35 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	/* Generate batches by field type */
 
 	// Sort Fields by their type
-	std::map<FieldType, std::vector<GameObject*>> fieldsByFieldType = std::map<FieldType, std::vector <GameObject*>> ();
+	std::map<int, std::vector<GameObject*>> fieldsByFieldType = std::map<int, std::vector <GameObject*>> ();
 	for (int i = 0; i < worldFieldSize.x * worldFieldSize.y; i++) {
 		const FieldType currentFieldType = mapToGenerateIn.m_Fields[i].m_FieldType;
-		if (fieldsByFieldType.find(currentFieldType) != fieldsByFieldType.end()) {
-			fieldsByFieldType[currentFieldType].push_back(&mapToGenerateIn.m_Fields[i]);
+
+		bool found = false;
+		for (auto it = fieldsByFieldType.begin(); it != fieldsByFieldType.end(); ++it) {
+			if (it->first == currentFieldType.m_Id) {
+				fieldsByFieldType[currentFieldType.m_Id].push_back(&mapToGenerateIn.m_Fields[i]);
+				found = true;
+			}
 		}
-		else {
-			fieldsByFieldType[currentFieldType] = std::vector<GameObject*>();
-			fieldsByFieldType[currentFieldType].push_back(&mapToGenerateIn.m_Fields[i]);
+		if (!found) {
+			fieldsByFieldType[currentFieldType.m_Id] = std::vector<GameObject*>();
+			fieldsByFieldType[currentFieldType.m_Id].push_back(&mapToGenerateIn.m_Fields[i]);
 		}
+		//if (fieldsByFieldType.find(currentFieldType) != fieldsByFieldType.end()) {
+		//	fieldsByFieldType[currentFieldType].push_back(&mapToGenerateIn.m_Fields[i]);
+		//}
+		//else {
+		//	fieldsByFieldType[currentFieldType] = std::vector<GameObject*>();
+		//	fieldsByFieldType[currentFieldType].push_back(&mapToGenerateIn.m_Fields[i]);
+		//}
 	}
 	// Create a batch for each type
 	mapToGenerateIn.m_FieldBatches = std::vector<RenderBatch>();
 	int amount = 0;
 	for (auto it = fieldsByFieldType.begin(); it != fieldsByFieldType.end(); ++it)
 	{
-		FieldType currentFieldType = it->first;
+		//FieldType currentFieldType = it->first;
 		RenderComponent* currentRenderComponent = it->second[0]->getComponent<RenderComponent>();
 		RenderBatch batch = RenderBatch();
 		batch.initialize(currentRenderComponent->getModelData(), currentRenderComponent->getMaterial(), it->second);
@@ -140,7 +152,7 @@ RoomBlueprint* WorldGenerator::readRoomBlueprintsFromFile(const glm::vec2 roomFi
 					const unsigned char a = image[static_cast<unsigned int>(4 * (samplePosition.x + samplePosition.y * imgWidth) + 3)];
 
 					types[fX + fY * static_cast<int>(roomFieldSize.x)] = FieldType::byColor(r);
-				
+
 					if (g == 255) {
 						currentBlueprint.m_LightPositions.push_back(glm::vec2(fX, fY));
 					}

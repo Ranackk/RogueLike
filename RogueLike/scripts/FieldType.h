@@ -9,7 +9,19 @@ public:
 	};
 
 	static FieldType FLOOR;
-	static FieldType WALL;
+
+	static FieldType WALL_X;
+	static FieldType WALL_Z;
+
+	static FieldType WALL_ARCH_L_X;
+	static FieldType WALL_ARCH_L_Z;
+	static FieldType WALL_ARCH_R_X;
+	static FieldType WALL_ARCH_R_Z;
+
+	static FieldType WALL_CORNER_NW;
+	static FieldType WALL_CORNER_NE;
+	static FieldType WALL_CORNER_SW;
+	static FieldType WALL_CORNER_SE;
 
 	static FieldType byColor(unsigned char r);
 
@@ -28,8 +40,14 @@ public:
 	{
 		return toString() < rhs.toString();
 	}
+
+	bool operator ==(const FieldType& rhs) const {
+		return m_Id == rhs.m_Id;
+	}
+
+	int m_Id;
 private:
-	explicit FieldType(const std::string textureHandle, const std::string materialHandle, const std::string modelHandle, const Walkability walkability);
+	explicit FieldType(const int id, const std::string textureHandle, const std::string materialHandle, const std::string modelHandle, const Walkability walkability);
 
 	Walkability m_walkability;
 	std::string m_modelHandle;

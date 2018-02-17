@@ -142,7 +142,7 @@ void Scene::drawFull(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _vi
 	drawDynamicShadowCasters(_perspectiveMatrix, _viewMatrix, customMaterial);
 
 	/* Draw HUD */
-	drawHudElements(_perspectiveMatrix, _viewMatrix, customMaterial);
+	//drawHudElements(_perspectiveMatrix, _viewMatrix, customMaterial);
 
 }
 

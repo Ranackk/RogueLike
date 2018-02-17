@@ -1,7 +1,7 @@
 	
 	!!! Add "UpdateComponents" Vector to "Scene"
 	-> Move every game object child to component/update component
-	-> Make sure pooled objects can be updated (see renderbatch.cpp/update)
+	-> Check if pool:free, urepool work
 	-> Implmenet projectiles (very basic pls)
 	
 	TOP:
