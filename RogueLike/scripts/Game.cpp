@@ -160,7 +160,6 @@ void Game::initializeManagers() {
 	m_ModelManager->loadModelAs("models/map/Wall_v02_corner_right_back.obj", "mesh_Wall_corner_right_back");
 	m_ModelManager->loadModelAs("models/map/Wall_v02_corner_left_front.obj", "mesh_Wall_corner_left_front");
 	m_ModelManager->loadModelAs("models/map/Wall_v02_corner_right_front.obj", "mesh_Wall_corner_right_front");
-	
 	// ENTITES
 	m_ModelManager->loadModelAs("models/player.obj", "mesh_Player");
 
