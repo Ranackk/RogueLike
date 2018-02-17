@@ -34,15 +34,15 @@ public:
 	RenderBatch();
 
 	void initialize(const std::shared_ptr<ModelData> _modelDataToUse,
-		const std::shared_ptr<Material> _materialToUse, std::vector<GameObject> _objectsToBatch);
+		const std::shared_ptr<Material> _materialToUse, std::vector<GameObject*> _objectsToBatch);
 
 	void update(GLFWwindow* window, const float deltaTime) override;
 	
-	void updateBatch(std::vector<GameObject> _ObjectsToBatch);
+	void updateBatch(std::vector<GameObject*> _ObjectsToBatch);
 
 private:
 	RenderBatchComponent* m_RenderBatchComponent;
-	std::vector<GameObject> m_BatchObjects;
+	std::vector<GameObject*> m_BatchObjects;
 
 	glm::mat4x4* generateObjectMatrices();
 };

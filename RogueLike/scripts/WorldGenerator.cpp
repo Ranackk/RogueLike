@@ -74,15 +74,15 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	/* Generate batches by field type */
 
 	// Sort Fields by their type
-	std::map<FieldType, std::vector<GameObject>> fieldsByFieldType = std::map<FieldType, std::vector <GameObject>> ();
+	std::map<FieldType, std::vector<GameObject*>> fieldsByFieldType = std::map<FieldType, std::vector <GameObject*>> ();
 	for (int i = 0; i < worldFieldSize.x * worldFieldSize.y; i++) {
 		const FieldType currentFieldType = mapToGenerateIn.m_Fields[i].m_FieldType;
 		if (fieldsByFieldType.find(currentFieldType) != fieldsByFieldType.end()) {
-			fieldsByFieldType[currentFieldType].push_back(mapToGenerateIn.m_Fields[i]);
+			fieldsByFieldType[currentFieldType].push_back(&mapToGenerateIn.m_Fields[i]);
 		}
 		else {
-			fieldsByFieldType[currentFieldType] = std::vector<GameObject>();
-			fieldsByFieldType[currentFieldType].push_back(mapToGenerateIn.m_Fields[i]);
+			fieldsByFieldType[currentFieldType] = std::vector<GameObject*>();
+			fieldsByFieldType[currentFieldType].push_back(&mapToGenerateIn.m_Fields[i]);
 		}
 	}
 	// Create a batch for each type
@@ -91,7 +91,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	for (auto it = fieldsByFieldType.begin(); it != fieldsByFieldType.end(); ++it)
 	{
 		FieldType currentFieldType = it->first;
-		RenderComponent* currentRenderComponent = it->second[0].getComponent<RenderComponent>();
+		RenderComponent* currentRenderComponent = it->second[0]->getComponent<RenderComponent>();
 		RenderBatch batch = RenderBatch();
 		batch.initialize(currentRenderComponent->getModelData(), currentRenderComponent->getMaterial(), it->second);
 		mapToGenerateIn.m_FieldBatches.push_back(batch);

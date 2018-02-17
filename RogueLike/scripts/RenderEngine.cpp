@@ -174,7 +174,7 @@ void RenderEngine::prerenderStaticShadowMaps(Scene* _scene, Material* _material)
 				std::cout << "Error: " << err << std::endl;
 			}
 			_scene->drawStaticShadowCasters(perspectiveMatrix, viewMatrix, _material);
-			_scene->drawDynamicShadowCasters(perspectiveMatrix, viewMatrix, _material);
+			//_scene->drawDynamicShadowCasters(perspectiveMatrix, viewMatrix, _material);
 		}
 	}
 

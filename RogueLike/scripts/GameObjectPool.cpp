@@ -18,7 +18,7 @@ void GameObjectPool::initialize(const int _size, const std::shared_ptr<ModelData
 	}
 
 	m_RenderBatch = RenderBatch();
-	m_RenderBatch.initialize(_modelDataToUse, _materialToUse, std::vector<GameObject>());
+	m_RenderBatch.initialize(_modelDataToUse, _materialToUse, std::vector<GameObject*>());
 }
 
 void GameObjectPool::initWithGameObjectVector(std::vector<GameObject*> _vector) {
@@ -59,10 +59,10 @@ void GameObjectPool::freeObject(GameObject* gameObject) {
 }
 
 void GameObjectPool::updateRenderBatch() {
-	std::vector<GameObject> toBatch;
+	std::vector<GameObject*> toBatch;
 	for (int i = 0; i < m_Size; i++) {
 		if (m_InUse[i]) {
-			toBatch.push_back(*m_GameObjects[i]);
+			toBatch.push_back(m_GameObjects[i]);
 		}
 	}
 	m_RenderBatch.updateBatch(toBatch);

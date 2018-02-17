@@ -77,15 +77,15 @@ void RenderBatchComponent::draw(const glm::mat4x4 _perspectiveMatrix, const glm:
 }
 
 void RenderBatchComponent::initialize(const std::shared_ptr<ModelData> _modelDataToUse,
-	const std::shared_ptr<Material> _materialToUse, std::vector<GameObject> _objectsToBatch) {
+	const std::shared_ptr<Material> _materialToUse, std::vector<GameObject*> _objectsToBatch) {
 	/* Save Data */
 	this->m_Material = _materialToUse;
 	this->m_ModelData = _modelDataToUse;
 	this->m_MatrixBuffer = new glm::mat4[_objectsToBatch.size()];
 	for (int i = 0; i < _objectsToBatch.size(); i++) {
-		_objectsToBatch[i].getTransform().setDirty();
-		_objectsToBatch[i].getTransform().updateCurrentMatrix();
-		m_MatrixBuffer[i] = _objectsToBatch[i].getTransform().getObjectMatrix();
+		_objectsToBatch[i]->getTransform().setDirty();
+		_objectsToBatch[i]->getTransform().updateCurrentMatrix();
+		m_MatrixBuffer[i] = _objectsToBatch[i]->getTransform().getObjectMatrix();
 	}
 	m_BatchedModels = _objectsToBatch.size();
 
