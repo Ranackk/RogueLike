@@ -31,7 +31,7 @@ bool PhysicsEngine::collides(BoxCollider& c1, BoxCollider& c2) {
 	 if (!layerMaskAllowsCollision(c1, c2)) return false;
 
 	const float dist = glm::distance(c1.getTransform().getPosition(), c2.getTransform().getPosition());
-
+	//std::cout << dist << "<? " << (c1.m_Radius + c2.m_Radius) << std::endl;
 	/* Check if the distance is smaller than the combined radius of both circles */
 	return (dist <= c1.m_Radius + c2.m_Radius);
 }

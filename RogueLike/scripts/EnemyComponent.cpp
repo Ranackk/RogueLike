@@ -27,7 +27,7 @@ void EnemyComponent::initialize(Scene* _scene, const glm::vec3 _position) {
 
 	/* Collider */
 	CircleColliderComponent* cc = m_GameObject->addComponent<>(new CircleColliderComponent());
-	m_CircleCollider = new CircleCollider(0.01f, glm::vec3(0, 0, 0));
+	m_CircleCollider = new CircleCollider(0.25f, glm::vec3(0, 0, 0));
 	m_CircleCollider->initialize(std::shared_ptr<GameObject>(m_GameObject));
 	cc->initialize(*m_CircleCollider);
 
@@ -40,7 +40,7 @@ void EnemyComponent::update(GLFWwindow* window, const float deltaTime) {
 
 	const glm::vec3 newPosition = m_StartPosition + 0.5f * glm::vec3(cos(m_AliveTime), 0.0f, sin(m_AliveTime));
 
-	m_GameObject->getTransform().setLocalPosition(newPosition);
+	//m_GameObject->getTransform().setLocalPosition(newPosition);
 	//std::cout << "Enemy: " << getGameObject()->getName().c_str() << "Pos: " << m_GameObject->getTransform().getLocalPosition().z << std::endl;
 }
 

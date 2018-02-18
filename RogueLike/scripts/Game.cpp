@@ -165,7 +165,7 @@ void Game::initializeManagers() {
 	// ENTITES
 	m_ModelManager->loadModelAs("models/player.obj", "mesh_Player");
 
-	m_ModelManager->loadModelAs("models/player.obj", "mesh_Projectile");
+	m_ModelManager->loadModelAs("models/testmodel.obj", "mesh_Projectile");
 
 }
 

@@ -46,7 +46,7 @@ void Projectile::die() const {
 void Projectile::initialize(const glm::vec3 _position, const glm::vec3 _direction, const float _speed, const unsigned char _layer) {
 	m_GameObject->getTransform().setLocalPosition(_position);
 	m_GameObject->getTransform().setLocalScale(glm::vec3(0.2f));
-	m_Direction = _direction;
+	m_Direction = glm::normalize(_direction);
 	m_MovementSpeed = _speed;
 
 	/* Render Component */
@@ -61,7 +61,7 @@ void Projectile::initialize(const glm::vec3 _position, const glm::vec3 _directio
 
 	/* Collider */
 	m_CircleColliderComponent = m_GameObject->addComponent<>(new CircleColliderComponent());
-	m_CircleCollider = new CircleCollider(0.5f, glm::vec3(0, 0, 0));
+	m_CircleCollider = new CircleCollider(0.2f, glm::vec3(0, 0, 0));
 	m_CircleCollider->initialize(std::shared_ptr<GameObject>(m_GameObject));
 	m_CircleCollider->setCollisionLayer(_layer);
 	m_CircleColliderComponent->initialize(*m_CircleCollider);

@@ -48,7 +48,9 @@ GameObject* GameObjectPool::getNextFreeObject() {
 			return m_GameObjects[i];
 		}
 	}
-	return nullptr;
+
+	std::cout << "ERROR: No free object in object pool available - Using object already in use!" << std::endl;
+	return m_GameObjects[0];
 }
 
 void GameObjectPool::freeObjectIntoPool(GameObject* gameObject) {

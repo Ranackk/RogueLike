@@ -105,7 +105,7 @@ void Scene::setupSystems() {
 	m_ProjectilePool = GameObjectPool();
 	std::shared_ptr<Material> mat = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Projectile");
 	mat->setTexture(Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player"));
-	m_ProjectilePool.initialize(64, Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Projectile"), mat);
+	m_ProjectilePool.initialize(128, Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Projectile"), mat);
 	m_DynamicRenderComponents.push_back(m_ProjectilePool.getRenderBatch().getComponent<RenderComponent>());
 
 	// Rendering

@@ -18,7 +18,7 @@ void PlayerComponent::initialize() {
 	this->m_MovementSpeed = 4.0f;
 	this->m_GameObject->getTransform().setLocalPosition(glm::vec3(19.5, 0, 13.5));
 	this->m_GameObject->getTransform().setLocalScale(glm::vec3(rad * 2,1.5, rad * 2));
-
+	m_FacingDirection = glm::vec3(1, 0, 0);
 	/* Create Render Component */
 	const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player");
 	std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Player");
@@ -49,9 +49,9 @@ void PlayerComponent::initialize() {
 
 // TODO: Add scene to update method
 void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
-
 	/* Up / Down Movement */
 	glm::vec3 movementVector = glm::vec3();
+	glm::vec3 combinedVector = glm::vec3();
 	// Move forward
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
 		//m_Transform.translate(-glm::vec3(0, 0, 1) * deltaTime * m_MovementSpeed);
@@ -64,11 +64,13 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 	}
 
 	m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() + movementVector);
-	if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(m_GameObject->getComponent<CircleColliderComponent>()->getCollider())) {
+	if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(m_GameObject->getComponent<CircleColliderComponent>()->getCollider())
+		|| Game::getInstance()->getCurrentScene()->collidesWithEnemies(m_GameObject->getComponent<CircleColliderComponent>()->getCollider(), nullptr)) {
 		m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() - movementVector);
 	}
 
 	/* Left / Right Movement */
+	combinedVector += movementVector;
 	movementVector = glm::vec3();
 	// Move left
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
@@ -82,8 +84,15 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 	}
 
 	m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() + movementVector);
-	if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(m_GameObject->getComponent<CircleColliderComponent>()->getCollider())) {
+	if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(m_GameObject->getComponent<CircleColliderComponent>()->getCollider())
+		|| Game::getInstance()->getCurrentScene()->collidesWithEnemies(m_GameObject->getComponent<CircleColliderComponent>()->getCollider(), nullptr)) {
 		m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() - movementVector);
+	}
+
+
+	combinedVector += movementVector;
+	if (combinedVector != glm::vec3()) {
+		m_FacingDirection = combinedVector;
 	}
 
 	/* Shooting Stars */
@@ -93,9 +102,10 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 		if (projectileComponent == nullptr) {
 			projectileComponent = bullet->addComponent(new Projectile);
 		}
-		projectileComponent->initialize(m_GameObject->getTransform().getPosition(), glm::vec3(1, 0, 1), .1f, CollisionLayer::FRIENDLY_UNITS);
+		projectileComponent->initialize(m_GameObject->getTransform().getPosition(), m_FacingDirection, .1f, CollisionLayer::FRIENDLY_UNITS);
 		Game::getInstance()->getCurrentScene()->m_ProjectilePool.updateRenderBatch();
 	}
+
 	//std::cout << "PlayerComponent Position: " << m_Transform.getPosition().x << ", " << m_Transform.getPosition().y << ", " << m_Transform.getPosition().z <<
 		//" ||| LightComponent Pos: " << m_Light->getTransform().getPosition().x << ", " << m_Light->getTransform().getPosition().y << ", " << m_Light->getTransform().getPosition().z << std::endl;
 }

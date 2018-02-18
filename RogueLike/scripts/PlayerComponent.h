@@ -18,5 +18,7 @@ public:
 private:
 
 	glm::vec3 m_LastPosition;
+
+	glm::vec3 m_FacingDirection;
 };
 
