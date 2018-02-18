@@ -13,7 +13,7 @@ public:
 
 	static void compileShader(std::string path);
 
-	explicit Material(std::string shaderName);
+	explicit Material(std::string shaderName, const Type _type);
 
 	/* Setup for different types of materials */
 	void setupMatricesOnly();

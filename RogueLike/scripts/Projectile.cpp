@@ -11,7 +11,7 @@ Projectile::Projectile()
 }
 
 void Projectile::update(GLFWwindow* window, const float deltaTime) {
-	m_Transform.translate(m_Direction * m_MovementSpeed);
+	m_GameObject->getTransform().translate(m_Direction * m_MovementSpeed);
 
 	// Collision with Map
 	if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(*m_CircleCollider)) {
@@ -36,28 +36,26 @@ void Projectile::update(GLFWwindow* window, const float deltaTime) {
 }
 
 
-void Projectile::initialize(Scene* _scene, const glm::vec3 _position, const glm::vec3 _direction, const float _speed, const unsigned char _layer) {
-	m_Transform.setLocalPosition(_position);
-	m_Transform.setLocalScale(glm::vec3(0.2f));
+void Projectile::initialize(const glm::vec3 _position, const glm::vec3 _direction, const float _speed, const unsigned char _layer) {
+	m_GameObject->getTransform().setLocalPosition(_position);
+	m_GameObject->getTransform().setLocalScale(glm::vec3(0.2f));
 	m_Direction = _direction;
 	m_MovementSpeed = _speed;
-	m_Scene = _scene;
 
 	/* Render Component */
 	const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player");
+	std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Projectile");
+	const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Projectile");
 
-	std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Player");
-	material->setupBaseShader(glm::vec4(1, 1, 1, 1), texture, Game::getInstance()->getMaterialManager()->m_Skybox);
+	material->setTexture(texture);
 
-	const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Player");
-
-	RenderComponent* rc = addComponent<>(new RenderComponent());
+	RenderComponent* rc = m_GameObject->addComponent<>(new RenderComponent());
 	rc->initialize(modelData, material);
 
 	/* Collider */
-	m_CircleColliderComponent = addComponent<>(new CircleColliderComponent());
+	m_CircleColliderComponent = m_GameObject->addComponent<>(new CircleColliderComponent());
 	m_CircleCollider = new CircleCollider(0.5f, glm::vec3(0, 0, 0));
-	m_CircleCollider->initialize(std::shared_ptr<Projectile>(this));
+	m_CircleCollider->initialize(std::shared_ptr<GameObject>(m_GameObject));
 	m_CircleCollider->setCollisionLayer(_layer);
 	m_CircleColliderComponent->initialize(*m_CircleCollider);
 }

@@ -30,7 +30,8 @@ void GameObjectPool::initWithGameObjectVector(std::vector<GameObject*> _vector) 
 
 void GameObjectPool::update(GLFWwindow* window, const float deltaTime) {
 	for (int i = 0; i < m_Size; i++) {
-		m_GameObjects[i]->update(window, deltaTime);
+		if (m_InUse[i])
+			m_GameObjects[i]->update(window, deltaTime);
 	}
 }
 

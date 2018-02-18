@@ -139,6 +139,8 @@ void Game::initializeManagers() {
 	m_MaterialManager->createMaterialByShader("baseShader", "mat_Floor", Material::BASE_SHADER);
 	// ENTITIES
 	m_MaterialManager->createMaterialByShader("baseShader", "mat_Player", Material::BASE_SHADER);
+	m_MaterialManager->createMaterialByShader("baseShader", "mat_Enemy", Material::BASE_SHADER);
+	m_MaterialManager->createMaterialByShader("baseShader", "mat_Projectile", Material::BASE_SHADER);
 	// UI
 	m_MaterialManager->createMaterialByShader("baseUIShader", "mat_UITest", Material::UI_BASE_SHADER);
 
@@ -162,6 +164,8 @@ void Game::initializeManagers() {
 	m_ModelManager->loadModelAs("models/map/Wall_v02_corner_right_front.obj", "mesh_Wall_corner_right_front");
 	// ENTITES
 	m_ModelManager->loadModelAs("models/player.obj", "mesh_Player");
+
+	m_ModelManager->loadModelAs("models/player.obj", "mesh_Projectile");
 
 }
 

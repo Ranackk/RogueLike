@@ -36,7 +36,6 @@ Scene::Scene(const glm::vec2 size) {
 
 	/* Shadow Mapping */
 	m_DepthMaterial = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_TEC_RenderDistanceToNearestSurfaceIntoDepthBuffer");
-	m_DepthMaterial->setupMatricesOnly();
 
 	RenderEngine::createShadowFrameBufferObject(m_StaticShadowMapFBO, m_StaticShadowMapCubeTextureDepth, m_Lights.size());
 	RenderEngine::createShadowFrameBufferObject(m_DynamicShadowMapFBO, m_DynamicShadowMapCubeTextureDepth, m_Lights.size());
@@ -79,6 +78,7 @@ void Scene::setupSystems() {
 	//	m_DynamicRenderComponents.push_back(m_Enemies[i]->getComponent<RenderComponent>());
 	//}
 
+	/* Enemies */
 	// Batched
 	m_EnemyPools = std::vector<GameObjectPool>();
 	// Setup pool for all enemies (all same for now)
@@ -101,6 +101,12 @@ void Scene::setupSystems() {
 		m_DynamicRenderComponents.push_back(m_EnemyPools[i].getRenderBatch().getComponent<RenderComponent>());
 	}
 	
+	/* Projectiles */
+	m_ProjectilePool = GameObjectPool();
+	std::shared_ptr<Material> mat = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Projectile");
+	mat->setTexture(Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player"));
+	m_ProjectilePool.initialize(64, Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Projectile"), mat);
+	m_DynamicRenderComponents.push_back(m_ProjectilePool.getRenderBatch().getComponent<RenderComponent>());
 
 	// Rendering
 	m_DynamicRenderComponents.push_back(m_Player->getGameObject()->getComponent<RenderComponent>());
@@ -123,6 +129,7 @@ void Scene::setupSystems() {
 
 void Scene::update(GLFWwindow* window, const float deltaTime) {
 	m_Player->getGameObject()->update(window, deltaTime);
+
 	for (auto it = m_Lights.begin(); it < m_Lights.end(); ++it) {
 		(*it)->getGameObject()->update(window, deltaTime);
 	}
@@ -130,6 +137,8 @@ void Scene::update(GLFWwindow* window, const float deltaTime) {
 	for (int i = 0; i < m_EnemyPools.size(); i++) {
 		m_EnemyPools[i].getRenderBatch().update(window, deltaTime);
 	}
+
+	m_ProjectilePool.update(window, deltaTime);
 }
 
 /* Draws the whole scene to the screen */
@@ -142,7 +151,7 @@ void Scene::drawFull(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _vi
 	drawDynamicShadowCasters(_perspectiveMatrix, _viewMatrix, customMaterial);
 
 	/* Draw HUD */
-	//drawHudElements(_perspectiveMatrix, _viewMatrix, customMaterial);
+	drawHudElements(_perspectiveMatrix, _viewMatrix, customMaterial);
 
 }
 

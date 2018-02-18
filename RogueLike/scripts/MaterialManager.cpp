@@ -27,13 +27,7 @@ bool MaterialManager::createMaterialByShader(const std::string& filePath, const 
 
 
 	Material::compileShader(filePath);
-	Material m = Material(filePath);
-	if (materialType == Material::MATRICES_ONLY) {
-		m.setupMatricesOnly();
-	}
-	else if (materialType == Material::BASE_SHADER) {
-		m.setupBaseShader(glm::vec4(1, 1, 1, 1), -1, m_Skybox);
-	}
+	Material m = Material(filePath, materialType);
 
 	/* Put texture id into map */
 	m_s_Materials[materialName] = std::make_shared<Material>(m);

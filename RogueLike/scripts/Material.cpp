@@ -12,13 +12,22 @@
 
 std::map<std::string, GLuint> Material::compiledShaders;
 
-Material::Material(std::string shaderName) {
+Material::Material(std::string shaderName, const Type _type) {
 	if (compiledShaders.find(shaderName) != compiledShaders.end()) {
 		this->shaderProgramID = compiledShaders[shaderName];
 	}
 	else {
 		std::cout << "There is no material with identifier " << shaderName.c_str() << " - Falling back to default!" << std::endl;
 		return;
+	}
+
+	switch(_type) {
+	case BASE_SHADER:
+		setupBaseShader(glm::vec4(1, 1, 1, 1), -1, -1); break;
+	case MATRICES_ONLY:
+		setupMatricesOnly(); break;
+	case UI_BASE_SHADER:
+		setupBaseUiShader(-1); break;
 	}
 
 	std::cout << "Created new material of shader name" << shaderName.c_str() << std::endl;
@@ -124,16 +133,23 @@ void Material::bindMaterial(glm::mat4x4 _perspectiveMatrix, glm::mat4x4 _viewMat
 	case BASE_SHADER:
 		// Setup Lights
 		RenderEngine::prepareSceneLightsForShaderProgram(Game::getInstance()->getCurrentScene(), this->shaderProgramID);
+		err = glGetError();
+		if (err != GL_NO_ERROR) {
+			std::cout << "Mat End GL ERROR " << err << std::endl;
+		}
 		// Diffuse Color
 		glUniform4f(this->uniformDiffuseColor, this->p_diffuseColor.x, this->p_diffuseColor.y, this->p_diffuseColor.z, this->p_diffuseColor.w);
 		// Main Texture - Texture Unit 0
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, this->p_textureID);
 		glUniform1i(this->uniformTexture, 0);
-		// Skybox Texture - Texture Unit 1
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, this->p_skyboxID);
-		glUniform1i(this->uniformSkybox, 1);
+
+		// This was not more than a test for cube maps! Still might be usefull later on
+		//// Skybox Texture - Texture Unit 1
+		//glActiveTexture(GL_TEXTURE1);
+		//glBindTexture(GL_TEXTURE_CUBE_MAP, this->p_skyboxID);
+		//glUniform1i(this->uniformSkybox, 1);
+
 		break;
 	case UI_BASE_SHADER:
 		// Main Texture - Texture Unit 0

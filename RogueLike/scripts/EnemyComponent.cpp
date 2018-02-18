@@ -18,11 +18,9 @@ void EnemyComponent::initialize(Scene* _scene, const glm::vec3 _position) {
 
 	/* Render Component */
 	const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player");
-
 	std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Player");
-	material->setupBaseShader(glm::vec4(1, 1, 1, 1), texture, Game::getInstance()->getMaterialManager()->m_Skybox);
-
 	const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Player");
+	material->setTexture(texture);
 
 	RenderComponent* rc = m_GameObject->addComponent<>(new RenderComponent());
 	rc->initialize(modelData, material);

@@ -55,6 +55,7 @@ public:
 	std::vector<LightComponent*> m_Lights;
 	std::vector<EnemyComponent*> m_Enemies;		// Only used for creation, then forgotten
 	std::vector<GameObjectPool> m_EnemyPools;
+	GameObjectPool m_ProjectilePool;
 
 
 	/* Systems */ // TODO: Move the static systems to arrays for cache line optimization
