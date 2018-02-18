@@ -14,9 +14,9 @@ public:
 	void update(GLFWwindow* window, const float deltaTime) override;
 
 	RenderBatch& getRenderBatch();
-	GameObject* getNextFreeObject(const bool updateBatch);
+	GameObject* getNextFreeObject();
 
-	void freeObject(GameObject* gameObject);
+	void freeObjectIntoPool(GameObject* gameObject);
 	void updateRenderBatch();
 
 private:

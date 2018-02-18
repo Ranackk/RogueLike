@@ -14,6 +14,7 @@ public:
 	CircleColliderComponent* m_CircleColliderComponent;
 
 	void update(GLFWwindow* window, const float deltaTime) override;
+	void die() const;
 	void initialize(const glm::vec3 _position, const glm::vec3 _direction, const float _speed, const unsigned char _layer);
 };
 

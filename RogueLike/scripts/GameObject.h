@@ -22,6 +22,7 @@ public:
 	T* addComponent(T* component);
 	template <class T>
 	T* getComponent() const;
+	
 
 protected:
 	Transform m_Transform;

@@ -6,6 +6,7 @@
 #include "CircleCollider.h"
 #include "CircleColliderComponent.h"
 #include "PhysicsEngine.h"
+#include "Projectile.h"
 
 
 PlayerComponent::PlayerComponent()
@@ -85,7 +86,16 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 		m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() - movementVector);
 	}
 
-
+	/* Shooting Stars */
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+		GameObject* bullet = Game::getInstance()->getCurrentScene()->m_ProjectilePool.getNextFreeObject();
+		Projectile* projectileComponent = bullet->getComponent<Projectile>();
+		if (projectileComponent == nullptr) {
+			projectileComponent = bullet->addComponent(new Projectile);
+		}
+		projectileComponent->initialize(m_GameObject->getTransform().getPosition(), glm::vec3(1, 0, 1), .1f, CollisionLayer::FRIENDLY_UNITS);
+		Game::getInstance()->getCurrentScene()->m_ProjectilePool.updateRenderBatch();
+	}
 	//std::cout << "PlayerComponent Position: " << m_Transform.getPosition().x << ", " << m_Transform.getPosition().y << ", " << m_Transform.getPosition().z <<
 		//" ||| LightComponent Pos: " << m_Light->getTransform().getPosition().x << ", " << m_Light->getTransform().getPosition().y << ", " << m_Light->getTransform().getPosition().z << std::endl;
 }

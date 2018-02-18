@@ -27,7 +27,7 @@ void EnemyComponent::initialize(Scene* _scene, const glm::vec3 _position) {
 
 	/* Collider */
 	CircleColliderComponent* cc = m_GameObject->addComponent<>(new CircleColliderComponent());
-	m_CircleCollider = new CircleCollider(0.5f, glm::vec3(0, 0, 0));
+	m_CircleCollider = new CircleCollider(0.01f, glm::vec3(0, 0, 0));
 	m_CircleCollider->initialize(std::shared_ptr<GameObject>(m_GameObject));
 	cc->initialize(*m_CircleCollider);
 

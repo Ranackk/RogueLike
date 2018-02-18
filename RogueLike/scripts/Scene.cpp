@@ -135,7 +135,7 @@ void Scene::update(GLFWwindow* window, const float deltaTime) {
 	}
 
 	for (int i = 0; i < m_EnemyPools.size(); i++) {
-		m_EnemyPools[i].getRenderBatch().update(window, deltaTime);
+		m_EnemyPools[i].update(window, deltaTime);
 	}
 
 	m_ProjectilePool.update(window, deltaTime);
@@ -245,12 +245,12 @@ void Scene::generateMap(const glm::vec2 mapSize) {
 	WorldGenerator::generateWorld(mapSize, *this); 
 }
 
-bool Scene::collidesWithEnemies(Collider& checkFor, EnemyComponent& colliderHit) const {
+bool Scene::collidesWithEnemies(Collider& checkFor, EnemyComponent* colliderHit) const {
 	// Enemies
 	for (int i = 0; i < m_Enemies.size(); i++) {
 		CircleCollider enemyCollider = m_Enemies[i]->getGameObject()->getComponent<CircleColliderComponent>()->getCollider();
 		if (enemyCollider.collidesWith(checkFor)) {
-			colliderHit = (*m_Enemies[i]);
+			colliderHit = m_Enemies[i];
 			return true;
 		}
 	}
@@ -261,7 +261,7 @@ bool Scene::collidesWithPlayer(Collider& checkFor) const {
 	return (m_Player->getGameObject()->getComponent<CircleColliderComponent>()->getCollider().collidesWith(checkFor));
 }
 
-bool Scene::collidesWithSceneGeometry(CircleCollider& checkFor) const {
+bool Scene::collidesWithSceneGeometry(CircleCollider& checkFor, const bool _outOfBoundsIsCollision) const {
 	const glm::vec3 checkPos = checkFor.getTransform().getPosition();
 
 	/* check the 9 fields next to the player */
@@ -286,7 +286,8 @@ bool Scene::collidesWithSceneGeometry(CircleCollider& checkFor) const {
 				//}
 			}
 			else {
-				std::cout << "OOB" << std::endl;
+				if (_outOfBoundsIsCollision) return true;
+				//std::cout << "OOB" << std::endl;
 			}
 		}
 	}

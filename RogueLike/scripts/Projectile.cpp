@@ -14,19 +14,22 @@ void Projectile::update(GLFWwindow* window, const float deltaTime) {
 	m_GameObject->getTransform().translate(m_Direction * m_MovementSpeed);
 
 	// Collision with Map
-	if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(*m_CircleCollider)) {
-		std::cout << "Projectile hit map!" << std::endl;
+	if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(*m_CircleCollider, true)) {
+		//std::cout << "Projectile hit map!" << std::endl;
+		die();
 	}
 
 	// Collision with Enemies
-	EnemyComponent& hit = EnemyComponent();
+	EnemyComponent* hit = nullptr;
 	if (Game::getInstance()->getCurrentScene()->collidesWithEnemies(*m_CircleCollider, hit)) {
-		std::cout << "Projectile hit enemy!" << std::endl;
+		//std::cout << "Projectile hit enemy!" << std::endl;
+		die();
 	}
 
 	// Collision with PlayerComponent
 	if (Game::getInstance()->getCurrentScene()->collidesWithPlayer(*m_CircleCollider)) {
-		std::cout << "Projectile hit player!" << std::endl;
+		//std::cout << "Projectile hit player!" << std::endl;
+		die();
 	}
 
 
@@ -35,6 +38,10 @@ void Projectile::update(GLFWwindow* window, const float deltaTime) {
 	//m_CircleColliderComponent->fireCollision(*hit.getComponent<ColliderComponent>());
 }
 
+
+void Projectile::die() const {
+	Game::getInstance()->getCurrentScene()->m_ProjectilePool.freeObjectIntoPool(m_GameObject);
+}
 
 void Projectile::initialize(const glm::vec3 _position, const glm::vec3 _direction, const float _speed, const unsigned char _layer) {
 	m_GameObject->getTransform().setLocalPosition(_position);

@@ -120,11 +120,9 @@ void RenderBatch::initialize(const std::shared_ptr<ModelData> _modelDataToUse,
 
 void RenderBatch::update(GLFWwindow* window, const float deltaTime) {
 	for (int i = 0; i < m_BatchObjects.size(); i++) {
-		// CURRENT BUG: BatchObjects needs to be of Type EnemyComponent, Projectile and so on. (Best case: template. But templat5e brings a lot of other problems)
 		m_BatchObjects[i]->update(window, deltaTime);
 	}
 	m_RenderBatchComponent->updateBatch(generateObjectMatrices(), m_BatchObjects.size());
-	// CURRENT BUG: render batch doesnt update positions (baybe refs arent right)
 }
 
 void RenderBatch::updateBatch(const std::vector<GameObject*> _ObjectsToBatch) {
