@@ -51,7 +51,7 @@ void EnemyComponent::update(GLFWwindow* window, const float deltaTime) {
 
 	const glm::vec3 newPosition = m_StartPosition + 0.5f * glm::vec3(cos(m_AliveTime), 0.0f, sin(m_AliveTime));
 
-	//m_GameObject->getTransform().setLocalPosition(newPosition);
+	m_GameObject->getTransform().setLocalPosition(newPosition);
 	//std::cout << "Enemy: " << getGameObject()->getName().c_str() << "Pos: " << m_GameObject->getTransform().getLocalPosition().z << std::endl;
 }
 
