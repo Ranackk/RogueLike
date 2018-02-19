@@ -16,6 +16,7 @@ public:
 	void update(GLFWwindow* window, const float deltaTime) override;
 
 private:
+	class HealthComponent* m_HealthComponent;
 
 	glm::vec3 m_LastPosition;
 

@@ -3,17 +3,21 @@
 #include "Game.h"
 #include "CircleColliderComponent.h"
 #include "PhysicsEngine.h"
+#include "HealthComponent.h"
+#include <string>
 
 
 EnemyComponent::EnemyComponent()
 {
 	m_CircleCollider = nullptr;
+	m_Scene = nullptr;
+	m_HealthComponent = nullptr;
+	m_MovementSpeed = 5.0f + 1.2f;
 }
 
 void EnemyComponent::initialize(Scene* _scene, const glm::vec3 _position) {
 	m_GameObject->getTransform().setLocalPosition(_position);
 	m_GameObject->getTransform().setLocalScale(glm::vec3(0.5f, 1.0f, 0.5));
-	m_MovementSpeed = 5.0f + 1.2f;
 	m_Scene = _scene;
 
 	/* Render Component */
@@ -31,6 +35,10 @@ void EnemyComponent::initialize(Scene* _scene, const glm::vec3 _position) {
 	m_CircleCollider->initialize(std::shared_ptr<GameObject>(m_GameObject));
 	cc->initialize(*m_CircleCollider);
 
+	/* Add Health Component */
+	m_HealthComponent = m_GameObject->addComponent(new HealthComponent());
+	m_HealthComponent->initialize(2, 2);
+
 	/* Basic AI */
 	m_StartPosition = _position;
 }
@@ -44,15 +52,13 @@ void EnemyComponent::update(GLFWwindow* window, const float deltaTime) {
 	//std::cout << "Enemy: " << getGameObject()->getName().c_str() << "Pos: " << m_GameObject->getTransform().getLocalPosition().z << std::endl;
 }
 
+void EnemyComponent::takeDamage(const float _amount) {
+	std::cout << m_GameObject->getName().c_str() << " took " << _amount << " damage! NEW HP: " << std::to_string((*m_HealthComponent->getCurrentHealthPointer())) << std::endl;
+	if (m_HealthComponent->takeDamage(_amount)) {
+		die();
+	}
+}
+
 void EnemyComponent::die() {
-	m_Alive = false;
-	std::cout << "EnemyComponent dead!" << std::endl;
-}
-
-bool EnemyComponent::isAlive() const {
-	return m_Alive;
-}
-
-EnemyComponent::~EnemyComponent() {
-	delete m_CircleCollider;
+	std::cout << "EnemyComponent would die now!" << std::endl;
 }

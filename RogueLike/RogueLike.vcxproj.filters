@@ -47,6 +47,9 @@
     <Filter Include="models\map">
       <UniqueIdentifier>{646eac17-116a-4f91-8bef-583a05e04eef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="scripts\logic\core">
+      <UniqueIdentifier>{3cbd8948-d0ee-447e-813a-5a8d8696ec63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\baseShader.frag">
@@ -179,9 +182,6 @@
     <ClCompile Include="scripts\WorldGenerator.cpp">
       <Filter>scripts\worldgeneration</Filter>
     </ClCompile>
-    <ClCompile Include="scripts\GameObject.cpp">
-      <Filter>scripts\logic</Filter>
-    </ClCompile>
     <ClCompile Include="scripts\lodepng.cpp">
       <Filter>scripts\external</Filter>
     </ClCompile>
@@ -196,9 +196,6 @@
     </ClCompile>
     <ClCompile Include="scripts\Utility.cpp">
       <Filter>scripts\misc</Filter>
-    </ClCompile>
-    <ClCompile Include="scripts\Transform.cpp">
-      <Filter>scripts\logic</Filter>
     </ClCompile>
     <ClCompile Include="scripts\Game.cpp">
       <Filter>scripts\engine</Filter>
@@ -248,20 +245,11 @@
     <ClCompile Include="scripts\RenderBatch.cpp">
       <Filter>scripts\gameData</Filter>
     </ClCompile>
-    <ClCompile Include="scripts\GameObjectPool.cpp">
-      <Filter>scripts\logic</Filter>
-    </ClCompile>
     <ClCompile Include="scripts\EnemyComponent.cpp">
       <Filter>scripts\gameData</Filter>
     </ClCompile>
     <ClCompile Include="scripts\UpdateComponent.cpp">
       <Filter>scripts\logic\components</Filter>
-    </ClCompile>
-    <ClCompile Include="scripts\CameraComponent.cpp">
-      <Filter>scripts\logic</Filter>
-    </ClCompile>
-    <ClCompile Include="scripts\LightComponent.cpp">
-      <Filter>scripts\logic</Filter>
     </ClCompile>
     <ClCompile Include="scripts\ProjectileComponent.cpp">
       <Filter>scripts\gameData</Filter>
@@ -274,6 +262,21 @@
     </ClCompile>
     <ClCompile Include="scripts\FieldComponent.cpp">
       <Filter>scripts\gameData</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\CameraComponent.cpp">
+      <Filter>scripts\logic\components</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\LightComponent.cpp">
+      <Filter>scripts\logic\components</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\GameObject.cpp">
+      <Filter>scripts\logic\core</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\Transform.cpp">
+      <Filter>scripts\logic\core</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\GameObjectPool.cpp">
+      <Filter>scripts\logic\core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -292,9 +295,6 @@
     <ClInclude Include="scripts\stdafx.h">
       <Filter>scripts\engine</Filter>
     </ClInclude>
-    <ClInclude Include="scripts\GameObject.h">
-      <Filter>scripts\logic</Filter>
-    </ClInclude>
     <ClInclude Include="scripts\lodepng.h">
       <Filter>scripts\external</Filter>
     </ClInclude>
@@ -309,9 +309,6 @@
     </ClInclude>
     <ClInclude Include="scripts\Utility.h">
       <Filter>scripts\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="scripts\Transform.h">
-      <Filter>scripts\logic</Filter>
     </ClInclude>
     <ClInclude Include="scripts\Game.h">
       <Filter>scripts\engine</Filter>
@@ -361,20 +358,11 @@
     <ClInclude Include="scripts\RenderBatch.h">
       <Filter>scripts\gameData</Filter>
     </ClInclude>
-    <ClInclude Include="scripts\GameObjectPool.h">
-      <Filter>scripts\logic</Filter>
-    </ClInclude>
     <ClInclude Include="scripts\EnemyComponent.h">
       <Filter>scripts\gameData</Filter>
     </ClInclude>
     <ClInclude Include="scripts\UpdateComponent.h">
       <Filter>scripts\logic\components</Filter>
-    </ClInclude>
-    <ClInclude Include="scripts\CameraComponent.h">
-      <Filter>scripts\logic</Filter>
-    </ClInclude>
-    <ClInclude Include="scripts\LightComponent.h">
-      <Filter>scripts\logic</Filter>
     </ClInclude>
     <ClInclude Include="scripts\ProjectileComponent.h">
       <Filter>scripts\gameData</Filter>
@@ -387,6 +375,21 @@
     </ClInclude>
     <ClInclude Include="scripts\FieldComponent.h">
       <Filter>scripts\gameData</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\CameraComponent.h">
+      <Filter>scripts\logic\components</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\LightComponent.h">
+      <Filter>scripts\logic\components</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\GameObject.h">
+      <Filter>scripts\logic\core</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\Transform.h">
+      <Filter>scripts\logic\core</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\GameObjectPool.h">
+      <Filter>scripts\logic\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

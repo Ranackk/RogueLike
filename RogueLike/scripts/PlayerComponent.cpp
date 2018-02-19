@@ -7,6 +7,7 @@
 #include "CircleColliderComponent.h"
 #include "PhysicsEngine.h"
 #include "ProjectileComponent.h"
+#include "HealthComponent.h"
 
 
 PlayerComponent::PlayerComponent()
@@ -19,16 +20,17 @@ void PlayerComponent::initialize() {
 	this->m_GameObject->getTransform().setLocalPosition(glm::vec3(19.5, 0, 13.5));
 	this->m_GameObject->getTransform().setLocalScale(glm::vec3(rad * 2,1.5, rad * 2));
 	m_FacingDirection = glm::vec3(1, 0, 0);
-	/* Create Render Component */
+
+	/* Add Render Component */
 	const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player");
 	std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Player");
 	const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Player");
-
 	material->setTexture(texture);
 
 	RenderComponent* rc = m_GameObject->addComponent<>(new RenderComponent());
 	rc->initialize(modelData, material);
 
+	/* Add Collider Component*/
 	CircleColliderComponent* cc = m_GameObject-> addComponent<>(new CircleColliderComponent());
 	CircleCollider circC = CircleCollider(rad, glm::vec3(0, 0, 0));
 	circC.initialize(std::shared_ptr<GameObject>(m_GameObject));
@@ -37,13 +39,16 @@ void PlayerComponent::initialize() {
 
 	m_LightOffset = glm::vec3(0, 1, 0);
 
-	/* Add LightComponent */
+	/* Add child gameobject with LightComponent */
 	GameObject* gO = new GameObject("Player Light");
 	m_Light = gO->addComponent(new LightComponent());
 	m_Light->initialize(glm::vec3(), 30, glm::vec4(0.5, 0.5, 2.5, 1), LightComponent::DYNAMIC, false);
-	//m_Light.getTransform().setParent(&m_Transform);		// TODO: Implement Parenting System
 	m_GameObject->getTransform().addChildTransform(&m_Light->getGameObject()->getTransform());
 	m_Light->getGameObject()->getTransform().setLocalPosition(m_LightOffset);
+
+	/* Add Health Component */
+	m_HealthComponent = m_GameObject->addComponent(new HealthComponent());
+	m_HealthComponent->initialize(5, 5);
 
 }
 
@@ -63,9 +68,10 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 		movementVector += glm::vec3(0, 0, 1) * deltaTime * m_MovementSpeed;
 	}
 
+	EnemyComponent* enemyComponent = nullptr;
 	m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() + movementVector);
 	if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(m_GameObject->getComponent<CircleColliderComponent>()->getCollider())
-		|| Game::getInstance()->getCurrentScene()->collidesWithEnemies(m_GameObject->getComponent<CircleColliderComponent>()->getCollider(), nullptr)) {
+		|| Game::getInstance()->getCurrentScene()->collidesWithEnemies(m_GameObject->getComponent<CircleColliderComponent>()->getCollider(), enemyComponent)) {
 		m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() - movementVector);
 	}
 
@@ -85,7 +91,7 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 
 	m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() + movementVector);
 	if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(m_GameObject->getComponent<CircleColliderComponent>()->getCollider())
-		|| Game::getInstance()->getCurrentScene()->collidesWithEnemies(m_GameObject->getComponent<CircleColliderComponent>()->getCollider(), nullptr)) {
+		|| Game::getInstance()->getCurrentScene()->collidesWithEnemies(m_GameObject->getComponent<CircleColliderComponent>()->getCollider(), enemyComponent)) {
 		m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() - movementVector);
 	}
 

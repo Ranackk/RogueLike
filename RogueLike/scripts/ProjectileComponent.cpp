@@ -23,6 +23,7 @@ void ProjectileComponent::update(GLFWwindow* window, const float deltaTime) {
 	EnemyComponent* hit = nullptr;
 	if (Game::getInstance()->getCurrentScene()->collidesWithEnemies(*m_CircleCollider, hit)) {
 		//std::cout << "ProjectileComponent hit enemy!" << std::endl;
+		hit->takeDamage(0.01f);
 		die();
 	}
 

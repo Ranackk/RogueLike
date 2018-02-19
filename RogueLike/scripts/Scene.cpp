@@ -245,7 +245,7 @@ void Scene::generateMap(const glm::vec2 mapSize) {
 	WorldGenerator::generateWorld(mapSize, *this); 
 }
 
-bool Scene::collidesWithEnemies(Collider& checkFor, EnemyComponent* colliderHit) const {
+bool Scene::collidesWithEnemies(Collider& checkFor, EnemyComponent*& colliderHit) const {
 	// Enemies
 	for (int i = 0; i < m_Enemies.size(); i++) {
 		CircleCollider enemyCollider = m_Enemies[i]->getGameObject()->getComponent<CircleColliderComponent>()->getCollider();

@@ -35,7 +35,7 @@ public:
 	class PlayerComponent* getPlayer() const;
 
 	bool collidesWithSceneGeometry(CircleCollider &checkFor, bool _outOfBoundsIsCollision = false) const;
-	bool collidesWithEnemies(Collider& checkFor, EnemyComponent* colliderHit) const;
+	bool collidesWithEnemies(Collider& checkFor, EnemyComponent*& colliderHit) const;
 	bool collidesWithPlayer(Collider& checkFor) const;
 
 	glm::vec2 getRoomsPerMap() const;

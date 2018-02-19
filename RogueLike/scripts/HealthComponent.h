@@ -4,7 +4,16 @@ class HealthComponent :
 	public Component
 {
 public:
-	HealthComponent();
-	~HealthComponent();
+	void initialize(float _current = -1, float _max = -1);
+
+	/* Setters */
+	bool takeDamage(float _damage);
+
+	/* Getters */
+	const float* getCurrentHealthPointer() const { return &m_CurrentHealth; }
+	const float* getMaximumHealthPointer() const { return &m_MaximumHealth; }
+private:
+	float m_MaximumHealth = -1;
+	float m_CurrentHealth = -1;
 };
 
