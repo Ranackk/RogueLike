@@ -9,6 +9,7 @@
 #include "CircleCollider.h"
 #include "CircleColliderComponent.h"
 #include "GameObjectPool.h"
+#include "HUDPlayerHealthDisplayComponent.h"
 
 // Does not create the map yet!
 Scene::Scene() {
@@ -136,16 +137,24 @@ void Scene::setupSystems() {
 	/* HUD Rendering */
 	m_HudRenderComponents = std::vector<HUDRenderComponent*>();
 	
-	m_TestUI = new GameObject();
+	//m_HUDHealthContainer = new GameObject();
 
-	std::shared_ptr<Material> uiMat = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_UITest");
-	uiMat->setupBaseUiShader(Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player"));
+	//std::shared_ptr<Material> uiMat = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_UITest");
+	//uiMat->setupBaseUiShader(Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player"));
 
-	HUDRenderComponent* uiComp = new HUDRenderComponent();
-	m_TestUI->addComponent(uiComp);
-	uiComp->initialize(uiMat, glm::vec2(0.9f, 0.8f), glm::vec2(.1f, .2f));
+	//HUDRenderComponent* uiComp = new HUDRenderComponent();
+	//m_HUDHealthContainer->addComponent(uiComp);
+	//uiComp->initialize(uiMat, glm::vec2(0.9f, 0.8f), glm::vec2(.1f, .2f));
 
-	m_HudRenderComponents.push_back(uiComp);
+	//m_HudRenderComponents.push_back(uiComp);
+
+	m_HUDHealthContainer = new GameObject("HUD_HeartDisplay_Main");
+	HUDPlayerHealthDisplayComponent* hudphdc = m_HUDHealthContainer->addComponent(new HUDPlayerHealthDisplayComponent);
+	hudphdc->initialize(m_Player->getGameObject()->getComponent<HealthComponent>());
+	std::vector<HUDRenderComponent*> comps = hudphdc->getHUDComponents();
+	for (int i = 0; i < comps.size(); i++) {
+		m_HudRenderComponents.push_back(comps[i]);
+	}
 }
 
 void Scene::update(GLFWwindow* window, const float deltaTime) {
@@ -161,6 +170,7 @@ void Scene::update(GLFWwindow* window, const float deltaTime) {
 	//for (int i = 0; i < m_EnemyPools.size(); i++) {
 	//	m_EnemyPools[i].update(window, deltaTime);
 	//}
+	m_HUDHealthContainer->update(window, deltaTime);
 
 	m_ProjectilePool.update(window, deltaTime);
 }

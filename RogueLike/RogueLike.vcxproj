@@ -134,6 +134,8 @@
     <None Include="shaders\baseUIShader.vert" />
     <None Include="shaders\depthShader.frag" />
     <None Include="shaders\depthShader.vert" />
+    <None Include="shaders\uiHeartContainerShader.frag" />
+    <None Include="shaders\uiHeartContainerShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <Object Include="anglerfish.obj">
@@ -277,6 +279,7 @@
     <ClCompile Include="scripts\GameObject.cpp" />
     <ClCompile Include="scripts\GameObjectPool.cpp" />
     <ClCompile Include="scripts\HealthComponent.cpp" />
+    <ClCompile Include="scripts\HUDPlayerHealthDisplayComponent.cpp" />
     <ClCompile Include="scripts\HUDRenderComponent.cpp" />
     <ClCompile Include="scripts\LightComponent.cpp" />
     <ClCompile Include="scripts\lodepng.cpp" />
@@ -316,6 +319,7 @@
     <ClInclude Include="scripts\GameObject.h" />
     <ClInclude Include="scripts\GameObjectPool.h" />
     <ClInclude Include="scripts\HealthComponent.h" />
+    <ClInclude Include="scripts\HUDPlayerHealthDisplayComponent.h" />
     <ClInclude Include="scripts\HUDRenderComponent.h" />
     <ClInclude Include="scripts\LightComponent.h" />
     <ClInclude Include="scripts\lodepng.h" />

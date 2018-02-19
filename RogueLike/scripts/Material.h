@@ -8,7 +8,7 @@ class Material
 public:
 	enum Type {
 		MATRICES_ONLY, BASE_SHADER, 
-		UI_BASE_SHADER
+		UI_BASE_SHADER, UI_HEART_CONTAINER
 	};
 
 	static void compileShader(std::string path);
@@ -19,6 +19,8 @@ public:
 	void setupMatricesOnly();
 	void setupBaseShader(glm::vec4 _diffuseColor, GLuint _textureID, GLuint _skyboxID);
 	void setupBaseUiShader(GLuint _textureID);
+	void setupHealthBarShader(const GLuint _backgroundTextureID, const GLuint _fillTextureID,
+	                          const GLuint _gradientTextureID, float* _fillAmount);
 
 	void setTexture(const GLuint texture);
 	void setDiffuse(const glm::vec4 diffuse);
@@ -56,5 +58,16 @@ private:
 	GLint uniformClippingPlane;
 	GLint uniformShadowClippingPlane;
 	GLint uniformUseInstancing;
+
+	/* === Properties "HealthBar" === */
+	GLuint p_backgroundTextureID;
+	GLuint p_fillTextureID;
+	GLuint p_gradientTextureID;
+	float* p_healthbarFillAmount;
+
+	GLuint uniformBackgroundTexture;
+	GLuint uniformFillTextue;
+	GLuint uniformGradientTexture;
+	GLuint uniformHealthbarFillAmount;
 };
 

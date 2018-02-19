@@ -28,6 +28,8 @@ Material::Material(std::string shaderName, const Type _type) {
 		setupMatricesOnly(); break;
 	case UI_BASE_SHADER:
 		setupBaseUiShader(-1); break;
+	case UI_HEART_CONTAINER:
+		setupHealthBarShader(-1, -1, -1, nullptr);
 	}
 
 	std::cout << "Created new material of shader name" << shaderName.c_str() << std::endl;
@@ -68,6 +70,22 @@ void Material::setupBaseUiShader(const GLuint _textureID) {
 	m_Type = UI_BASE_SHADER;
 	this->p_textureID = _textureID;
 	this->uniformTexture = glGetUniformLocation(this->shaderProgramID, "_Texture");
+}
+void Material::setupHealthBarShader(const GLuint _backgroundTextureID, const GLuint _fillTextureID, const GLuint _gradientTextureID,
+	float* _fillAmount) {
+	setupMatricesOnly();
+
+	m_Type = UI_HEART_CONTAINER;
+
+	this->p_backgroundTextureID = _backgroundTextureID;
+	this->p_fillTextureID = _fillTextureID;
+	this->p_gradientTextureID = _gradientTextureID;
+	this->p_healthbarFillAmount = _fillAmount;
+
+	this->uniformBackgroundTexture = glGetUniformLocation(this->shaderProgramID, "_BackgroundTexture");
+	this->uniformFillTextue = glGetUniformLocation(this->shaderProgramID, "_FillTexture");
+	this->uniformGradientTexture = glGetUniformLocation(this->shaderProgramID, "_GradientTexture");
+	this->uniformHealthbarFillAmount = glGetUniformLocation(this->shaderProgramID, "_FillAmount");
 }
 
 void Material::setTexture(const GLuint texture) {
@@ -156,6 +174,34 @@ void Material::bindMaterial(glm::mat4x4 _perspectiveMatrix, glm::mat4x4 _viewMat
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, this->p_textureID);
 		glUniform1i(this->uniformTexture, 0);
+		break;
+	case UI_HEART_CONTAINER:
+		// Enable blending
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		// Background Texture - Texture Unit 0
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, this->p_backgroundTextureID);
+		glUniform1i(this->uniformBackgroundTexture, 0);
+		// Fill Texture - Texture Unit 1
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, this->p_fillTextureID);
+		glUniform1i(this->uniformFillTextue, 1);
+		// Gradient Texture - Texture Unit 2
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, this->p_gradientTextureID);
+		glUniform1i(this->uniformGradientTexture, 2);
+
+		// Fill Amount
+		glUniform1f(this->uniformHealthbarFillAmount, *p_healthbarFillAmount);
+
+		glDisable(GL_BLEND);
+
+		err = glGetError();
+		if (err != GL_NO_ERROR) {
+			std::cout << "Healthbar Mat - GL ERROR " << err << std::endl;
+		}
 		break;
 	}
 	err = glGetError();

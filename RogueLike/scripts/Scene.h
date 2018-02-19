@@ -70,6 +70,6 @@ private:
 
 	void generateMap(const glm::vec2 mapSize);
 
-	class GameObject* m_TestUI;
+	class GameObject* m_HUDHealthContainer;
 };
 

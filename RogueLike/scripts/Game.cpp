@@ -128,6 +128,10 @@ void Game::initializeManagers() {
 	m_TextureManager->loadTextureAs("graphics/demoTexture.png", FieldType::FLOOR.getTextureIdentifier());
 	// ENTITIES
 	m_TextureManager->loadTextureAs("graphics/stone.png", "tex_Player");
+	// UI
+	m_TextureManager->loadTextureAs("graphics/ui/heartcontainerBackground.png", "tex_UI_HeartContainer_BG");
+	m_TextureManager->loadTextureAs("graphics/ui/heartcontainerFill.png", "tex_UI_HeartContainer_Fill");
+	m_TextureManager->loadTextureAs("graphics/ui/heartcontainerGradient.png", "tex_UI_HeartContainer_Gradient");
 
 
 	/* Load up all needed materials */
@@ -143,6 +147,17 @@ void Game::initializeManagers() {
 	m_MaterialManager->createMaterialByShader("baseShader", "mat_Projectile", Material::BASE_SHADER);
 	// UI
 	m_MaterialManager->createMaterialByShader("baseUIShader", "mat_UITest", Material::UI_BASE_SHADER);
+
+	m_MaterialManager->createMaterialByShader("uiHeartContainerShader", "mat_UIHeartContainer0", Material::UI_HEART_CONTAINER);
+	m_MaterialManager->createMaterialByShader("uiHeartContainerShader", "mat_UIHeartContainer1", Material::UI_HEART_CONTAINER);
+	m_MaterialManager->createMaterialByShader("uiHeartContainerShader", "mat_UIHeartContainer2", Material::UI_HEART_CONTAINER);
+	m_MaterialManager->createMaterialByShader("uiHeartContainerShader", "mat_UIHeartContainer3", Material::UI_HEART_CONTAINER);
+	m_MaterialManager->createMaterialByShader("uiHeartContainerShader", "mat_UIHeartContainer4", Material::UI_HEART_CONTAINER);
+	m_MaterialManager->createMaterialByShader("uiHeartContainerShader", "mat_UIHeartContainer5", Material::UI_HEART_CONTAINER);
+	m_MaterialManager->createMaterialByShader("uiHeartContainerShader", "mat_UIHeartContainer6", Material::UI_HEART_CONTAINER);
+	m_MaterialManager->createMaterialByShader("uiHeartContainerShader", "mat_UIHeartContainer7", Material::UI_HEART_CONTAINER);
+	m_MaterialManager->createMaterialByShader("uiHeartContainerShader", "mat_UIHeartContainer8", Material::UI_HEART_CONTAINER);
+	m_MaterialManager->createMaterialByShader("uiHeartContainerShader", "mat_UIHeartContainer9", Material::UI_HEART_CONTAINER);
 
 
 	/* Load up all the models needed */

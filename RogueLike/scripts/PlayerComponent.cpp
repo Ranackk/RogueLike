@@ -23,12 +23,12 @@ void PlayerComponent::initialize() {
 
 	/* Add Render Component */
 	const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player");
-	std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Player");
+	m_Material = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Player");
 	const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Player");
-	material->setTexture(texture);
+	m_Material->setTexture(texture);
 
 	RenderComponent* rc = m_GameObject->addComponent<>(new RenderComponent());
-	rc->initialize(modelData, material);
+	rc->initialize(modelData, m_Material);
 
 	/* Add Collider Component*/
 	CircleColliderComponent* cc = m_GameObject-> addComponent<>(new CircleColliderComponent());
@@ -63,9 +63,6 @@ void PlayerComponent::takeDamage(const float _amount) {
 
 // TODO: Add scene to update method
 void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
-	/* Cooldowns */
-	m_CurrentInvincibleCooldown -= deltaTime;
-	m_CurrentFireCooldown -= deltaTime;
 
 	/* Up / Down Movement */
 	glm::vec3 movementVector = glm::vec3();
@@ -121,6 +118,7 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 	}
 
 	/* Shooting Stars */
+	m_CurrentFireCooldown -= deltaTime;
 	if (m_CurrentFireCooldown <= 0 && glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
 		GameObject* bullet = Game::getInstance()->getCurrentScene()->m_ProjectilePool.getNextFreeObject();
 		ProjectileComponent* projectileComponent = bullet->getComponent<ProjectileComponent>();
@@ -131,6 +129,19 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 		Game::getInstance()->getCurrentScene()->m_ProjectilePool.updateRenderBatch();
 
 		m_CurrentFireCooldown = m_FireCooldown;
+	}
+
+	/* === Flashing === */
+	if (m_CurrentInvincibleCooldown != 0.0f) {
+		m_CurrentInvincibleCooldown -= deltaTime;
+		static const float AMT_FLASHES = 3;
+		const float flashFactor = -glm::cos(m_CurrentInvincibleCooldown * (2 * 3.14f * AMT_FLASHES / m_InvincibleCooldown)) / 2.0f + 0.5f;
+		m_Material->setDiffuse(glm::vec4(1, flashFactor, flashFactor, 1));
+
+		if (m_CurrentInvincibleCooldown < 0.0f) {
+			m_CurrentInvincibleCooldown = 0.0f;
+			m_Material->setDiffuse(glm::vec4(1, 1, 1, 1));
+		}
 	}
 
 	//std::cout << "PlayerComponent Position: " << m_Transform.getPosition().x << ", " << m_Transform.getPosition().y << ", " << m_Transform.getPosition().z <<

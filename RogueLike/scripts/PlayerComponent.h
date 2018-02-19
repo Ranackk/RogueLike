@@ -17,6 +17,8 @@ public:
 	void update(GLFWwindow* window, const float deltaTime) override;
 
 private:
+	std::shared_ptr<Material> m_Material;
+
 	class HealthComponent* m_HealthComponent;
 
 	glm::vec3 m_LastPosition;
@@ -27,6 +29,6 @@ private:
 	float m_FireCooldown = 0.45f;
 
 	float m_CurrentInvincibleCooldown = 0;
-	float m_InvincibleCooldown = 1.0f;
+	float m_InvincibleCooldown = 2.0f;
 };
 

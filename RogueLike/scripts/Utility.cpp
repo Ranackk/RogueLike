@@ -120,10 +120,10 @@ bool Utility::getQuadPrimitiveData(std::vector<glm::vec3>& _vertexBufferData, st
 	_vertexBufferData.push_back(glm::vec3(1.0f, 1.0f, 0.0f));
 
 	_uvBufferData = std::vector<glm::vec2>();
-	_uvBufferData.push_back(glm::vec2(1.0f, 0.0f));
-	_uvBufferData.push_back(glm::vec2(0.0f, 0.0f));
-	_uvBufferData.push_back(glm::vec2(1.0f, 1.0f));
 	_uvBufferData.push_back(glm::vec2(0.0f, 1.0f));
+	_uvBufferData.push_back(glm::vec2(1.0f, 1.0f));
+	_uvBufferData.push_back(glm::vec2(0.0f, 0.0f));
+	_uvBufferData.push_back(glm::vec2(1.0f, 0.0f));
 	
 	_normalsBufferData = std::vector<glm::vec3>();
 	_normalsBufferData.push_back(glm::vec3(0.0f, 0.0f, 1.0f));

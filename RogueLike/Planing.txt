@@ -1,14 +1,9 @@
 	
-	!!! Add "UpdateComponents" Vector to "Scene"
-	-> Move every game object child to component/update component
-	-> Check if pool:free, urepool work
-	-> Implmenet projectiles (very basic pls)
 	
 	TOP:
 	> Make shadows of dynmic objects work! Somehow they dont cast shadows atm
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); in modeldata.cpp breaks the rendering of eveything else. Why?
-
+	
+	-> Player as Batch?
 	> Enemies
 
 	> Cache Line Optimization via using Systems (or at least trying for some things, maybe collision should be like it is)

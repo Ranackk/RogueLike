@@ -70,6 +70,12 @@
     <None Include="shaders\baseUIShader.vert">
       <Filter>shaders</Filter>
     </None>
+    <None Include="shaders\uiHeartContainerShader.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\uiHeartContainerShader.vert">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Object Include="models\baseFloor.obj">
@@ -278,6 +284,9 @@
     <ClCompile Include="scripts\GameObjectPool.cpp">
       <Filter>scripts\logic\core</Filter>
     </ClCompile>
+    <ClCompile Include="scripts\HUDPlayerHealthDisplayComponent.cpp">
+      <Filter>scripts\gameData</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scripts\FieldType.h">
@@ -390,6 +399,9 @@
     </ClInclude>
     <ClInclude Include="scripts\GameObjectPool.h">
       <Filter>scripts\logic\core</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\HUDPlayerHealthDisplayComponent.h">
+      <Filter>scripts\gameData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
