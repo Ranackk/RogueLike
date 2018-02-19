@@ -57,7 +57,7 @@ private:
 	* Step 2	: find out at which index "i" the flag that represents the collision of AxB is located. To do that, I use the formular below.
 	* Step 3	: create a checkFlag variable that is basically 2^i
 	* Step 4	: bitwise AND the checkFlag variable with the bitfield, e.g.:
-	*				0b 0000 0110		-> (part of the) Field
+	*				0b 0000 0110		-> (part of the) FieldComponent
 	*				0b 0000 0010	&	-> checkFlag
 	*				============
 	*				0b 0000 0010		-> result
@@ -145,7 +145,7 @@ private:
 *									  ====
 *
 *									  für A mit kleinerem Index n als B mit Index m
-*									  bei einem Flag Field der Länge l
+*									  bei einem Flag FieldComponent der Länge l
 *
 *									  gilt es folgende flag zu überprüfen:
 *

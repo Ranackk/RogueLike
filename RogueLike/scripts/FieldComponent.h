@@ -3,10 +3,10 @@
 #include "GameObject.h"
 class Scene;
 
-class Field : public GameObject
+class FieldComponent : public UpdateComponent
 {
 public:
-	Field();
+	FieldComponent();
 	void initialize(Scene *map, const glm::vec2 worldGridPosition, const FieldType fieldType);
 
 	void update(GLFWwindow* window, const float deltaTime) override {}

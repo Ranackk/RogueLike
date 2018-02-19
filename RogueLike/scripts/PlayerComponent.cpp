@@ -6,7 +6,7 @@
 #include "CircleCollider.h"
 #include "CircleColliderComponent.h"
 #include "PhysicsEngine.h"
-#include "Projectile.h"
+#include "ProjectileComponent.h"
 
 
 PlayerComponent::PlayerComponent()
@@ -98,9 +98,9 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 	/* Shooting Stars */
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
 		GameObject* bullet = Game::getInstance()->getCurrentScene()->m_ProjectilePool.getNextFreeObject();
-		Projectile* projectileComponent = bullet->getComponent<Projectile>();
+		ProjectileComponent* projectileComponent = bullet->getComponent<ProjectileComponent>();
 		if (projectileComponent == nullptr) {
-			projectileComponent = bullet->addComponent(new Projectile);
+			projectileComponent = bullet->addComponent(new ProjectileComponent);
 		}
 		projectileComponent->initialize(m_GameObject->getTransform().getPosition(), m_FacingDirection, .1f, CollisionLayer::FRIENDLY_UNITS);
 		Game::getInstance()->getCurrentScene()->m_ProjectilePool.updateRenderBatch();

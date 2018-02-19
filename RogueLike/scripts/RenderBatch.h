@@ -1,6 +1,6 @@
 #pragma once
 #include "ModelData.h"
-#include "Field.h"
+#include "FieldComponent.h"
 #include "RenderComponent.h"
 #include "RenderBatchComponent.h"
 

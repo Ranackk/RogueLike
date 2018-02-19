@@ -1,6 +1,6 @@
 #pragma once
 #include "stdafx.h"
-#include "Field.h"
+#include "FieldComponent.h"
 #include "RenderBatch.h"
 #include "LightComponent.h"
 #include "PlayerComponent.h"
@@ -43,7 +43,7 @@ public:
 	std::vector<class LightComponent*> getLights() const;
 
 	class PlayerComponent* m_Player;
-	Field* m_Fields;
+	FieldComponent* m_Fields;
 	std::vector<RenderBatch> m_FieldBatches;
 
 	GLuint m_DynamicShadowMapFBO;

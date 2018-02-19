@@ -14,7 +14,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	const glm::vec2 worldFieldSize = glm::vec2(roomGridSize.x * individualRoomSize.x,roomGridSize.y * individualRoomSize.y);
 	/* Initialize arrays */
 	RoomBlueprint* _rooms = new RoomBlueprint[static_cast<unsigned int>(roomGridSize.x * roomGridSize.y)];
-	mapToGenerateIn.m_Fields = new Field [static_cast<unsigned int>(worldFieldSize.x * worldFieldSize.y)];
+	mapToGenerateIn.m_Fields = new FieldComponent [static_cast<unsigned int>(worldFieldSize.x * worldFieldSize.y)];
 	
 	/* Read all room blueprints from files */
 	int roomCount;
@@ -46,9 +46,10 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 					/* The array spot we want to access is always current world Y * world width + current world X */
 					const glm::vec2 worldPosition = topLeftWorldPosition + glm::vec2(fX, fY);
 					/* Create the field from the field type specified in the room blueprint */
-					//Field newField =
+					//FieldComponent newField =
 					//newField.initialize(&mapToGenerateIn, worldPosition, currentRoom.getFieldTypeAt(glm::vec2(fX, fY)));
-					mapToGenerateIn.m_Fields[(int)(worldPosition.x + worldPosition.y * worldFieldSize.x)] = Field();
+					GameObject* gO = new GameObject("Field [" + std::to_string(fX) + ", " + std::to_string(fY) + "]");
+					mapToGenerateIn.m_Fields[(int)(worldPosition.x + worldPosition.y * worldFieldSize.x)] = *gO->addComponent(new FieldComponent());
 					mapToGenerateIn.m_Fields[(int)(worldPosition.x + worldPosition.y * worldFieldSize.x)].initialize(&mapToGenerateIn, worldPosition, currentRoom.getFieldTypeAt(glm::vec2(fX, fY)));
 				}
 			}
@@ -81,13 +82,13 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 		bool found = false;
 		for (auto it = fieldsByFieldType.begin(); it != fieldsByFieldType.end(); ++it) {
 			if (it->first == currentFieldType.m_Id) {
-				fieldsByFieldType[currentFieldType.m_Id].push_back(&mapToGenerateIn.m_Fields[i]);
+				fieldsByFieldType[currentFieldType.m_Id].push_back(mapToGenerateIn.m_Fields[i].getGameObject());
 				found = true;
 			}
 		}
 		if (!found) {
 			fieldsByFieldType[currentFieldType.m_Id] = std::vector<GameObject*>();
-			fieldsByFieldType[currentFieldType.m_Id].push_back(&mapToGenerateIn.m_Fields[i]);
+			fieldsByFieldType[currentFieldType.m_Id].push_back(mapToGenerateIn.m_Fields[i].getGameObject());
 		}
 		//if (fieldsByFieldType.find(currentFieldType) != fieldsByFieldType.end()) {
 		//	fieldsByFieldType[currentFieldType].push_back(&mapToGenerateIn.m_Fields[i]);

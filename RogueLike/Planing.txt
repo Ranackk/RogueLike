@@ -61,6 +61,11 @@
 
 	======
 
+	Redo for next game:
+	> World gen completely procedural?
+
+	======
+
 	Planning:
 	> Create small game rogue like game with a random world generator
 	> Add custom distance base lighting (only light directly around you)

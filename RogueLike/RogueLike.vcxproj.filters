@@ -167,9 +167,6 @@
     <ClCompile Include="scripts\main.cpp">
       <Filter>scripts\engine</Filter>
     </ClCompile>
-    <ClCompile Include="scripts\Field.cpp">
-      <Filter>scripts\gameData</Filter>
-    </ClCompile>
     <ClCompile Include="scripts\FieldType.cpp">
       <Filter>scripts\gameData</Filter>
     </ClCompile>
@@ -248,9 +245,6 @@
     <ClCompile Include="scripts\HUDRenderComponent.cpp">
       <Filter>scripts\logic\components</Filter>
     </ClCompile>
-    <ClCompile Include="scripts\Projectile.cpp">
-      <Filter>scripts\gameData</Filter>
-    </ClCompile>
     <ClCompile Include="scripts\RenderBatch.cpp">
       <Filter>scripts\gameData</Filter>
     </ClCompile>
@@ -263,20 +257,26 @@
     <ClCompile Include="scripts\UpdateComponent.cpp">
       <Filter>scripts\logic\components</Filter>
     </ClCompile>
-    <ClCompile Include="scripts\PlayerComponent.cpp">
-      <Filter>scripts\logic</Filter>
-    </ClCompile>
     <ClCompile Include="scripts\CameraComponent.cpp">
       <Filter>scripts\logic</Filter>
     </ClCompile>
     <ClCompile Include="scripts\LightComponent.cpp">
       <Filter>scripts\logic</Filter>
     </ClCompile>
+    <ClCompile Include="scripts\ProjectileComponent.cpp">
+      <Filter>scripts\gameData</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\HealthComponent.cpp">
+      <Filter>scripts\gameData</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\PlayerComponent.cpp">
+      <Filter>scripts\gameData</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\FieldComponent.cpp">
+      <Filter>scripts\gameData</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="scripts\Field.h">
-      <Filter>scripts\gameData</Filter>
-    </ClInclude>
     <ClInclude Include="scripts\FieldType.h">
       <Filter>scripts\gameData</Filter>
     </ClInclude>
@@ -358,9 +358,6 @@
     <ClInclude Include="scripts\HUDRenderComponent.h">
       <Filter>scripts\logic\components</Filter>
     </ClInclude>
-    <ClInclude Include="scripts\Projectile.h">
-      <Filter>scripts\gameData</Filter>
-    </ClInclude>
     <ClInclude Include="scripts\RenderBatch.h">
       <Filter>scripts\gameData</Filter>
     </ClInclude>
@@ -373,14 +370,23 @@
     <ClInclude Include="scripts\UpdateComponent.h">
       <Filter>scripts\logic\components</Filter>
     </ClInclude>
-    <ClInclude Include="scripts\PlayerComponent.h">
-      <Filter>scripts\logic</Filter>
-    </ClInclude>
     <ClInclude Include="scripts\CameraComponent.h">
       <Filter>scripts\logic</Filter>
     </ClInclude>
     <ClInclude Include="scripts\LightComponent.h">
       <Filter>scripts\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\ProjectileComponent.h">
+      <Filter>scripts\gameData</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\HealthComponent.h">
+      <Filter>scripts\gameData</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\PlayerComponent.h">
+      <Filter>scripts\gameData</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\FieldComponent.h">
+      <Filter>scripts\gameData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

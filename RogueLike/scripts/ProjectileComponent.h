@@ -3,10 +3,10 @@
 #include "EnemyComponent.h"
 #include "CircleColliderComponent.h"
 
-class Projectile : public UpdateComponent
+class ProjectileComponent : public UpdateComponent
 {
 public:
-	Projectile();
+	ProjectileComponent();
 
 	float m_MovementSpeed;
 	glm::vec3 m_Direction;

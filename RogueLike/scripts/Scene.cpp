@@ -62,7 +62,7 @@ Scene::~Scene()
 }
 
 void Scene::setupSystems() {
-	// TODO: ADD VECTOR OF PHYSICS COMPONENTS -> Fields, Entities (Projectile, EnemyComponent)
+	// TODO: ADD VECTOR OF PHYSICS COMPONENTS -> Fields, Entities (ProjectileComponent, EnemyComponent)
 
 	/* Static Rendering */
 	m_StaticRenderComponents = std::vector<RenderComponent*>();
@@ -270,13 +270,13 @@ bool Scene::collidesWithSceneGeometry(CircleCollider& checkFor, const bool _outO
 
 	for (int iX = fieldX - 1; iX < fieldX + 1; iX++) {
 		for (int iY = fieldY - 1; iY < fieldY + 1; iY++) {
-			//std::cout << "Field at " << iX << ", " << iY << std::endl;
+			//std::cout << "FieldComponent at " << iX << ", " << iY << std::endl;
 			if (iX >= 0 && iY >= 0 && iX < m_FieldSize.x && iY < m_FieldSize.y) {
-				Field& fieldToCheck = m_Fields[iX + iY * static_cast<int>(m_FieldSize.x)];
-				BoxColliderComponent* bcc = fieldToCheck.getComponent<BoxColliderComponent>();
+				FieldComponent& fieldToCheck = m_Fields[iX + iY * static_cast<int>(m_FieldSize.x)];
+				BoxColliderComponent* bcc = fieldToCheck.getGameObject()->getComponent<BoxColliderComponent>();
 				if (bcc == nullptr) continue;
 
-				//std::cout << "Blocked Field at " << iX << ", " << iY << ", of type " << fieldToCheck.m_FieldType.toString().c_str() << std::endl;
+				//std::cout << "Blocked FieldComponent at " << iX << ", " << iY << ", of type " << fieldToCheck.m_FieldType.toString().c_str() << std::endl;
 				BoxCollider bc = bcc->getCollider();
 
 				if (bc.collidesWith(checkFor))

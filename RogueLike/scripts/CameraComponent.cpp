@@ -94,7 +94,7 @@ void CameraComponent::update(GLFWwindow* window ,const float ellapesd)
 	}
 	m_GameObject->getTransform().setLocalPosition(_transform.getLocalPosition());
 
-	// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
+	// Projection matrix : 45° FieldComponent of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
 	m_ProjectionMatrix = glm::perspective(glm::radians(45.0f), (float)Game::m_s_cWindowWidth / Game::m_s_cWindowHeight, Game::m_s_cNearClip, Game::m_s_cFarClip);
 	// CameraComponent matrix
 	m_ViewMatrix = glm::lookAt(
