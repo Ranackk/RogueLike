@@ -41,6 +41,7 @@ void ProjectileComponent::update(GLFWwindow* window, const float deltaTime) {
 
 
 void ProjectileComponent::die() const {
+	m_GameObject->setActive(false);
 	Game::getInstance()->getCurrentScene()->m_ProjectilePool.freeObjectIntoPool(m_GameObject);
 }
 
@@ -51,9 +52,17 @@ void ProjectileComponent::initialize(const glm::vec3 _position, const glm::vec3 
 	m_MovementSpeed = _speed;
 
 	/* Auto-Add Collider */
-	m_CircleColliderComponent = m_GameObject->addComponent<>(new CircleColliderComponent());
-	m_CircleCollider = new CircleCollider(0.2f, glm::vec3(0, 0, 0));
-	m_CircleCollider->initialize(std::shared_ptr<GameObject>(m_GameObject));
-	m_CircleCollider->setCollisionLayer(_layer);
-	m_CircleColliderComponent->initialize(*m_CircleCollider);
+	m_CircleColliderComponent = m_GameObject->getComponent<CircleColliderComponent>();
+	if (m_CircleColliderComponent == nullptr) {
+		m_CircleColliderComponent = m_GameObject->addComponent<>(new CircleColliderComponent());
+		m_CircleCollider = new CircleCollider(0.2f, glm::vec3(0, 0, 0));
+		m_CircleCollider->initialize(std::shared_ptr<GameObject>(m_GameObject));
+		m_CircleCollider->setCollisionLayer(_layer);
+		m_CircleColliderComponent->initialize(*m_CircleCollider);
+	}
+	else {
+		m_CircleCollider = &m_CircleColliderComponent->getCollider();
+		m_CircleCollider->setCollisionLayer(_layer);
+	}
+	m_GameObject->setActive(true);
 }

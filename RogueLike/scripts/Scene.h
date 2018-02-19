@@ -54,7 +54,7 @@ public:
 
 	std::vector<LightComponent*> m_Lights;
 	std::vector<EnemyComponent*> m_Enemies;		// Only used for creation, then forgotten
-	std::vector<GameObjectPool> m_EnemyPools;
+	std::map<EnemyComponent::EnemyType, GameObjectPool> m_EnemyPools;
 	GameObjectPool m_ProjectilePool;
 
 

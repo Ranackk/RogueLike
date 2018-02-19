@@ -3,10 +3,12 @@
 
 GameObject::GameObject() {
 	m_Transform = Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
+	m_Active = true;
 }
 
 GameObject::GameObject(const std::string _name) {
 	m_Transform = Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
+	m_Active = true;
 	m_Name = _name;
 }
 
@@ -15,3 +17,4 @@ void GameObject::update(GLFWwindow* window, const float deltaTime) {
 		(*i)->update(window, deltaTime);
 	}
 }
+

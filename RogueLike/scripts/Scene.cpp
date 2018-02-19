@@ -79,27 +79,48 @@ void Scene::setupSystems() {
 	//}
 
 	/* Enemies */
-	// Batched
-	m_EnemyPools = std::vector<GameObjectPool>();
-	// Setup pool for all enemies (all same for now)
-	{
-		GameObjectPool enemyPool = GameObjectPool();
-		RenderComponent* rc = m_Enemies[0]->getGameObject()->getComponent<RenderComponent>();
-		enemyPool.initialize(128, rc->getModelData(), rc->getMaterial());
-		std::vector<GameObject*> enemyGOs;
-		for (int i = 0; i < m_Enemies.size(); i++) {
-			enemyGOs.push_back(m_Enemies[i]->getGameObject());
+	// Sort Enemies by type
+	std::map<EnemyComponent::EnemyType, std::vector<GameObject*>> enemiesByType = std::map<EnemyComponent::EnemyType, std::vector<GameObject*>>();
+	for (int i = 0; i < m_Enemies.size(); i++) {
+		EnemyComponent::EnemyType type = m_Enemies[i]->getType();
+		const auto res = m_EnemyPools.find(type);
+		if (res != m_EnemyPools.end()) {
+			enemiesByType[type].push_back(m_Enemies[i]->getGameObject());
+			enemiesByType[type] = std::vector<GameObject*>();
 		}
-		enemyPool.initWithGameObjectVector(enemyGOs);
-		enemyPool.updateRenderBatch();
-
-		m_EnemyPools.push_back(enemyPool);
+		else enemiesByType[type].push_back(m_Enemies[i]->getGameObject());
 	}
+	// Create the pools out of the lists
+	m_EnemyPools = std::map<EnemyComponent::EnemyType, GameObjectPool>();
+	for (auto it = enemiesByType.begin(); it != enemiesByType.end(); ++it) {
+		GameObjectPool enemyPool = GameObjectPool();
+		RenderComponent* rc = it->second[0]->getComponent<RenderComponent>();
+		enemyPool.initialize(64, rc->getModelData(), rc->getMaterial());
+		enemyPool.initWithGameObjectVector(it->second);
+		enemyPool.updateRenderBatch();
+		m_EnemyPools[it->first] = enemyPool;
+		m_DynamicRenderComponents.push_back(m_EnemyPools[it->first].getRenderBatch().getComponent<RenderComponent>());
+	}
+
+	//{
+	//	GameObjectPool enemyPool = GameObjectPool();
+	//	RenderComponent* rc = m_Enemies[0]->getGameObject()->getComponent<RenderComponent>();
+	//	enemyPool.initialize(128, rc->getModelData(), rc->getMaterial());
+	//	std::vector<GameObject*> enemyGOs;
+	//	for (int i = 0; i < m_Enemies.size(); i++) {
+	//		enemyGOs.push_back(m_Enemies[i]->getGameObject());
+	//	}
+	//	enemyPool.initWithGameObjectVector(enemyGOs);
+	//	enemyPool.updateRenderBatch();
+
+	//	m_EnemyPools.push_back(enemyPool);
+	//}
 
 	// Add all pools to rendering
-	for (int i = 0; i < m_EnemyPools.size(); i++) {
-		m_DynamicRenderComponents.push_back(m_EnemyPools[i].getRenderBatch().getComponent<RenderComponent>());
-	}
+
+	//for (int i = 0; i < m_EnemyPools.size(); i++) {
+	//	m_DynamicRenderComponents.push_back(m_EnemyPools[i].getRenderBatch().getComponent<RenderComponent>());
+	//}
 	
 	/* Projectiles */
 	m_ProjectilePool = GameObjectPool();
@@ -134,9 +155,12 @@ void Scene::update(GLFWwindow* window, const float deltaTime) {
 		(*it)->getGameObject()->update(window, deltaTime);
 	}
 
-	for (int i = 0; i < m_EnemyPools.size(); i++) {
-		m_EnemyPools[i].update(window, deltaTime);
+	for (auto it = m_EnemyPools.begin(); it != m_EnemyPools.end(); ++it) {
+		it->second.update(window, deltaTime);
 	}
+	//for (int i = 0; i < m_EnemyPools.size(); i++) {
+	//	m_EnemyPools[i].update(window, deltaTime);
+	//}
 
 	m_ProjectilePool.update(window, deltaTime);
 }

@@ -37,6 +37,10 @@ bool PhysicsEngine::collides(BoxCollider& c1, BoxCollider& c2) {
 }
 
 bool PhysicsEngine::layerMaskAllowsCollision(Collider& c1, Collider& c2) {
+	/* Check if both gameobjects are active */
+	if (c1.getGameObjectActive() != c2.getGameObjectActive()) 
+  		return false;
+
 	/* Use the collision layer of both colliders to find at which index in the collision layer flag field the flag is 
 	 * located that tells about whether those 2 layers do collide		
 	 */

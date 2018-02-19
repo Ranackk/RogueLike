@@ -15,10 +15,12 @@ EnemyComponent::EnemyComponent()
 	m_MovementSpeed = 5.0f + 1.2f;
 }
 
-void EnemyComponent::initialize(Scene* _scene, const glm::vec3 _position) {
+void EnemyComponent::initialize(Scene* _scene, const EnemyType _type, const glm::vec3 _position) {
 	m_GameObject->getTransform().setLocalPosition(_position);
 	m_GameObject->getTransform().setLocalScale(glm::vec3(0.5f, 1.0f, 0.5));
 	m_Scene = _scene;
+	m_Type = _type;
+	m_GameObject->setActive(true);
 
 	/* Render Component */
 	const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player");
@@ -39,6 +41,7 @@ void EnemyComponent::initialize(Scene* _scene, const glm::vec3 _position) {
 	m_HealthComponent = m_GameObject->addComponent(new HealthComponent());
 	m_HealthComponent->initialize(2, 2);
 
+	// TODO: Replace -> according to the type given, add an AI component to the enemy, make enemy component not an update component
 	/* Basic AI */
 	m_StartPosition = _position;
 }
@@ -60,5 +63,7 @@ void EnemyComponent::takeDamage(const float _amount) {
 }
 
 void EnemyComponent::die() {
-	std::cout << "EnemyComponent would die now!" << std::endl;
+	std::cout << "EnemyComponent died!" << std::endl;
+	m_GameObject->setActive(false);
+	m_Scene->m_EnemyPools[m_Type].freeObjectIntoPool(m_GameObject);
 }

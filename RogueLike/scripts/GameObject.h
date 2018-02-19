@@ -18,15 +18,19 @@ public:
 	Transform& getTransform() { return m_Transform; }
 	std::string getName() const { return m_Name; }
 
+	void setActive(const bool _active) { m_Active = _active; }
+	bool isActive() const { return m_Active; }
+
 	template <class T>
 	T* addComponent(T* component);
 	template <class T>
 	T* getComponent() const;
-	
+
 
 protected:
 	Transform m_Transform;
 	std::string m_Name;
+	bool m_Active = true;
 
 	std::vector<class Component*> m_Components;
 

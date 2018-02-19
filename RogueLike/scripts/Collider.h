@@ -11,6 +11,7 @@ public:
 	virtual void initialize(std::shared_ptr<GameObject> _gameObject);
 
 	Transform getTransform() const { return m_GameObject->getTransform(); }
+	bool getGameObjectActive() const { return m_GameObject->isActive(); }
 
 	virtual bool collidesWith(Collider& other) = 0;
 	virtual bool colldesWithCircle(CircleCollider& circleCollider) = 0;

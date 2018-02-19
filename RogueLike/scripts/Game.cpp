@@ -12,7 +12,7 @@ using namespace std;
  */
 
 Game* Game::m_s_Instance = nullptr;
-const float Game::m_s_cNearClip = 1.0f;
+const float Game::m_s_cNearClip = 0.1f;
 const float Game::m_s_cFarClip = 70.0f;
 const float Game::m_s_cShadowNearClip = 0.01f;
 const float Game::m_s_cShadowFarClip = 30.0f;
