@@ -51,6 +51,7 @@ public:
 	ModelManager* getModelManager() const;
 	MaterialManager* getMaterialManager() const;
 	Scene* getCurrentScene() const;
+	float getGameTime() const;
 
 private:
 	static Game* m_s_Instance;
@@ -64,6 +65,8 @@ private:
 
 	CameraComponent* m_Camera;
 	Scene* m_Scene;
+
+	float m_GameTime;
 
 	void initializeManagers();
 	void initializeGameComponents();

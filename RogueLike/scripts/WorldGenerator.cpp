@@ -56,7 +56,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 
 			/* Create Lights & Enemies*/
 			for (auto it = currentRoom.m_LightPositions.begin(); it != currentRoom.m_LightPositions.end(); ++it) {
-				if (mapToGenerateIn.m_Lights.size() >= 2* 2) continue;
+				//if (mapToGenerateIn.m_Lights.size() >= 2* 2) continue;
 				GameObject* go = new GameObject("Scene Light " + mapToGenerateIn.m_Lights.size());
 				LightComponent* l = go->addComponent(new LightComponent());
 				l->initialize(glm::vec3(topLeftWorldPosition.x + it->x + 0.5, 1, topLeftWorldPosition.y + it->y + 0.5), 30.0f, glm::vec4(0.8, 0.8, 1.3, 1.0), LightComponent::STATIC, true);

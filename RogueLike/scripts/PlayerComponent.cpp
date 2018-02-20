@@ -42,7 +42,7 @@ void PlayerComponent::initialize() {
 	/* Add child gameobject with LightComponent */
 	GameObject* gO = new GameObject("Player Light");
 	m_Light = gO->addComponent(new LightComponent());
-	m_Light->initialize(glm::vec3(), 30, glm::vec4(0.5, 0.5, 2.5, 1), LightComponent::DYNAMIC, false);
+	m_Light->initialize(glm::vec3(), 30, glm::vec4(0.5, 0.5, 1, 1), LightComponent::DYNAMIC, false);
 	m_GameObject->getTransform().addChildTransform(&m_Light->getGameObject()->getTransform());
 	m_Light->getGameObject()->getTransform().setLocalPosition(m_LightOffset);
 

@@ -45,6 +45,8 @@ void Material::setupMatricesOnly() {
 
 	this->uniformClippingPlane = glGetUniformLocation(this->shaderProgramID, "_ClippingPlane");
 	this->uniformShadowClippingPlane = glGetUniformLocation(this->shaderProgramID, "_ShadowClippingPlane");
+	this->uniformCosGameTime = glGetUniformLocation(this->shaderProgramID, "_CosGameTime");
+	this->uniformGameTime = glGetUniformLocation(this->shaderProgramID, "_GameTime");
 
 	this->uniformUseInstancing = glGetUniformLocation(this->shaderProgramID, "_UseInstancing");
 }
@@ -225,6 +227,9 @@ void Material::bindMaterial(glm::mat4x4 _perspectiveMatrix, glm::mat4x4 _viewMat
 	glUniform2f(this->uniformClippingPlane, Game::m_s_cNearClip, Game::m_s_cFarClip);
 	/* Clipping Plane */
 	glUniform2f(this->uniformShadowClippingPlane, Game::m_s_cShadowNearClip, Game::m_s_cShadowFarClip);
+	/* Game Time */
+	glUniform1f(this->uniformGameTime, Game::getInstance()->getGameTime());
+	glUniform1f(this->uniformCosGameTime, cos(Game::getInstance()->getGameTime()));
 
 	/* Instancing */
 	glUniform1i(this->uniformUseInstancing, _instanced);

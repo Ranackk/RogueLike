@@ -124,8 +124,8 @@ void Game::initializeManagers() {
 	/* Load up all needed textures */
 	m_TextureManager = new TextureManager();
 	// MAP
-	m_TextureManager->loadTextureAs("graphics/stone.png", FieldType::WALL_X.getTextureIdentifier());
-	m_TextureManager->loadTextureAs("graphics/demoTexture.png", FieldType::FLOOR.getTextureIdentifier());
+	m_TextureManager->loadTextureAs("graphics/map/stone_02.png", FieldType::WALL_X.getTextureIdentifier());
+	m_TextureManager->loadTextureAs("graphics/map/stone_01.png", FieldType::FLOOR.getTextureIdentifier());
 	// ENTITIES
 	m_TextureManager->loadTextureAs("graphics/stone.png", "tex_Player");
 	// UI
@@ -209,6 +209,8 @@ void Game::draw() const {
 }
 
 void Game::update(double ellapsedTime) {
+	m_GameTime += ellapsedTime;
+
 	m_Scene->update(m_Window, ellapsedTime);
 	m_Camera->getGameObject()->update(m_Window, ellapsedTime);
 }
@@ -227,4 +229,8 @@ MaterialManager* Game::getMaterialManager() const {
 
 Scene* Game::getCurrentScene() const {
 	return m_Scene;
+}
+
+float Game::getGameTime() const {
+	return m_GameTime;
 }

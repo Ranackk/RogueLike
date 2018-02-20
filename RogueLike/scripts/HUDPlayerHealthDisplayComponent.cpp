@@ -41,6 +41,6 @@ void HUDPlayerHealthDisplayComponent::createHudDisplay() {
 
 		GameObject* gO = new GameObject("HUD_HeartDisplay " + std::to_string(i));
 		m_HeartContainers[i] = gO->addComponent(new HUDRenderComponent);
-		m_HeartContainers[i]->initialize(uiMat, glm::vec2(0.015f + 0.03f * i, 1.0f - 0.06f), glm::vec2(0.03f, .03f));
+		m_HeartContainers[i]->initialize(uiMat, glm::vec2(0.015f + 0.03f * i, 1.0f - 0.08f), glm::vec2(0.03f, 0.053f));
 	}
 }

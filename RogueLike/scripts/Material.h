@@ -44,6 +44,12 @@ private:
 	GLuint uniformViewMatrix;
 	GLuint uniformProjectionMatrix;
 
+	GLint uniformClippingPlane;
+	GLint uniformShadowClippingPlane;
+	GLint uniformUseInstancing;
+	GLuint uniformGameTime;
+	GLuint uniformCosGameTime;
+
 	/* === Custom Properties "BaseShader" === */
 	/* Material Properties */
 	glm::vec4 p_diffuseColor;
@@ -55,9 +61,6 @@ private:
 
 	GLuint p_skyboxID;
 	GLuint uniformSkybox;
-	GLint uniformClippingPlane;
-	GLint uniformShadowClippingPlane;
-	GLint uniformUseInstancing;
 
 	/* === Properties "HealthBar" === */
 	GLuint p_backgroundTextureID;
