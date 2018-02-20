@@ -41,6 +41,7 @@ private:
 	float m_FollowSpeed = 5.0f;
 
 	Mode m_Mode = Mode::FOLLOW_ROOM;
+	Mode m_ModePreLock = Mode::FOLLOW_ROOM;
 
 	void checkForCameraModeChange(GLFWwindow* window);
 	void performFreeMovementUpdate(GLFWwindow* window, const float ellapesd);

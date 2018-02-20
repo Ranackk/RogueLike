@@ -87,8 +87,11 @@ void CameraComponent::checkForCameraModeChange(GLFWwindow* window) {
 
 	const int _currentStateEscape = glfwGetKey(window, GLFW_KEY_ESCAPE);
 	if (_currentStateEscape == GLFW_PRESS && m_LastStateEscape != _currentStateEscape) {
-		if (m_Mode == Mode::LOCKED) setMode(window, Mode::FREE);
-		else setMode(window, Mode::LOCKED);
+		if (m_Mode == Mode::LOCKED) setMode(window, m_ModePreLock);
+		else {
+			m_ModePreLock = m_Mode;
+			setMode(window, Mode::LOCKED);
+		}
 		m_LastStateEscape = _currentStateEscape;
 	}
 	if (_currentStateEscape == GLFW_RELEASE) {

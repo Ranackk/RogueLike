@@ -210,9 +210,11 @@ void Game::draw() const {
 }
 
 void Game::update(double ellapsedTime) {
-	m_GameTime += ellapsedTime;
+	if (m_Camera->getMode() != CameraComponent::LOCKED) {
+		m_GameTime += ellapsedTime;
 
-	m_Scene->update(m_Window, ellapsedTime);
+		m_Scene->update(m_Window, ellapsedTime);
+	}
 	m_Camera->getGameObject()->update(m_Window, ellapsedTime);
 }
 
