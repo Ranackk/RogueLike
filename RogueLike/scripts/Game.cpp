@@ -189,7 +189,7 @@ void Game::initializeGameComponents() {
 
 	GameObject* gO = new GameObject("Camera");
 	this->m_Camera = gO->addComponent(new CameraComponent());
-	this->m_Camera->initialize(CameraComponent::Mode::FREE, this->m_Scene->m_Player);
+	this->m_Camera->initialize(CameraComponent::Mode::FOLLOW_ROOM, this->m_Scene->m_Player);
 
 
 }

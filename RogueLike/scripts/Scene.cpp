@@ -64,22 +64,18 @@ Scene::~Scene()
 }
 
 void Scene::setupSystems() {
-	// TODO: ADD VECTOR OF PHYSICS COMPONENTS -> Fields, Entities (ProjectileComponent, EnemyComponent)
-
-	/* Static Rendering */
 	m_StaticRenderComponents = std::vector<RenderComponent*>();
+	m_DynamicRenderComponents = std::vector<RenderComponent*>();
+	m_DynamicNonShadowRenderComponents = std::vector<RenderComponent*>();
+	m_HudRenderComponents = std::vector<HUDRenderComponent*>();
+
+	/* === Static Rendering === */
+	/* Map */
 	for (unsigned int i = 0; i < m_FieldBatches.size(); i++) {
 		m_StaticRenderComponents.push_back(m_FieldBatches[i].getComponent<RenderComponent>());
 	}
 
-	/* Dynamic Rendering */
-	// Enemies
-	m_DynamicRenderComponents = std::vector<RenderComponent*>();
-	// Basic
-	//for (unsigned int i = 0; i < m_Enemies.size(); i++) {
-	//	m_DynamicRenderComponents.push_back(m_Enemies[i]->getComponent<RenderComponent>());
-	//}
-
+	/* === Dynamic Rendering === */
 	/* Enemies */
 	// Sort Enemies by type
 	std::map<EnemyComponent::EnemyType, std::vector<GameObject*>> enemiesByType = std::map<EnemyComponent::EnemyType, std::vector<GameObject*>>();
@@ -103,52 +99,18 @@ void Scene::setupSystems() {
 		m_EnemyPools[it->first] = enemyPool;
 		m_DynamicRenderComponents.push_back(m_EnemyPools[it->first].getRenderBatch().getComponent<RenderComponent>());
 	}
-
-	//{
-	//	GameObjectPool enemyPool = GameObjectPool();
-	//	RenderComponent* rc = m_Enemies[0]->getGameObject()->getComponent<RenderComponent>();
-	//	enemyPool.initialize(128, rc->getModelData(), rc->getMaterial());
-	//	std::vector<GameObject*> enemyGOs;
-	//	for (int i = 0; i < m_Enemies.size(); i++) {
-	//		enemyGOs.push_back(m_Enemies[i]->getGameObject());
-	//	}
-	//	enemyPool.initWithGameObjectVector(enemyGOs);
-	//	enemyPool.updateRenderBatch();
-
-	//	m_EnemyPools.push_back(enemyPool);
-	//}
-
-	// Add all pools to rendering
-
-	//for (int i = 0; i < m_EnemyPools.size(); i++) {
-	//	m_DynamicRenderComponents.push_back(m_EnemyPools[i].getRenderBatch().getComponent<RenderComponent>());
-	//}
 	
 	/* Projectiles */
 	m_ProjectilePool = GameObjectPool();
 	std::shared_ptr<Material> mat = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Projectile");
 	mat->setTexture(Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player"));
 	m_ProjectilePool.initialize(128, Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Projectile"), mat);
-	m_DynamicRenderComponents.push_back(m_ProjectilePool.getRenderBatch().getComponent<RenderComponent>());
+	m_DynamicNonShadowRenderComponents.push_back(m_ProjectilePool.getRenderBatch().getComponent<RenderComponent>());
 
-	// Rendering
+	/* Player */
 	m_DynamicRenderComponents.push_back(m_Player->getGameObject()->getComponent<RenderComponent>());
 
-
-	/* HUD Rendering */
-	m_HudRenderComponents = std::vector<HUDRenderComponent*>();
-	
-	//m_HUDHealthContainer = new GameObject();
-
-	//std::shared_ptr<Material> uiMat = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_UITest");
-	//uiMat->setupBaseUiShader(Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player"));
-
-	//HUDRenderComponent* uiComp = new HUDRenderComponent();
-	//m_HUDHealthContainer->addComponent(uiComp);
-	//uiComp->initialize(uiMat, glm::vec2(0.9f, 0.8f), glm::vec2(.1f, .2f));
-
-	//m_HudRenderComponents.push_back(uiComp);
-
+	/* === HUD Rendering === */
 	m_HUDHealthContainer = new GameObject("HUD_HeartDisplay_Main");
 	HUDPlayerHealthDisplayComponent* hudphdc = m_HUDHealthContainer->addComponent(new HUDPlayerHealthDisplayComponent);
 	hudphdc->initialize(m_Player->getGameObject()->getComponent<HealthComponent>());
@@ -184,6 +146,7 @@ void Scene::drawFull(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _vi
 
 	/* Draw dynamic geometry */
 	drawDynamicShadowCasters(_perspectiveMatrix, _viewMatrix, customMaterial);
+	drawDynamicNonShadowCasters(_perspectiveMatrix, _viewMatrix, customMaterial);
 
 	/* Draw HUD */
 	drawHudElements(_perspectiveMatrix, _viewMatrix, customMaterial);
@@ -201,6 +164,13 @@ void Scene::drawStaticShadowCasters(const glm::mat4x4 _perspectiveMatrix, const 
 void Scene::drawDynamicShadowCasters(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial) {
 	for (unsigned int i = 0; i < m_DynamicRenderComponents.size(); i++) {
 		m_DynamicRenderComponents[i]->draw(_perspectiveMatrix, _viewMatrix, customMaterial);
+	}
+}
+
+void Scene::drawDynamicNonShadowCasters(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix,
+	Material* customMaterial) {
+	for (unsigned int i = 0; i < m_DynamicNonShadowRenderComponents.size(); i++) {
+		m_DynamicNonShadowRenderComponents[i]->draw(_perspectiveMatrix, _viewMatrix, customMaterial);
 	}
 }
 

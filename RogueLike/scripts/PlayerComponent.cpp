@@ -68,13 +68,11 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 	glm::vec3 movementVector = glm::vec3();
 	glm::vec3 combinedVector = glm::vec3();
 	// Move forward
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-		//m_Transform.translate(-glm::vec3(0, 0, 1) * deltaTime * m_MovementSpeed);
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 		movementVector += -glm::vec3(0, 0, 1) * deltaTime * m_MovementSpeed;
 	}
 	// Move backward
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		//m_Transform.translate(+glm::vec3(0, 0, 1) * deltaTime * m_MovementSpeed);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
 		movementVector += glm::vec3(0, 0, 1) * deltaTime * m_MovementSpeed;
 	}
 
@@ -92,13 +90,11 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 	combinedVector += movementVector;
 	movementVector = glm::vec3();
 	// Move left
-	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-		//m_Transform.translate(-glm::vec3(1, 0, 0) * deltaTime * m_MovementSpeed);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
 		movementVector += -glm::vec3(1, 0, 0) * deltaTime * m_MovementSpeed;
 	}
 	// Move right
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-		//m_Transform.translate(+ glm::vec3(1, 0, 0) * deltaTime * m_MovementSpeed);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
 		movementVector += glm::vec3(1, 0, 0) * deltaTime * m_MovementSpeed;
 	}
 
@@ -119,7 +115,38 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 
 	/* Shooting Stars */
 	m_CurrentFireCooldown -= deltaTime;
-	if (m_CurrentFireCooldown <= 0 && glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+	if (m_CurrentFireCooldown <= 0) {
+		bool shoot = false;
+		glm::vec3 dir;
+		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+			shoot = true;
+			dir = glm::vec3(-1, 0, 0);
+		}
+		else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+			shoot = true;
+			dir = glm::vec3(1, 0, 0);
+		}
+		else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+			shoot = true;
+			dir = glm::vec3(0, 0, -1);
+		}
+		else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+			shoot = true;
+			dir = glm::vec3(0, 0, 1);
+		}
+		if (shoot){
+			GameObject* bullet = Game::getInstance()->getCurrentScene()->m_ProjectilePool.getNextFreeObject();
+			ProjectileComponent* projectileComponent = bullet->getComponent<ProjectileComponent>();
+			if (projectileComponent == nullptr) {
+				projectileComponent = bullet->addComponent(new ProjectileComponent);
+			}
+			projectileComponent->initialize(m_GameObject->getTransform().getPosition() + glm::vec3(0, 0, 0), dir + combinedVector, .15f, CollisionLayer::FRIENDLY_UNITS);
+			Game::getInstance()->getCurrentScene()->m_ProjectilePool.updateRenderBatch();
+
+			m_CurrentFireCooldown = m_FireCooldown;
+		}
+	}
+	/*if (m_CurrentFireCooldown <= 0 && glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
 		GameObject* bullet = Game::getInstance()->getCurrentScene()->m_ProjectilePool.getNextFreeObject();
 		ProjectileComponent* projectileComponent = bullet->getComponent<ProjectileComponent>();
 		if (projectileComponent == nullptr) {
@@ -129,7 +156,7 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 		Game::getInstance()->getCurrentScene()->m_ProjectilePool.updateRenderBatch();
 
 		m_CurrentFireCooldown = m_FireCooldown;
-	}
+	}*/
 
 	/* === Flashing === */
 	if (m_CurrentInvincibleCooldown != 0.0f) {

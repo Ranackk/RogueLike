@@ -25,6 +25,7 @@ public:
 	void drawFull(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial = nullptr);
 	void drawStaticShadowCasters(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial);
 	void drawDynamicShadowCasters(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial);
+	void drawDynamicNonShadowCasters(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial);
 	void drawHudElements(const glm::mat4x4 _perspectiveMatrix, const glm::mat4x4 _viewMatrix, Material* customMaterial);
 
 	void drawStaticShadowMaps();
@@ -63,6 +64,7 @@ public:
 	/* Systems */ // TODO: Move the static systems to arrays for cache line optimization
 	std::vector<RenderComponent*> m_StaticRenderComponents;
 	std::vector<RenderComponent*> m_DynamicRenderComponents;
+	std::vector<RenderComponent*> m_DynamicNonShadowRenderComponents;
 	std::vector<HUDRenderComponent*> m_HudRenderComponents;
 private:
 	glm::vec2 m_RoomsPerMap;
