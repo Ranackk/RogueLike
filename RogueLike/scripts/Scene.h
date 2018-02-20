@@ -42,6 +42,8 @@ public:
 	int getLightCount() const;
 	std::vector<class LightComponent*> getLights() const;
 
+	glm::vec3 getCurrentRoomMid() const;
+
 	class PlayerComponent* m_Player;
 	FieldComponent* m_Fields;
 	std::vector<RenderBatch> m_FieldBatches;

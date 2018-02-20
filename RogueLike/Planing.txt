@@ -53,7 +53,7 @@
 	======
 
 	Redo for next game:
-	> World gen completely procedural?
+	> World gen completely procedural? A bit like in my old game with rooms & corridors
 
 	======
 

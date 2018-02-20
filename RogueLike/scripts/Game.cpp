@@ -63,7 +63,7 @@ int Game::startGame()
 	int totalnbFrames = 0;
 
 	while (m_Running) {
-		if (glfwWindowShouldClose(m_Window) || glfwGetKey(m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		if (glfwWindowShouldClose(m_Window)) {
 			m_Running = false;
 		}
 

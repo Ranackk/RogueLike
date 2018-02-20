@@ -10,6 +10,7 @@
 #include "CircleColliderComponent.h"
 #include "GameObjectPool.h"
 #include "HUDPlayerHealthDisplayComponent.h"
+#include <ammintrin.h>
 
 // Does not create the map yet!
 Scene::Scene() {
@@ -266,6 +267,15 @@ int Scene::getLightCount() const {
 
 std::vector<LightComponent*> Scene::getLights() const {
 	return m_Lights;
+}
+
+glm::vec3 Scene::getCurrentRoomMid() const {
+	glm::vec3 pPos = m_Player->getGameObject()->getTransform().getPosition();
+
+	int roomX = floor(round(pPos.x) / Game::m_s_cRoomWidthInFields);
+	int roomY = floor(round(pPos.z) / Game::m_s_cRoomHeightInFields);
+
+	return glm::vec3((roomX + 0.5) * Game::m_s_cRoomWidthInFields, 0, (roomY + 0.5) * Game::m_s_cRoomHeightInFields);
 }
 
 PlayerComponent* Scene::getPlayer() const {

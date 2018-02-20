@@ -26,6 +26,8 @@ void CameraComponent::initialize(const Mode _mode, PlayerComponent* _player) {
 		Game::m_s_cNearClip,
 		Game::m_s_cFarClip
 	);
+	//m_ProjectionMatrix = glm::perspective(glm::radians(45.0f), (float)Game::m_s_cWindowWidth / Game::m_s_cWindowHeight, Game::m_s_cNearClip, Game::m_s_cFarClip);
+
 	this->m_ViewMatrix = glm::lookAt(
 		glm::vec3(25, 50, 20),			// position
 		glm::vec3(25, 0, 19.999f),		// focus point
@@ -35,7 +37,7 @@ void CameraComponent::initialize(const Mode _mode, PlayerComponent* _player) {
 										//glm::vec3(0, 1, 0)				// up vector
 	);
 
-	this->m_DesiredOffset = glm::vec3(0, 20, 5);
+	this->m_Offset = glm::vec3(0, 15, 0);
 }
 
 CameraComponent::~CameraComponent() {
@@ -46,30 +48,60 @@ void CameraComponent::setMode(GLFWwindow* window, const Mode _mode) {
 
 	switch (_mode) {
 	case LOCKED: 
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		glfwSetInputMode(window, GLFW_CURSOR,  GLFW_CURSOR_NORMAL);
 	default:
 		glfwSetCursorPos(window, Game::m_s_cWindowWidth / 2, Game::m_s_cWindowHeight / 2);
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	}
+
+	//std::cout << "Set camera mode to " << (_mode == Mode::FREE ? "FREE" : (_mode == Mode::FOLLOW ? "FOLLOW" : _mode == Mode::FOLLOW_ROOM ? "FOLLOW_ROOM" : "LOCKED")) <<std::endl;
 }
 
-void CameraComponent::update(GLFWwindow* window ,const float ellapesd)
+void CameraComponent::update(GLFWwindow* window ,const float ellapsed)
 {
+	checkForCameraModeChange(window);
 	switch (m_Mode) {
 		case LOCKED: break;
-		case FREE: performFreeMovementUpdate(window, ellapesd);
-		case FOLLOW: performFollowMovementUpdate(window, ellapesd);
+		case FREE: performFreeMovementUpdate(window, ellapsed); break;
+		case FOLLOW: performFollowMovementUpdate(window, ellapsed); break;
+		case SMOOTH_FOLLOW: performSmoothFollowMovementUpdate(window, ellapsed); break;
+		case FOLLOW_ROOM: performFollowRoomMovementUpdate(window, ellapsed); break;
+	}
+
+}
+
+void CameraComponent::checkForCameraModeChange(GLFWwindow* window) {
+
+	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+		setMode(window, Mode::FOLLOW_ROOM);
+	}
+	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+		setMode(window, Mode::FOLLOW);
+	}
+	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
+		setMode(window, Mode::SMOOTH_FOLLOW);
+	}
+	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
+		setMode(window, Mode::FREE);
+	}
+
+	const int _currentStateEscape = glfwGetKey(window, GLFW_KEY_ESCAPE);
+	if (_currentStateEscape == GLFW_PRESS && m_LastStateEscape != _currentStateEscape) {
+		if (m_Mode == Mode::LOCKED) setMode(window, Mode::FREE);
+		else setMode(window, Mode::LOCKED);
+		m_LastStateEscape = _currentStateEscape;
+	}
+	if (_currentStateEscape == GLFW_RELEASE) {
+		m_LastStateEscape = _currentStateEscape;
 	}
 }
 
 glm::mat4x4 CameraComponent::getViewMatrix() const
 {
 	return m_ViewMatrix;
-	//return this->m_Transform.getObjectMatrix();
-	//return transform->GetObjectMatrix();
 }
 
-void CameraComponent::performFreeMovementUpdate(GLFWwindow* window, const float ellapesd) {
+void CameraComponent::performFreeMovementUpdate(GLFWwindow* window, const float _ellapsed) {
 	double xPos, yPos;
 	glfwGetCursorPos(window, &xPos, &yPos);
 	glfwSetCursorPos(window, Game::m_s_cWindowWidth / 2, Game::m_s_cWindowHeight / 2);
@@ -100,53 +132,76 @@ void CameraComponent::performFreeMovementUpdate(GLFWwindow* window, const float 
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) moveSpeed *= 3;
 	// Move forward
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		_transform.setLocalPosition(_transform.getLocalPosition() + direction * ellapesd * moveSpeed);
+		_transform.setLocalPosition(_transform.getLocalPosition() + direction * _ellapsed * moveSpeed);
 	}
 	// Move backward
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		_transform.setLocalPosition(_transform.getLocalPosition() - direction * ellapesd * moveSpeed);
+		_transform.setLocalPosition(_transform.getLocalPosition() - direction * _ellapsed * moveSpeed);
 	}
 	// Strafe left
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		_transform.setLocalPosition(_transform.getLocalPosition() - right * ellapesd * moveSpeed);
+		_transform.setLocalPosition(_transform.getLocalPosition() - right * _ellapsed * moveSpeed);
 	}
 	// Strafe right
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		_transform.setLocalPosition(_transform.getLocalPosition() + right * ellapesd * moveSpeed);
+		_transform.setLocalPosition(_transform.getLocalPosition() + right * _ellapsed * moveSpeed);
 	}
 	// UP
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-		_transform.setLocalPosition(_transform.getLocalPosition() + up * ellapesd * moveSpeed);
+		_transform.setLocalPosition(_transform.getLocalPosition() + up * _ellapsed * moveSpeed);
 	}
 	// DOWN
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-		_transform.setLocalPosition(_transform.getLocalPosition() - up * ellapesd * moveSpeed);
+		_transform.setLocalPosition(_transform.getLocalPosition() - up * _ellapsed * moveSpeed);
 	}
 	m_GameObject->getTransform().setLocalPosition(_transform.getLocalPosition());
 
-	// Projection matrix : 45° FieldComponent of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-	m_ProjectionMatrix = glm::perspective(glm::radians(45.0f), (float)Game::m_s_cWindowWidth / Game::m_s_cWindowHeight, Game::m_s_cNearClip, Game::m_s_cFarClip);
-	// CameraComponent matrix
 	m_ViewMatrix = glm::lookAt(
-		_transform.getLocalPosition(),           // CameraComponent is here
-		_transform.getLocalPosition() + direction, // and looks here : at the same position, plus "direction"
-		up                  // Head is up (set to 0,-1,0 to look upside-down)
+		_transform.getLocalPosition(),           
+		_transform.getLocalPosition() + direction, 
+		up                 
 	);
 
-	//std::cout << "CameraComponent Direction: " << direction.x << ", " << direction.y << ", " << direction.z << std::endl;
-	//std::cout << "CameraComponent UP: " << up.x << ", " << up.y << ", " << up.z << std::endl;
 }
-void CameraComponent::performFollowMovementUpdate(GLFWwindow* window, const float ellapesd) {
-	//const glm::vec3 desiredPosition = m_Player->getGameObject()->getTransform().getPosition() + m_DesiredOffset;
-	//
-	//m_GameObject->getTransform().setLocalPosition(glm::mix(m_GameObject->getTransform().getLocalPosition(), desiredPosition, ellapesd));
+void CameraComponent::performSmoothFollowMovementUpdate(GLFWwindow* window, const float _ellapsed) {
+	m_DesiredPosition = m_Player->getGameObject()->getTransform().getPosition() + m_Offset;
+	m_GameObject->getTransform().setLocalPosition(glm::mix(m_GameObject->getTransform().getLocalPosition(), m_DesiredPosition, _ellapsed * m_FollowSpeed));
 
-	//m_ProjectionMatrix = glm::perspective(glm::radians(45.0f), (float)Game::m_s_cWindowWidth / Game::m_s_cWindowHeight, Game::m_s_cNearClip, Game::m_s_cFarClip);
+	m_ProjectionMatrix = glm::perspective(glm::radians(45.0f), (float)Game::m_s_cWindowWidth / Game::m_s_cWindowHeight, Game::m_s_cNearClip, Game::m_s_cFarClip);
 
-	//m_ViewMatrix = glm::lookAt(
-	//	m_GameObject->getTransform().getPosition(),					// CameraComponent is here
-	//	m_Player->getGameObject()->getTransform().getPosition(),	// and looks here : at the same position, plus "direction"
-	//	glm::vec3(0,1,0)											// Head is up (set to 0,-1,0 to look upside-down)
-	//);
+	m_ViewMatrix = glm::lookAt(
+		m_GameObject->getTransform().getPosition(),					
+		m_Player->getGameObject()->getTransform().getPosition(),	
+		glm::vec3(0, 0, -1)											
+	);	
+}
+
+void CameraComponent::performFollowMovementUpdate(GLFWwindow* window, const float _ellapsed) {
+	m_DesiredPosition = m_Player->getGameObject()->getTransform().getPosition() + m_Offset;
+	m_GameObject->getTransform().setLocalPosition(glm::mix(m_GameObject->getTransform().getLocalPosition(), m_DesiredPosition, _ellapsed * m_FollowSpeed));
+
+	m_ProjectionMatrix = glm::perspective(glm::radians(45.0f), (float)Game::m_s_cWindowWidth / Game::m_s_cWindowHeight, Game::m_s_cNearClip, Game::m_s_cFarClip);
+
+	m_ViewMatrix = glm::lookAt(
+		m_GameObject->getTransform().getPosition(),
+		m_GameObject->getTransform().getPosition() - m_Offset,
+		glm::vec3(0, 0, -1)
+	);
+}
+
+void CameraComponent::performFollowRoomMovementUpdate(GLFWwindow* window, const float _ellapsed) {
+	const glm::vec3 roomMidPoint = Game::getInstance()->getCurrentScene()->getCurrentRoomMid();
+	m_DesiredPosition = roomMidPoint + m_Offset;
+	const glm::vec3 focusPoint = glm::mix(m_GameObject->getTransform().getLocalPosition(), roomMidPoint + m_Offset, _ellapsed * m_FollowSpeed) - m_Offset;
+
+	m_GameObject->getTransform().setLocalPosition(glm::mix(m_GameObject->getTransform().getLocalPosition(), m_DesiredPosition, _ellapsed * m_FollowSpeed));
+
+	m_ProjectionMatrix = glm::perspective(glm::radians(45.0f), (float)Game::m_s_cWindowWidth / Game::m_s_cWindowHeight, Game::m_s_cNearClip, Game::m_s_cFarClip);
+
+	m_ViewMatrix = glm::lookAt(
+		m_GameObject->getTransform().getPosition(),					
+		focusPoint,													
+		glm::vec3(0, 0, -1)											
+	);
 
 }

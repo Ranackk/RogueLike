@@ -6,7 +6,8 @@ class CameraComponent : public UpdateComponent
 {
 public:
 	enum Mode {
-		FREE, FOLLOW, LOCKED
+		FREE, SMOOTH_FOLLOW, FOLLOW, FOLLOW_ROOM,
+		LOCKED
 	};
 
 	glm::mat4x4 m_ProjectionMatrix;
@@ -17,6 +18,7 @@ public:
 	void initialize(Mode _mode, class PlayerComponent* _player);
 	~CameraComponent();
 	void setMode(GLFWwindow* window, const Mode _mode);
+	Mode getMode() const { return m_Mode;  }
 	void update(GLFWwindow* window, const float ellapsed) override;
 
 	glm::mat4 getViewMatrix() const;
@@ -34,11 +36,20 @@ private:
 
 	/* Mode: Follow */
 	class PlayerComponent* m_Player;
-	glm::vec3 m_DesiredOffset;
+	glm::vec3 m_Offset;
+	glm::vec3 m_DesiredPosition;
+	float m_FollowSpeed = 5.0f;
 
-	Mode m_Mode = Mode::FREE;
+	Mode m_Mode = Mode::FOLLOW_ROOM;
 
+	void checkForCameraModeChange(GLFWwindow* window);
 	void performFreeMovementUpdate(GLFWwindow* window, const float ellapesd);
-	void performFollowMovementUpdate(GLFWwindow* window, const float ellapesd);
+	void performSmoothFollowMovementUpdate(GLFWwindow* window, const float ellapesd);
+	void performFollowMovementUpdate(GLFWwindow* window, const float _ellapsed);
+	void performFollowRoomMovementUpdate(GLFWwindow* window, const float ellapesd);
+
+
+	/* Input */
+	int m_LastStateEscape = -1;
 };
 
