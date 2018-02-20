@@ -231,6 +231,7 @@ void RenderEngine::renderShadowMaps(Scene* _scene, Material* _material) {
 		if (lights[lightID]->isStatic()) continue;
 		/* Loop through each face */
 		const glm::mat4x4* viewMatrices = lights[lightID]->getCubeMapViewMatrices();
+
 		for (int faceID = 0; faceID < 6; faceID++) {
 			const glm::mat4 viewMatrix = viewMatrices[faceID];
 

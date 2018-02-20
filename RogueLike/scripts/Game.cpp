@@ -168,7 +168,7 @@ void Game::initializeManagers() {
 	m_ModelManager->loadModelAs("models/map/Wall_v02_basic_x.obj", "mesh_Wall_basic_x");
 	m_ModelManager->loadModelAs("models/map/Wall_v02_basic_z.obj", "mesh_Wall_basic_z");
 
-	m_ModelManager->loadModelAs("models/map/Wall_v02_arch_left_x.obj", "mesh_Wall_arch_left_x");
+	m_ModelManager->loadModelAs("models/map/Wall_v02_arch_left_x_UV.obj", "mesh_Wall_arch_left_x");
 	m_ModelManager->loadModelAs("models/map/Wall_v02_arch_left_z.obj", "mesh_Wall_arch_left_z");
 	m_ModelManager->loadModelAs("models/map/Wall_v02_arch_right_x.obj", "mesh_Wall_arch_right_x");
 	m_ModelManager->loadModelAs("models/map/Wall_v02_arch_right_z.obj", "mesh_Wall_arch_right_z");
