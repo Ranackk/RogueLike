@@ -185,11 +185,12 @@ void Game::initializeManagers() {
 }
 
 void Game::initializeGameComponents() {
+	this->m_Scene = new Scene(glm::vec2(4, 4));
+
 	GameObject* gO = new GameObject("Camera");
 	this->m_Camera = gO->addComponent(new CameraComponent());
-	this->m_Camera->initialize();
+	this->m_Camera->initialize(CameraComponent::Mode::FREE, this->m_Scene->m_Player);
 
-	this->m_Scene = new Scene(glm::vec2(4, 4));
 
 }
 

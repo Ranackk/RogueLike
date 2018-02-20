@@ -1,8 +1,5 @@
 	
-	
-	TOP:
-	> Make shadows of dynmic objects work! Somehow they dont cast shadows atm
-	
+
 	-> Player as Batch?
 	> Enemies
 
@@ -11,7 +8,6 @@
 		> NEVERMIND: Just use an array with a set size for all static render elements (always rooms*roomX*roomY). Linear memory layout! 
 
 	> Font Atlas Loader
-	> UI Rendererer Component
 
 	> <Material>.copy();
 
