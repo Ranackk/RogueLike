@@ -9,10 +9,10 @@
 #include "ProjectileComponent.h"
 #include "HealthComponent.h"
 
+const float PlayerComponent::JOYSTICK_MOVE_THRESHHOLD_X = 0.65f;
+const float PlayerComponent::JOYSTICK_MOVE_THRESHHOLD_Y = 0.5f;
 
-PlayerComponent::PlayerComponent()
-{
-}
+PlayerComponent::PlayerComponent() {}
 
 void PlayerComponent::initialize() {
 	const float rad = 0.1f;
@@ -62,6 +62,16 @@ void PlayerComponent::takeDamage(const float _amount) {
 }
 
 void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
+	const bool joystickActive = glfwJoystickPresent(GLFW_JOYSTICK_1) == 1;
+	
+	int joystickAxesCount;
+	const float* joystickAxesValues = nullptr;
+	int joystickButtonCount;
+	const unsigned char* joystickButtonValues = nullptr;
+	if (joystickActive ){
+		joystickAxesValues = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &joystickAxesCount);
+		joystickButtonValues = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &joystickButtonCount);
+	}
 
 	/* Up / Down Movement */
 	glm::vec3 movementVector = glm::vec3();
@@ -73,6 +83,10 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 	// Move backward
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
 		movementVector += glm::vec3(0, 0, 1) * deltaTime * m_MovementSpeed;
+	}
+	/* Joystick Input*/
+	if (joystickActive) {
+		movementVector += glm::vec3(0, 0, -1) * deltaTime * m_MovementSpeed * joystickAxesValues[JOYSTICK_MOVE_AXIS_Y];
 	}
 
 	EnemyComponent* enemyComponent = nullptr;
@@ -96,6 +110,10 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
 		movementVector += glm::vec3(1, 0, 0) * deltaTime * m_MovementSpeed;
 	}
+	/* Joystick Input*/
+	if (joystickActive) {
+		movementVector += glm::vec3(1, 0, 0) * deltaTime * m_MovementSpeed * joystickAxesValues[JOYSTICK_MOVE_AXIS_X];
+	}
 
 	m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() + movementVector);
 	if (Game::getInstance()->getCurrentScene()->collidesWithEnemies(m_GameObject->getComponent<CircleColliderComponent>()->getCollider(), enemyComponent)) {
@@ -115,29 +133,32 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 	/* Shooting Stars */
 	if (m_FireCooldown > 0) {
 		m_FireCooldown -= deltaTime;
-		std::cout << m_FireCooldown << " (was reduced by " << deltaTime << ")" << std::endl;
 	}
 	if (m_FireCooldown <= 0) {
 		bool shoot = false;
 		glm::vec3 dir;
-		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS || joystickActive && 
+			(joystickAxesValues[JOYSTICK_SHOOT_AXIS_X] < -JOYSTICK_MOVE_THRESHHOLD_X || joystickButtonValues[JOYSTICK_LEFT_BUTTON]) != 0) {
 			shoot = true;
 			dir = glm::vec3(-1, 0, 0);
 		}
-		else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+		else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS || joystickActive && 
+			(joystickAxesValues[JOYSTICK_SHOOT_AXIS_X] > JOYSTICK_MOVE_THRESHHOLD_X || joystickButtonValues[JOYSTICK_RIGHT_BUTTON]) != 0) {
 			shoot = true;
 			dir = glm::vec3(1, 0, 0);
 		}
-		else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+		else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS || joystickActive && 
+			(joystickAxesValues[JOYSTICK_SHOOT_AXIS_Y] > JOYSTICK_MOVE_THRESHHOLD_Y || joystickButtonValues[JOYSTICK_UP_BUTTON]) != 0) {
 			shoot = true;
 			dir = glm::vec3(0, 0, -1);
 		}
-		else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+		else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS || joystickActive && 
+			(joystickAxesValues[JOYSTICK_SHOOT_AXIS_Y] < -JOYSTICK_MOVE_THRESHHOLD_Y || joystickButtonValues[JOYSTICK_DOWN_BUTTON]) != 0) {
 			shoot = true;
 			dir = glm::vec3(0, 0, 1);
 		}
+
 		if (shoot){
-			std::cout << "SHOOT: " << m_FireCooldown << ", dir " << dir.x << std::endl;
 			m_FireCooldown = m_FireCooldownDuration;
 
 			GameObject* bullet = Game::getInstance()->getCurrentScene()->m_ProjectilePool.getNextFreeObject();
@@ -148,7 +169,6 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 			projectileComponent->initialize(m_GameObject->getTransform().getPosition() + glm::vec3(0, 0, 0), dir + combinedVector, .15f, 1.0f, CollisionLayer::FRIENDLY_UNITS);
 			Game::getInstance()->getCurrentScene()->m_ProjectilePool.updateRenderBatch();
 
-			std::cout << "SHOOT_END: " << m_FireCooldown << ", dir " << dir.x << std::endl;
 		}
 	}
 
