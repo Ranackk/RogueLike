@@ -51,7 +51,7 @@ GLFWwindow* RenderEngine::createWindow() {
 		glfwTerminate();
 	}
 
-	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_FALSE);
 
 	/* Setup glfw callbacks */
 	glfwSetWindowCloseCallback(window, static_cast<GLFWwindowclosefun>(onWindowClose));

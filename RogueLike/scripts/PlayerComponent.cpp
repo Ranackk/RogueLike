@@ -113,6 +113,10 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 	}
 
 	/* Shooting Stars */
+	if (m_FireCooldown > 0) {
+		m_FireCooldown -= deltaTime;
+		std::cout << m_FireCooldown << " (was reduced by " << deltaTime << ")" << std::endl;
+	}
 	if (m_FireCooldown <= 0) {
 		bool shoot = false;
 		glm::vec3 dir;
@@ -134,6 +138,8 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 		}
 		if (shoot){
 			std::cout << "SHOOT: " << m_FireCooldown << ", dir " << dir.x << std::endl;
+			m_FireCooldown = m_FireCooldownDuration;
+
 			GameObject* bullet = Game::getInstance()->getCurrentScene()->m_ProjectilePool.getNextFreeObject();
 			ProjectileComponent* projectileComponent = bullet->getComponent<ProjectileComponent>();
 			if (projectileComponent == nullptr) {
@@ -142,13 +148,10 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 			projectileComponent->initialize(m_GameObject->getTransform().getPosition() + glm::vec3(0, 0, 0), dir + combinedVector, .15f, 1.0f, CollisionLayer::FRIENDLY_UNITS);
 			Game::getInstance()->getCurrentScene()->m_ProjectilePool.updateRenderBatch();
 
-			m_FireCooldown = m_FireCooldownDuration;
 			std::cout << "SHOOT_END: " << m_FireCooldown << ", dir " << dir.x << std::endl;
 		}
 	}
-	else {
-		m_FireCooldown -= deltaTime;
-	}
+
 
 	/* === Flashing === */
 	if (m_InvincibleCooldown != 0.0f) {

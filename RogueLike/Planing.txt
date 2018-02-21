@@ -1,13 +1,5 @@
 	
-	Buggs:
-	* Player shoots at least twice
-	~ Player gets stuck in Rogue
-	* Enemies get knocked into walls
-	~ Archer doesnt hit you
-
-
 	-> Player as Batch?
-	> Enemies
 
 	> Cache Line Optimization via using Systems (or at least trying for some things, maybe collision should be like it is)
 		> Rendering & Input should be Systems
@@ -15,9 +7,6 @@
 
 	> Font Atlas Loader
 
-	> <Material>.copy();
-
-	> Shadows???
 
 	Todo:
 
