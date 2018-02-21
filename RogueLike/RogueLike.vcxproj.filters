@@ -177,6 +177,69 @@
     <Object Include="models\map\Wall_v02_window_z.obj">
       <Filter>models\map</Filter>
     </Object>
+    <Object Include="models\map\Shrine.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_arch_left_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_arch_left_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_arch_right_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_arch_right_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_basic_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_basic_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_bridge_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_bridge_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_broken_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_broken_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_column_neg_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_column_neg_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_column_pos_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_column_pos_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_corner_left_back.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_corner_left_front.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_corner_right_back.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_corner_right_front.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_window_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_window_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scripts\main.cpp">

@@ -169,18 +169,18 @@ void Game::initializeManagers() {
 	// MAP
 	m_ModelManager->loadModelAs("models/baseFloor.obj", "mesh_Floor");
 
-	m_ModelManager->loadModelAs("models/map/Wall_v02_basic_x.obj", "mesh_Wall_basic_x");
-	m_ModelManager->loadModelAs("models/map/Wall_v02_basic_z.obj", "mesh_Wall_basic_z");
+	m_ModelManager->loadModelAs("models/map/Wall_basic_x.obj", "mesh_Wall_basic_x");
+	m_ModelManager->loadModelAs("models/map/Wall_basic_z.obj", "mesh_Wall_basic_z");
 
-	m_ModelManager->loadModelAs("models/map/Wall_v02_arch_left_x_UV.obj", "mesh_Wall_arch_left_x");
-	m_ModelManager->loadModelAs("models/map/Wall_v02_arch_left_z.obj", "mesh_Wall_arch_left_z");
-	m_ModelManager->loadModelAs("models/map/Wall_v02_arch_right_x.obj", "mesh_Wall_arch_right_x");
-	m_ModelManager->loadModelAs("models/map/Wall_v02_arch_right_z.obj", "mesh_Wall_arch_right_z");
+	m_ModelManager->loadModelAs("models/map/Wall_arch_left_x.obj", "mesh_Wall_arch_left_x");
+	m_ModelManager->loadModelAs("models/map/Wall_arch_left_z.obj", "mesh_Wall_arch_left_z");
+	m_ModelManager->loadModelAs("models/map/Wall_arch_right_x.obj", "mesh_Wall_arch_right_x");
+	m_ModelManager->loadModelAs("models/map/Wall_arch_right_z.obj", "mesh_Wall_arch_right_z");
 
-	m_ModelManager->loadModelAs("models/map/Wall_v02_corner_left_back.obj", "mesh_Wall_corner_left_back");
-	m_ModelManager->loadModelAs("models/map/Wall_v02_corner_right_back.obj", "mesh_Wall_corner_right_back");
-	m_ModelManager->loadModelAs("models/map/Wall_v02_corner_left_front.obj", "mesh_Wall_corner_left_front");
-	m_ModelManager->loadModelAs("models/map/Wall_v02_corner_right_front.obj", "mesh_Wall_corner_right_front");
+	m_ModelManager->loadModelAs("models/map/Wall_corner_left_back.obj", "mesh_Wall_corner_left_back");
+	m_ModelManager->loadModelAs("models/map/Wall_corner_right_back.obj", "mesh_Wall_corner_right_back");
+	m_ModelManager->loadModelAs("models/map/Wall_corner_left_front.obj", "mesh_Wall_corner_left_front");
+	m_ModelManager->loadModelAs("models/map/Wall_corner_right_front.obj", "mesh_Wall_corner_right_front");
 	// ENTITES
 	m_ModelManager->loadModelAs("models/player.obj", "mesh_Player");
 	m_ModelManager->loadModelAs("models/player.obj", "mesh_Enemy_Rogue");

@@ -1,10 +1,12 @@
 	
 	Shooting bullets near a wall
-	UVs
 	Colors (Visibility of enemies & bullets)
 	Make enemies only act a second after entering a room (fairness)
 	last heart blinking?
-	custom models & shjader for player, enemies & bullets (maybe bullets as sprite?)
+	custom models & shjader for player, enemies & bullets?
+
+	camera shake on damage
+	second basic wall type for the symmetry?
 
 
 	-> Player as Batch?

@@ -116,8 +116,8 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 	}
 
 	m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() + movementVector);
-	if (Game::getInstance()->getCurrentScene()->collidesWithEnemies(m_GameObject->getComponent<CircleColliderComponent>()->getCollider(), enemyComponent)) {
-		takeDamage(0.5f);
+	if (m_InvincibleCooldown <= 0.0f && Game::getInstance()->getCurrentScene()->collidesWithEnemies(m_GameObject->getComponent<CircleColliderComponent>()->getCollider(), enemyComponent)) {
+		takeDamage(enemyComponent->getDamage(EnemyComponent::Range::MELEE));
 		m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() - movementVector);
 	}
 	else if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(m_GameObject->getComponent<CircleColliderComponent>()->getCollider())) {
