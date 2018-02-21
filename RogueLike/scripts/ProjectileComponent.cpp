@@ -21,7 +21,7 @@ void ProjectileComponent::update(GLFWwindow* window, const float deltaTime) {
 	// Collision with Enemies
 	EnemyComponent* hit = nullptr;
 	if (Game::getInstance()->getCurrentScene()->collidesWithEnemies(*m_CircleCollider, hit)) {
-		hit->takeDamage(m_Damage, m_Direction * 0.1f);
+		hit->takeDamage(m_Damage, m_Direction * 0.3f);
 		die();
 	}
 

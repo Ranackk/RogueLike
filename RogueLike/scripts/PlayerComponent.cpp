@@ -77,7 +77,7 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 
 	EnemyComponent* enemyComponent = nullptr;
 	m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() + movementVector);
-	if (Game::getInstance()->getCurrentScene()->collidesWithEnemies(m_GameObject->getComponent<CircleColliderComponent>()->getCollider(), enemyComponent)) {
+	if (m_InvincibleCooldown <= 0.0f && Game::getInstance()->getCurrentScene()->collidesWithEnemies(m_GameObject->getComponent<CircleColliderComponent>()->getCollider(), enemyComponent)) {
 		takeDamage(enemyComponent->getDamage(EnemyComponent::Range::MELEE));
 		m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() - movementVector);
 	}
@@ -113,7 +113,6 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 	}
 
 	/* Shooting Stars */
-	m_FireCooldown -= deltaTime;
 	if (m_FireCooldown <= 0) {
 		bool shoot = false;
 		glm::vec3 dir;
@@ -134,6 +133,7 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 			dir = glm::vec3(0, 0, 1);
 		}
 		if (shoot){
+			std::cout << "SHOOT: " << m_FireCooldown << ", dir " << dir.x << std::endl;
 			GameObject* bullet = Game::getInstance()->getCurrentScene()->m_ProjectilePool.getNextFreeObject();
 			ProjectileComponent* projectileComponent = bullet->getComponent<ProjectileComponent>();
 			if (projectileComponent == nullptr) {
@@ -143,19 +143,12 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 			Game::getInstance()->getCurrentScene()->m_ProjectilePool.updateRenderBatch();
 
 			m_FireCooldown = m_FireCooldownDuration;
+			std::cout << "SHOOT_END: " << m_FireCooldown << ", dir " << dir.x << std::endl;
 		}
 	}
-	/*if (m_FireCooldown <= 0 && glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-		GameObject* bullet = Game::getInstance()->getCurrentScene()->m_ProjectilePool.getNextFreeObject();
-		ProjectileComponent* projectileComponent = bullet->getComponent<ProjectileComponent>();
-		if (projectileComponent == nullptr) {
-			projectileComponent = bullet->addComponent(new ProjectileComponent);
-		}
-		projectileComponent->initialize(m_GameObject->getTransform().getPosition(), m_FacingDirection, .1f, CollisionLayer::FRIENDLY_UNITS);
-		Game::getInstance()->getCurrentScene()->m_ProjectilePool.updateRenderBatch();
-
-		m_FireCooldown = m_FireCooldownDuration;
-	}*/
+	else {
+		m_FireCooldown -= deltaTime;
+	}
 
 	/* === Flashing === */
 	if (m_InvincibleCooldown != 0.0f) {

@@ -10,7 +10,7 @@
 
 EnemyComponent::EnemyType EnemyComponent::getTypeByColor(int v) {
 	switch (v) {
-	//case 255: return ROGUE;
+	case 255: return ROGUE;
 	case 100: return ARCHER;
 	default: return ARCHER;
 	}
@@ -111,11 +111,17 @@ float EnemyComponent::getDamage(const Range _range) const {
 
 void EnemyComponent::takeDamage(const float _amount, const glm::vec3 _knockback) const {
 	std::cout << m_GameObject->getName().c_str() << " took " << _amount << " damage! NEW HP: " << std::to_string((*m_HealthComponent->getCurrentHealthPointer())) << std::endl;
+
+	/* Damage */
 	if (m_HealthComponent->takeDamage(_amount)) {
 		die();
+	}	
+
+	/* Knockback */
+	m_GameObject->getTransform().translate(_knockback);
+	if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(*m_CircleCollider)) {
+		m_GameObject->getTransform().translate(-glm::vec3(_knockback));
 	}
-	m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() + _knockback);
-	// TODO: Add collision detection!
 }
 
 void EnemyComponent::die() const {

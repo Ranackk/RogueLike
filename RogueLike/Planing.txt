@@ -1,8 +1,9 @@
 	
 	Buggs:
 	* Player shoots at least twice
+	~ Player gets stuck in Rogue
 	* Enemies get knocked into walls
-	* Archer doesnt hit you
+	~ Archer doesnt hit you
 
 
 	-> Player as Batch?
