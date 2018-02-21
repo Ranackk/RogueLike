@@ -63,7 +63,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 				mapToGenerateIn.m_Lights.push_back(l);
 			}
 			for (auto it = currentRoom.m_EnemyInformation.begin(); it != currentRoom.m_EnemyInformation.end(); ++it) {
-				if (mapToGenerateIn.m_Enemies.size() >= 1) continue;
+				//if (mapToGenerateIn.m_Enemies.size() >= 1) continue;
 				GameObject* go = new GameObject("Scene Enemy " + mapToGenerateIn.m_Enemies.size());
 				EnemyComponent* e = go->addComponent(new EnemyComponent());
 				const EnemyComponent::EnemyType type = it->second;

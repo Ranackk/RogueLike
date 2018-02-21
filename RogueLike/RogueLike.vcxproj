@@ -132,6 +132,8 @@
     <None Include="shaders\baseShader.vert" />
     <None Include="shaders\baseUIShader.frag" />
     <None Include="shaders\baseUIShader.vert" />
+    <None Include="shaders\billboardShader.frag" />
+    <None Include="shaders\billboardShader.vert" />
     <None Include="shaders\depthShader.frag" />
     <None Include="shaders\depthShader.vert" />
     <None Include="shaders\uiHeartContainerShader.frag" />

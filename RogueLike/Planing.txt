@@ -1,4 +1,12 @@
 	
+	Shooting bullets near a wall
+	UVs
+	Colors (Visibility of enemies & bullets)
+	Make enemies only act a second after entering a room (fairness)
+	last heart blinking?
+	custom models & shjader for player, enemies & bullets (maybe bullets as sprite?)
+
+
 	-> Player as Batch?
 
 	> Cache Line Optimization via using Systems (or at least trying for some things, maybe collision should be like it is)

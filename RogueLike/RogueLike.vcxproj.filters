@@ -76,6 +76,12 @@
     <None Include="shaders\uiHeartContainerShader.vert">
       <Filter>shaders</Filter>
     </None>
+    <None Include="shaders\billboardShader.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\billboardShader.vert">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Object Include="models\baseFloor.obj">
