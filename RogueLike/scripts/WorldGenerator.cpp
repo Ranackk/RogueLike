@@ -27,7 +27,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 			// TODO: Get a random room blueprint
 			const int id = rand() % roomCount;
 			currentRoom.fillWithTypes(individualRoomSize, _roomBlueprints[id].getFieldData());
-			currentRoom.fillLightAndEnemyVector(_roomBlueprints[id].m_EnemyPositions, _roomBlueprints[id].m_LightPositions);
+			currentRoom.fillLightAndEnemyVector(_roomBlueprints[id].m_LightPositions, _roomBlueprints[id].m_EnemyInformation);
 			_rooms[(int)roomGridSize.x * rY + rX] = currentRoom;
 		}
 	}
@@ -62,11 +62,12 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 				l->initialize(glm::vec3(topLeftWorldPosition.x + it->x + 0.5, 1, topLeftWorldPosition.y + it->y + 0.5), 30.0f, glm::vec4(0.8, 0.8, 1.3, 1.0), LightComponent::STATIC, true);
 				mapToGenerateIn.m_Lights.push_back(l);
 			}
-			for (auto it = currentRoom.m_EnemyPositions.begin(); it != currentRoom.m_EnemyPositions.end(); ++it) {
-				//if (mapToGenerateIn.m_Enemies.size() >= 1) continue;
+			for (auto it = currentRoom.m_EnemyInformation.begin(); it != currentRoom.m_EnemyInformation.end(); ++it) {
+				if (mapToGenerateIn.m_Enemies.size() >= 1) continue;
 				GameObject* go = new GameObject("Scene Enemy " + mapToGenerateIn.m_Enemies.size());
 				EnemyComponent* e = go->addComponent(new EnemyComponent());
-				e->initialize(&mapToGenerateIn, EnemyComponent::EnemyType::BASE, glm::vec3(topLeftWorldPosition.x + it->x + 0.5, 0.0f, topLeftWorldPosition.y + it->y + 0.5));
+				const EnemyComponent::EnemyType type = it->second;
+				e->initialize(&mapToGenerateIn, type, glm::vec3(topLeftWorldPosition.x + it->first.x + 0.5, 0.0f, topLeftWorldPosition.y + it->first.y + 0.5));
 				mapToGenerateIn.m_Enemies.push_back(e);
 			}
 		}
@@ -153,12 +154,12 @@ RoomBlueprint* WorldGenerator::readRoomBlueprintsFromFile(const glm::vec2 roomFi
 					const unsigned char a = image[static_cast<unsigned int>(4 * (samplePosition.x + samplePosition.y * imgWidth) + 3)];
 
 					types[fX + fY * static_cast<int>(roomFieldSize.x)] = FieldType::byColor(r);
-
-					if (g == 255) {
+					
+					if (b != 0) {
 						currentBlueprint.m_LightPositions.push_back(glm::vec2(fX, fY));
 					}
-					if (b == 255) {
-						currentBlueprint.m_EnemyPositions.push_back(glm::vec2(fX, fY));
+					if (g != 0) {
+						currentBlueprint.m_EnemyInformation.push_back(std::pair<glm::vec2, EnemyComponent::EnemyType>(glm::vec2(fX, fY), EnemyComponent::getTypeByColor(g)));
 					}
 				}
 			}

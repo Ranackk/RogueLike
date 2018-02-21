@@ -239,13 +239,20 @@ std::vector<LightComponent*> Scene::getLights() const {
 	return m_Lights;
 }
 
+glm::vec2 Scene::getCurrentRoomGridPos() const {
+	const glm::vec3 pPos = m_Player->getGameObject()->getTransform().getPosition();
+	return glm::vec2(floor(round(pPos.x) / Game::m_s_cRoomWidthInFields),
+		floor(round(pPos.z) / Game::m_s_cRoomHeightInFields));
+}
+
+glm::vec2 Scene::getRoomGridPos(const glm::vec3 _position) const {
+	return glm::vec2(floor(round(_position.x) / Game::m_s_cRoomWidthInFields),
+		floor(round(_position.z) / Game::m_s_cRoomHeightInFields));
+}
+
 glm::vec3 Scene::getCurrentRoomMid() const {
-	glm::vec3 pPos = m_Player->getGameObject()->getTransform().getPosition();
-
-	int roomX = floor(round(pPos.x) / Game::m_s_cRoomWidthInFields);
-	int roomY = floor(round(pPos.z) / Game::m_s_cRoomHeightInFields);
-
-	return glm::vec3((roomX + 0.5) * Game::m_s_cRoomWidthInFields, 0, (roomY + 0.5) * Game::m_s_cRoomHeightInFields);
+	const glm::vec2 roomPos = getCurrentRoomGridPos();
+	return glm::vec3((roomPos.x + 0.5) * Game::m_s_cRoomWidthInFields, 0, (roomPos.y + 0.5) * Game::m_s_cRoomHeightInFields);
 }
 
 PlayerComponent* Scene::getPlayer() const {

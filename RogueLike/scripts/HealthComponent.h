@@ -4,7 +4,7 @@ class HealthComponent :
 	public Component
 {
 public:
-	void initialize(float _current = -1, float _max = -1);
+	void initialize(float _max = -1);
 
 	/* Setters */
 	bool takeDamage(float _damage);

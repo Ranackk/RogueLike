@@ -128,6 +128,9 @@ void Game::initializeManagers() {
 	m_TextureManager->loadTextureAs("graphics/map/stone_01.png", FieldType::FLOOR.getTextureIdentifier());
 	// ENTITIES
 	m_TextureManager->loadTextureAs("graphics/stone.png", "tex_Player");
+
+	m_TextureManager->loadTextureAs("graphics/stone.png", "tex_Enemy_Rogue");
+	m_TextureManager->loadTextureAs("graphics/stone.png", "tex_Enemy_Archer");
 	// UI
 	m_TextureManager->loadTextureAs("graphics/ui/heartcontainerBackground.png", "tex_UI_HeartContainer_BG");
 	m_TextureManager->loadTextureAs("graphics/ui/heartcontainerFill.png", "tex_UI_HeartContainer_Fill");
@@ -143,7 +146,8 @@ void Game::initializeManagers() {
 	m_MaterialManager->createMaterialByShader("baseShader", "mat_Floor", Material::BASE_SHADER);
 	// ENTITIES
 	m_MaterialManager->createMaterialByShader("baseShader", "mat_Player", Material::BASE_SHADER);
-	m_MaterialManager->createMaterialByShader("baseShader", "mat_Enemy", Material::BASE_SHADER);
+	m_MaterialManager->createMaterialByShader("baseShader", "mat_Enemy_Rogue", Material::BASE_SHADER);
+	m_MaterialManager->createMaterialByShader("baseShader", "mat_Enemy_Archer", Material::BASE_SHADER);
 	m_MaterialManager->createMaterialByShader("baseShader", "mat_Projectile", Material::BASE_SHADER);
 	// UI
 	m_MaterialManager->createMaterialByShader("baseUIShader", "mat_UITest", Material::UI_BASE_SHADER);
@@ -179,6 +183,8 @@ void Game::initializeManagers() {
 	m_ModelManager->loadModelAs("models/map/Wall_v02_corner_right_front.obj", "mesh_Wall_corner_right_front");
 	// ENTITES
 	m_ModelManager->loadModelAs("models/player.obj", "mesh_Player");
+	m_ModelManager->loadModelAs("models/player.obj", "mesh_Enemy_Rogue");
+	m_ModelManager->loadModelAs("models/player.obj", "mesh_Enemy_Archer");
 
 	m_ModelManager->loadModelAs("models/testmodel.obj", "mesh_Projectile");
 

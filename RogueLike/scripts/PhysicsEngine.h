@@ -5,10 +5,10 @@
 
 class CollisionLayer {
 public:
-	static const unsigned char NONE				= 0b00000000;
-	static const unsigned char MAP_GEOMETRY		= 0b00000001;
-	static const unsigned char FRIENDLY_UNITS	= 0b00000010;
-	static const unsigned char HOSTILE_UNITS	= 0b00000100;
+	static const unsigned char NONE				= 0100000000;
+	static const unsigned char MAP_GEOMETRY		= 0b00000000;
+	static const unsigned char FRIENDLY_UNITS	= 0b00000001;
+	static const unsigned char HOSTILE_UNITS	= 0b00000010;
 };
 
 class PhysicsEngine
@@ -34,11 +34,13 @@ private:
 	* Each collider is set to a COLLISION LAYER (which is the layers number as an int)
 	*
 	* The LayerMaskFlagField is built like this & supports FIVE (5) layers:
-	*
-	*			Map		PlayerComponent	EnemyComponent
-	* Map		n		y		y
-	* PlayerComponent			n		y
-	* EnemyComponent					n
+	*					
+	*					0			1				2
+	*					1			2				4
+	*					Map			PlayerComponent	EnemyComponent
+	* Map				n			y				y
+	* PlayerComponent				n				y
+	* EnemyComponent								n
 	*
 	* y = Layers collide
 	* n = Layers dont collide
@@ -95,7 +97,7 @@ private:
 	*	Inside the "layerMaskAllowsCollision" method, I use a slightly altered formula to make things a bit faster.
 	*/
 
-	const static unsigned int m_s_c_CollisionLayerMaskFlagField = 0b1000110; //0b011000100000000;
+	const static unsigned int m_s_c_CollisionLayerMaskFlagField = 0b000000001000110;// 0b1000110; //0b011000100000000;
 	const static unsigned short m_s_c_CollisionLayers = 5;
 
 	static bool layerMaskAllowsCollision(Collider& c1, Collider& c2);

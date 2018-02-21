@@ -48,20 +48,19 @@ void PlayerComponent::initialize() {
 
 	/* Add Health Component */
 	m_HealthComponent = m_GameObject->addComponent(new HealthComponent());
-	m_HealthComponent->initialize(5, 5);
+	m_HealthComponent->initialize(5);
 
 }
 
 void PlayerComponent::takeDamage(const float _amount) {
-	if (m_CurrentInvincibleCooldown <= 0) {
+	if (m_InvincibleCooldown <= 0) {
 		m_HealthComponent->takeDamage(_amount);
 		std::cout << m_GameObject->getName().c_str() << " took " << _amount << " damage! NEW HP: " << std::to_string((*m_HealthComponent->getCurrentHealthPointer())) << std::endl;
-		m_CurrentInvincibleCooldown = m_InvincibleCooldown;
+		m_InvincibleCooldown = m_InvincibleCooldownDuration;
 	}
 	
 }
 
-// TODO: Add scene to update method
 void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 
 	/* Up / Down Movement */
@@ -79,7 +78,7 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 	EnemyComponent* enemyComponent = nullptr;
 	m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() + movementVector);
 	if (Game::getInstance()->getCurrentScene()->collidesWithEnemies(m_GameObject->getComponent<CircleColliderComponent>()->getCollider(), enemyComponent)) {
-		takeDamage(0.5f);
+		takeDamage(enemyComponent->getDamage(EnemyComponent::Range::MELEE));
 		m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() - movementVector);
 	}
 	else if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(m_GameObject->getComponent<CircleColliderComponent>()->getCollider())) {
@@ -114,8 +113,8 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 	}
 
 	/* Shooting Stars */
-	m_CurrentFireCooldown -= deltaTime;
-	if (m_CurrentFireCooldown <= 0) {
+	m_FireCooldown -= deltaTime;
+	if (m_FireCooldown <= 0) {
 		bool shoot = false;
 		glm::vec3 dir;
 		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
@@ -140,13 +139,13 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 			if (projectileComponent == nullptr) {
 				projectileComponent = bullet->addComponent(new ProjectileComponent);
 			}
-			projectileComponent->initialize(m_GameObject->getTransform().getPosition() + glm::vec3(0, 0, 0), dir + combinedVector, .15f, CollisionLayer::FRIENDLY_UNITS);
+			projectileComponent->initialize(m_GameObject->getTransform().getPosition() + glm::vec3(0, 0, 0), dir + combinedVector, .15f, 1.0f, CollisionLayer::FRIENDLY_UNITS);
 			Game::getInstance()->getCurrentScene()->m_ProjectilePool.updateRenderBatch();
 
-			m_CurrentFireCooldown = m_FireCooldown;
+			m_FireCooldown = m_FireCooldownDuration;
 		}
 	}
-	/*if (m_CurrentFireCooldown <= 0 && glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+	/*if (m_FireCooldown <= 0 && glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
 		GameObject* bullet = Game::getInstance()->getCurrentScene()->m_ProjectilePool.getNextFreeObject();
 		ProjectileComponent* projectileComponent = bullet->getComponent<ProjectileComponent>();
 		if (projectileComponent == nullptr) {
@@ -155,18 +154,18 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 		projectileComponent->initialize(m_GameObject->getTransform().getPosition(), m_FacingDirection, .1f, CollisionLayer::FRIENDLY_UNITS);
 		Game::getInstance()->getCurrentScene()->m_ProjectilePool.updateRenderBatch();
 
-		m_CurrentFireCooldown = m_FireCooldown;
+		m_FireCooldown = m_FireCooldownDuration;
 	}*/
 
 	/* === Flashing === */
-	if (m_CurrentInvincibleCooldown != 0.0f) {
-		m_CurrentInvincibleCooldown -= deltaTime;
+	if (m_InvincibleCooldown != 0.0f) {
+		m_InvincibleCooldown -= deltaTime;
 		static const float AMT_FLASHES = 3;
-		const float flashFactor = -glm::cos(m_CurrentInvincibleCooldown * (2 * 3.14f * AMT_FLASHES / m_InvincibleCooldown)) / 2.0f + 0.5f;
+		const float flashFactor = -glm::cos(m_InvincibleCooldown * (2 * 3.14f * AMT_FLASHES / m_InvincibleCooldownDuration)) / 2.0f + 0.5f;
 		m_Material->setDiffuse(glm::vec4(1, flashFactor, flashFactor, 1));
 
-		if (m_CurrentInvincibleCooldown < 0.0f) {
-			m_CurrentInvincibleCooldown = 0.0f;
+		if (m_InvincibleCooldown < 0.0f) {
+			m_InvincibleCooldown = 0.0f;
 			m_Material->setDiffuse(glm::vec4(1, 1, 1, 1));
 		}
 	}

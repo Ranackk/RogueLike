@@ -25,10 +25,10 @@ private:
 
 	glm::vec3 m_FacingDirection;
 
-	float m_CurrentFireCooldown = 0;
-	float m_FireCooldown = 0.35f;
+	float m_FireCooldown = 0;
+	float m_FireCooldownDuration = 0.35f;
 
-	float m_CurrentInvincibleCooldown = 0;
-	float m_InvincibleCooldown = 2.0f;
+	float m_InvincibleCooldown = 0;
+	float m_InvincibleCooldownDuration = 2.0f;
 };
 

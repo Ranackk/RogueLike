@@ -5,27 +5,51 @@
 #include "PhysicsEngine.h"
 #include "HealthComponent.h"
 #include <string>
+#include "ProjectileComponent.h"
 
+
+EnemyComponent::EnemyType EnemyComponent::getTypeByColor(int v) {
+	switch (v) {
+	//case 255: return ROGUE;
+	case 100: return ARCHER;
+	default: return ARCHER;
+	}
+}
 
 EnemyComponent::EnemyComponent()
 {
 	m_CircleCollider = nullptr;
 	m_Scene = nullptr;
 	m_HealthComponent = nullptr;
-	m_MovementSpeed = 5.0f + 1.2f;
+	m_Type = ROGUE;
 }
 
 void EnemyComponent::initialize(Scene* _scene, const EnemyType _type, const glm::vec3 _position) {
+	/* Basic Variables */
 	m_GameObject->getTransform().setLocalPosition(_position);
-	m_GameObject->getTransform().setLocalScale(glm::vec3(0.5f, 1.0f, 0.5));
 	m_Scene = _scene;
 	m_Type = _type;
 	m_GameObject->setActive(true);
 
+	/* Shared AI Information */
+	m_StartPosition = m_GameObject->getTransform().getPosition();
+	m_RoomGridPos = _scene->getRoomGridPos(m_StartPosition);
+
+	/* Type specific setup */
+	switch (m_Type) {
+		case ROGUE: initializeEnemyTypeRogue(); break;
+		case ARCHER: initializeEnemyTypeArcher(); break;
+	}
+}
+
+
+void EnemyComponent::initializeEnemyTypeRogue() {
+	m_GameObject->getTransform().setLocalScale(glm::vec3(0.5f, 1.0f, 0.5));
+
 	/* Render Component */
-	const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player");
-	std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Player");
-	const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Player");
+	const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Enemy_Rogue");
+	std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Enemy_Rogue");
+	const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Enemy_Rogue");
 	material->setTexture(texture);
 
 	RenderComponent* rc = m_GameObject->addComponent<>(new RenderComponent());
@@ -35,35 +59,140 @@ void EnemyComponent::initialize(Scene* _scene, const EnemyType _type, const glm:
 	CircleColliderComponent* cc = m_GameObject->addComponent<>(new CircleColliderComponent());
 	m_CircleCollider = new CircleCollider(0.25f, glm::vec3(0, 0, 0));
 	m_CircleCollider->initialize(std::shared_ptr<GameObject>(m_GameObject));
+	m_CircleCollider->setCollisionLayer(CollisionLayer::HOSTILE_UNITS);
 	cc->initialize(*m_CircleCollider);
 
 	/* Add Health Component */
 	m_HealthComponent = m_GameObject->addComponent(new HealthComponent());
-	m_HealthComponent->initialize(2, 2);
+	m_HealthComponent->initialize(m_RogueHealthPoints);
+}
+void EnemyComponent::initializeEnemyTypeArcher() {
+	m_GameObject->getTransform().setLocalScale(glm::vec3(0.5f, 1.0f, 0.5));
 
-	// TODO: Replace -> according to the type given, add an AI component to the enemy, make enemy component not an update component
-	/* Basic AI */
-	m_StartPosition = _position;
+	/* Render Component */
+	const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Enemy_Archer");
+	std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Enemy_Archer");
+	const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Enemy_Archer");
+	material->setTexture(texture);
+
+	RenderComponent* rc = m_GameObject->addComponent<>(new RenderComponent());
+	rc->initialize(modelData, material);
+
+	/* Collider */
+	CircleColliderComponent* cc = m_GameObject->addComponent<>(new CircleColliderComponent());
+	m_CircleCollider = new CircleCollider(0.25f, glm::vec3(0, 0, 0));
+	m_CircleCollider->initialize(std::shared_ptr<GameObject>(m_GameObject));
+	m_CircleCollider->setCollisionLayer(CollisionLayer::HOSTILE_UNITS);
+	cc->initialize(*m_CircleCollider);
+
+	/* Add Health Component */
+	m_HealthComponent = m_GameObject->addComponent(new HealthComponent());
+	m_HealthComponent->initialize(m_ArcherHealthPoints);
 }
 
-void EnemyComponent::update(GLFWwindow* window, const float deltaTime) {
-	m_AliveTime += deltaTime;
+void EnemyComponent::update(GLFWwindow* _window, const float _deltaTime) {
+	m_AliveTime += _deltaTime;
 
-	const glm::vec3 newPosition = m_StartPosition + 0.5f * glm::vec3(cos(m_AliveTime), 0.0f, sin(m_AliveTime));
-
-	m_GameObject->getTransform().setLocalPosition(newPosition);
-	//std::cout << "Enemy: " << getGameObject()->getName().c_str() << "Pos: " << m_GameObject->getTransform().getLocalPosition().z << std::endl;
+	switch (m_Type) {
+		case ROGUE: updateEnemyTypRogue(_window, _deltaTime); break;
+		case ARCHER: updateEnemyTypArcher(_window, _deltaTime); break;
+	}
 }
 
-void EnemyComponent::takeDamage(const float _amount) {
+float EnemyComponent::getDamage(const Range _range) const {
+	switch (m_Type) {
+	case ROGUE: return m_RogueMeleeDamage;
+	case ARCHER: if (_range == MELEE) return m_ArcherMeleeDamage;
+		return m_ArcherRangedDamage;
+	}
+	return -1;
+}
+
+
+void EnemyComponent::takeDamage(const float _amount, const glm::vec3 _knockback) const {
 	std::cout << m_GameObject->getName().c_str() << " took " << _amount << " damage! NEW HP: " << std::to_string((*m_HealthComponent->getCurrentHealthPointer())) << std::endl;
 	if (m_HealthComponent->takeDamage(_amount)) {
 		die();
 	}
+	m_GameObject->getTransform().setLocalPosition(m_GameObject->getTransform().getLocalPosition() + _knockback);
+	// TODO: Add collision detection!
 }
 
-void EnemyComponent::die() {
+void EnemyComponent::die() const {
 	std::cout << "EnemyComponent died!" << std::endl;
 	m_GameObject->setActive(false);
 	m_Scene->m_EnemyPools[m_Type].freeObjectIntoPool(m_GameObject);
+}
+
+void EnemyComponent::updateEnemyTypRogue(GLFWwindow* _window, const float _deltaTime) {
+	//const glm::vec3 newPosition = m_StartPosition + 0.5f * glm::vec3(cos(m_AliveTime), 0.0f, sin(m_AliveTime));
+	//m_GameObject->getTransform().setLocalPosition(newPosition);
+
+	const glm::vec2 _currentRoomGridPos = m_Scene->getCurrentRoomGridPos();
+	const glm::vec3 _currentPosition = m_GameObject->getTransform().getPosition();
+
+	glm::vec3 _desiredPosition;
+	glm::vec3 _desiredVector;
+	if (m_RogueCharging) {
+		/* Check if the rogue should stop charging */
+		if (_currentRoomGridPos != m_RoomGridPos) {
+			m_RogueCharging = false;
+		}
+
+		/* Target player */
+		_desiredPosition = m_Scene->getPlayer()->getGameObject()->getTransform().getPosition();
+		_desiredVector = _desiredPosition - _currentPosition;
+	}
+	else {
+		/* Check if the rogue should start charging */
+		if (_currentRoomGridPos == m_RoomGridPos) {
+			m_RogueCharging = true;
+		}
+
+		/* Return to starting position */
+		_desiredPosition = m_StartPosition;
+		_desiredVector = _desiredPosition - _currentPosition;
+	}
+
+	/* Carry out movement */
+	if (glm::length(_desiredVector) > 0.01f) {
+		const glm::vec3 movementVector = normalize(_desiredVector) * _deltaTime * m_RogueSpeed;
+		//std::cout << glm::length(_desiredPosition) << " " <<movementVector.x << std::endl;
+		m_GameObject->getTransform().translate(glm::vec3(movementVector.x, 0, 0));
+		if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(*m_CircleCollider)) {
+			m_GameObject->getTransform().translate(-glm::vec3(movementVector.x, 0, 0));
+		}
+		m_GameObject->getTransform().translate(glm::vec3(0, 0, movementVector.z));
+		if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(*m_CircleCollider)) {
+			m_GameObject->getTransform().translate(-glm::vec3(0, 0, movementVector.z));
+		}
+	}
+	else {
+		m_GameObject->getTransform().setLocalPosition(_desiredPosition);
+	}
+}
+
+void EnemyComponent::updateEnemyTypArcher(GLFWwindow* _window, const float _deltaTime) {
+	const glm::vec2 _currentRoomGridPos = m_Scene->getCurrentRoomGridPos();
+
+	if (_currentRoomGridPos == m_RoomGridPos) {
+		/* Try to shoot */
+		if (m_ArcherShootCooldown <= 0.0f) {
+			/* Find vector to player */
+			glm::vec3 shootVector = glm::normalize(m_Scene->getPlayer()->getGameObject()->getTransform().getPosition() - m_GameObject->getTransform().getPosition());
+			/* Shoot */
+			GameObject* bullet = Game::getInstance()->getCurrentScene()->m_ProjectilePool.getNextFreeObject();
+			ProjectileComponent* projectileComponent = bullet->getComponent<ProjectileComponent>();
+			if (projectileComponent == nullptr) {
+				projectileComponent = bullet->addComponent(new ProjectileComponent);
+			}
+			projectileComponent->initialize(m_GameObject->getTransform().getPosition() + glm::vec3(0, 0, 0), shootVector, m_ArcherShootSpeed, m_ArcherRangedDamage, CollisionLayer::HOSTILE_UNITS);
+			Game::getInstance()->getCurrentScene()->m_ProjectilePool.updateRenderBatch();
+			/* Reset Cooldown */
+			m_ArcherShootCooldown = m_ArcherShootCooldownDuration;
+		}
+		else {
+			m_ArcherShootCooldown -= _deltaTime;
+		}
+	}
 }

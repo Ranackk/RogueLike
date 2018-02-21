@@ -1,4 +1,9 @@
 	
+	Buggs:
+	* Player shoots at least twice
+	* Enemies get knocked into walls
+	* Archer doesnt hit you
+
 
 	-> Player as Batch?
 	> Enemies

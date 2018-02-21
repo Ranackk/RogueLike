@@ -43,6 +43,8 @@ public:
 	int getLightCount() const;
 	std::vector<class LightComponent*> getLights() const;
 
+	glm::vec2 getCurrentRoomGridPos() const;
+	glm::vec2 getRoomGridPos(glm::vec3 _position) const;
 	glm::vec3 getCurrentRoomMid() const;
 
 	class PlayerComponent* m_Player;

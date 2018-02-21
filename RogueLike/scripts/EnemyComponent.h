@@ -16,27 +16,53 @@ class EnemyComponent :
 {
 public:
 	enum EnemyType {
-		BASE
+		ROGUE, ARCHER
+	};
+
+	static EnemyType getTypeByColor(int v);
+
+	enum Range {
+		MELEE, RANGE
 	};
 
 	EnemyComponent();
 	void initialize(Scene* _scene, const EnemyType _type, glm::vec3 _position);
 
-	void update(GLFWwindow* window, const float deltaTime) override;
+	void update(GLFWwindow* _window, const float _deltaTime) override;
 
-	void takeDamage(const float _amount);
-	void die();
+	float getDamage(Range _range) const;
+	void takeDamage(const float _amount, const glm::vec3 _knockback) const;
+	void die() const;
 
 	EnemyType getType() const { return m_Type; }
 private:
-
 	EnemyType m_Type;
 	Scene* m_Scene;
-	float m_MovementSpeed;
 	CircleCollider* m_CircleCollider;
 	HealthComponent* m_HealthComponent;
 
-	// DEMO AI (Replace Later)
-	glm::vec3 m_StartPosition;
+	/* Enemy Type specific functions */
+	void initializeEnemyTypeRogue();
+	void initializeEnemyTypeArcher();
+	void updateEnemyTypRogue(GLFWwindow* _window, const float _deltaTime);
+	void updateEnemyTypArcher(GLFWwindow* _window, const float _deltaTime);
+
 	float m_AliveTime = 0.0f;
+	glm::vec3 m_StartPosition;
+	glm::vec2 m_RoomGridPos;
+
+	/* Enemy Type specific variables */
+	/* === Rogue === */
+	bool m_RogueCharging = false;
+	float m_RogueSpeed = 2.0;
+	float m_RogueMeleeDamage = 1.0f;
+	float m_RogueHealthPoints = 3.0f;
+
+	/* === Archer === */
+	float m_ArcherShootSpeed = 0.16f;
+	float m_ArcherShootCooldownDuration = 0.7f;
+	float m_ArcherShootCooldown = 0.0f;
+	float m_ArcherRangedDamage = 0.5f;
+	float m_ArcherMeleeDamage = 1.0f;
+	float m_ArcherHealthPoints = 2.0f;
 };
