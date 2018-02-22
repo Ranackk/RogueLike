@@ -37,6 +37,8 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	}
 
 	/* === START OF THE WORLD GENERATION === */
+	//const long seed = rand();
+	//std::cout << "Generating random map with seed " << seed << std::endl;
 
 	std::vector<glm::vec2> roomCoordinatesPlaced = std::vector<glm::vec2>();
 
@@ -162,7 +164,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 		}
 	}
 
-	/* Fill all empty rooms with void, Seal all open doors */
+	/* Fill all empty rooms with void*/
 	for (int rX = 0; rX < roomGridSize.x; rX++) {
 		for (int rY = 0; rY < roomGridSize.y; rY++) {
 			if (_rooms[static_cast<int>(roomGridSize.x) * rY + rX].getFieldData() == nullptr) {
@@ -177,7 +179,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	//	for (int rY = 0; rY < roomGridSize.y; rY++) {
 	//		RoomBlueprint currentRoom = _rooms[(int)roomGridSize.x * rY + rX];
 	//		// TODO: Get a random room blueprint
-	//		const int id = rand() % roomCount;
+	//		const int id = srand(seed) % roomCount;
 	//		currentRoom.fillWithBlueprint(&_roomBlueprints[id]);
 	//		_rooms[static_cast<int>(roomGridSize.x) * rY + rX] = currentRoom;
 	//	}
@@ -202,7 +204,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 					GameObject* gO = new GameObject("Field [" + std::to_string(fX) + ", " + std::to_string(fY) + "]");
 					mapToGenerateIn.m_Fields[static_cast<int>(worldPosition.x + worldPosition.y * worldFieldSize.x)] = *gO->addComponent(new FieldComponent());
 					mapToGenerateIn.m_Fields[static_cast<int>(worldPosition.x + worldPosition.y * worldFieldSize.x)].initialize(&mapToGenerateIn, worldPosition, ft);
-
+					mapToGenerateIn.m_Fields[static_cast<int>(worldPosition.x + worldPosition.y * worldFieldSize.x)].setRoomCoord(glm::vec2(rX, rY));
 				}
 			}
 
@@ -220,6 +222,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 				EnemyComponent* e = go->addComponent(new EnemyComponent());
 				const EnemyComponent::EnemyType type = it->second;
 				e->initialize(&mapToGenerateIn, type, glm::vec3(topLeftWorldPosition.x + it->first.x + 0.5, 0.0f, topLeftWorldPosition.y + it->first.y + 0.5));
+				e->setRoomCoord(glm::vec2(rX, rY));
 				mapToGenerateIn.m_Enemies.push_back(e);
 			}
 		}

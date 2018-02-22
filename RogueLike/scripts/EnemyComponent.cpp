@@ -202,3 +202,8 @@ void EnemyComponent::updateEnemyTypArcher(GLFWwindow* _window, const float _delt
 		}
 	}
 }
+void EnemyComponent::setRoomCoord(const glm::vec2 _roomCoord)
+{
+	m_RoomCoord = _roomCoord;
+}
+

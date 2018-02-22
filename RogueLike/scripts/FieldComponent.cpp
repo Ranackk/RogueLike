@@ -40,3 +40,8 @@ void FieldComponent::initialize(Scene* map, const glm::vec2 worldGridPosition, c
 		cc->initialize(bc);
 	}
 }
+
+void FieldComponent::setRoomCoord(const glm::vec2 _roomCoord)
+{
+	m_RoomCoord = _roomCoord;
+}

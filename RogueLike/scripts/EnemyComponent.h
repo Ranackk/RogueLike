@@ -33,6 +33,7 @@ public:
 	float getDamage(Range _range) const;
 	void takeDamage(const float _amount, const glm::vec3 _knockback) const;
 	void die() const;
+	void setRoomCoord(const glm::vec2 _roomCoord);
 
 	EnemyType getType() const { return m_Type; }
 private:
@@ -40,6 +41,7 @@ private:
 	Scene* m_Scene;
 	CircleCollider* m_CircleCollider;
 	HealthComponent* m_HealthComponent;
+	glm::vec2 m_RoomCoord;
 
 	/* Enemy Type specific functions */
 	void initializeEnemyTypeRogue();
