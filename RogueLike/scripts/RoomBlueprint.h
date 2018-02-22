@@ -26,10 +26,10 @@ public:
 	void markDoorAsUsed(int direction);
 	bool isPlacedInWorld() const { return m_PlacedInWorld; }
 
-	bool m_HasDoorFacingNorth = false;
-	bool m_HasDoorFacingEast = false;
-	bool m_HasDoorFacingSouth = false;
-	bool m_HasDoorFacingWest = false;
+	bool m_HasLeftoverDoorFacingNorth = false;
+	bool m_HasLeftoverDoorFacingEast = false;
+	bool m_HasLeftoverDoorFacingSouth = false;
+	bool m_HasLeftoverDoorFacingWest = false;
 private:
 	bool m_PlacedInWorld = false;
 	glm::vec2 m_roomSize;

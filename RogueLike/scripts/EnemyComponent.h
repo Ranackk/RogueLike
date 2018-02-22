@@ -59,7 +59,7 @@ private:
 	float m_RogueHealthPoints = 3.0f;
 
 	/* === Archer === */
-	float m_ArcherShootSpeed = 0.16f;
+	float m_ArcherShootSpeed = 5.0f;
 	float m_ArcherShootCooldownDuration = 0.7f;
 	float m_ArcherShootCooldown = 0.0f;
 	float m_ArcherRangedDamage = 0.5f;

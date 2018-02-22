@@ -11,7 +11,7 @@ ProjectileComponent::ProjectileComponent()
 }
 
 void ProjectileComponent::update(GLFWwindow* window, const float deltaTime) {
-	m_GameObject->getTransform().translate(m_Direction * m_MovementSpeed);
+	m_GameObject->getTransform().translate(m_Direction * m_MovementSpeed * deltaTime);
 
 	// Collision with Map
 	if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(*m_CircleCollider, true)) {

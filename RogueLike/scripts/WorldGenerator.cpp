@@ -30,10 +30,10 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	std::vector<RoomBlueprint> _roomBlueprintsWithDoorToWest;
 
 	for (int i = 0; i < roomCount; i++) {
-		if (_roomBlueprints[i].m_HasDoorFacingNorth) _roomBlueprintsWithDoorToNorth.push_back(_roomBlueprints[i]);
-		if (_roomBlueprints[i].m_HasDoorFacingEast) _roomBlueprintsWithDoorToEast.push_back(_roomBlueprints[i]);
-		if (_roomBlueprints[i].m_HasDoorFacingSouth) _roomBlueprintsWithDoorToSouth.push_back(_roomBlueprints[i]);
-		if (_roomBlueprints[i].m_HasDoorFacingWest) _roomBlueprintsWithDoorToWest.push_back(_roomBlueprints[i]);
+		if (_roomBlueprints[i].m_HasLeftoverDoorFacingNorth) _roomBlueprintsWithDoorToNorth.push_back(_roomBlueprints[i]);
+		if (_roomBlueprints[i].m_HasLeftoverDoorFacingEast) _roomBlueprintsWithDoorToEast.push_back(_roomBlueprints[i]);
+		if (_roomBlueprints[i].m_HasLeftoverDoorFacingSouth) _roomBlueprintsWithDoorToSouth.push_back(_roomBlueprints[i]);
+		if (_roomBlueprints[i].m_HasLeftoverDoorFacingWest) _roomBlueprintsWithDoorToWest.push_back(_roomBlueprints[i]);
 	}
 
 	/* === START OF THE WORLD GENERATION === */
@@ -42,8 +42,8 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 
 	/* Place the starting room (always index 0 in blueprints array) at the mid of the world */
 	{	
-	const int midX = ceil(roomGridSize.x / 2.0f);
-	const int midY = ceil(roomGridSize.y / 2.0f);
+	const int midX = static_cast<int>(ceil(roomGridSize.x / 2.0f));
+	const int midY = static_cast<int>(ceil(roomGridSize.y / 2.0f));
 	RoomBlueprint currentRoom = _rooms[static_cast<int>(roomGridSize.x) * midY + midX];
 	currentRoom.fillWithBlueprint(&_roomBlueprints[0]);
 	_rooms[static_cast<int>(roomGridSize.x) * midY + midX] = currentRoom;
@@ -53,8 +53,8 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 
 	/* Start the room placement of the rest */
 	const int countOfRoomsInGrid = static_cast<int>(roomGridSize.x * roomGridSize.y);
-	int maxRooms = 10;
-	int maxTryCount = 20;
+	const int maxRooms = 10;
+	const int maxTryCount = 20;
 
 	int currentTryCount = 0;
 	while (currentTryCount < maxTryCount) {
@@ -64,10 +64,10 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 		const int randomPlacedIndex = rand() % roomCoordinatesPlaced.size();
 
 
-		const int randomRoomX = roomCoordinatesPlaced[randomPlacedIndex].x;
-		const int randomRoomY = roomCoordinatesPlaced[randomPlacedIndex].y;
+		const int randomRoomX = static_cast<int>(roomCoordinatesPlaced[randomPlacedIndex].x);
+		const int randomRoomY = static_cast<int>(roomCoordinatesPlaced[randomPlacedIndex].y);
 
-		const int randomRoomIndex = randomRoomY * roomGridSize.x + randomRoomX;
+		const int randomRoomIndex = static_cast<int>(randomRoomY * roomGridSize.x + randomRoomX);
 
 		if (_rooms[randomRoomIndex].isPlacedInWorld()) {
 			RoomBlueprint currentRoom = _rooms[randomRoomIndex];
@@ -105,7 +105,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 
 			/* Validate (is this field empty & in bounds ?)*/
 			if (roomToGenerateX < 0 || roomToGenerateX > roomGridSize.x || roomToGenerateY < 0 || roomToGenerateY > roomGridSize.y) continue;
-			int roomToGenerateIndex = roomToGenerateY * roomGridSize.x + roomToGenerateX;
+			const int roomToGenerateIndex = static_cast<int>(roomToGenerateY * roomGridSize.x + roomToGenerateX);
 
 			/* If the room already exists, try another one. */
 			if (_rooms[roomToGenerateIndex].isPlacedInWorld()) {
@@ -134,10 +134,9 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 			const int roomToPlaceIndexInDoorList = rand() % (*roomVectorToUse).size();
 			RoomBlueprint roomToPlaceBlueprint = (*roomVectorToUse)[roomToPlaceIndexInDoorList];
 
-			/* Place the room */
+			/* Prepare the room */
 			RoomBlueprint roomToPlace = _rooms[roomToGenerateIndex];
 			roomToPlace.fillWithBlueprint(&roomToPlaceBlueprint);
-			_rooms[roomToGenerateIndex] = roomToPlace;
 
 			roomCoordinatesPlaced.push_back(glm::vec2(roomToGenerateX, roomToGenerateY));
 
@@ -151,16 +150,19 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 			default: break;
 			}
 
-			currentRoom.markDoorAsUsed(doorDirection);
+			_rooms[randomRoomIndex].markDoorAsUsed(doorDirection);
 			roomToPlace.markDoorAsUsed(inverseDoorDirection);
+
+			/* Place it */
+			_rooms[roomToGenerateIndex] = roomToPlace;
 		}
 
-		if (roomCoordinatesPlaced.size() == countOfRoomsInGrid) {
+		if (roomCoordinatesPlaced.size() == countOfRoomsInGrid || roomCoordinatesPlaced.size() >= maxRooms) {
 			break;
 		}
 	}
 
-	/* Fill all empty rooms with void */
+	/* Fill all empty rooms with void, Seal all open doors */
 	for (int rX = 0; rX < roomGridSize.x; rX++) {
 		for (int rY = 0; rY < roomGridSize.y; rY++) {
 			if (_rooms[static_cast<int>(roomGridSize.x) * rY + rX].getFieldData() == nullptr) {
@@ -196,7 +198,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 					const glm::vec2 worldPosition = topLeftWorldPosition + glm::vec2(fX, fY);
 
 					/* Create the field from the field type specified in the room blueprint */
-					FieldType ft = currentRoom.getFieldTypeAt(glm::vec2(fX, fY));
+					const FieldType ft = currentRoom.getFieldTypeAt(glm::vec2(fX, fY));
 					GameObject* gO = new GameObject("Field [" + std::to_string(fX) + ", " + std::to_string(fY) + "]");
 					mapToGenerateIn.m_Fields[static_cast<int>(worldPosition.x + worldPosition.y * worldFieldSize.x)] = *gO->addComponent(new FieldComponent());
 					mapToGenerateIn.m_Fields[static_cast<int>(worldPosition.x + worldPosition.y * worldFieldSize.x)].initialize(&mapToGenerateIn, worldPosition, ft);
@@ -222,6 +224,51 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 			}
 		}
 	}
+
+	/* For every door, check if another door is connected to it. If not, seal it */
+	for (int i = 0; i < worldFieldSize.x * worldFieldSize.y; i++) {
+		const FieldType currentFieldType = mapToGenerateIn.m_Fields[i].m_FieldType;
+		if (currentFieldType == FieldType::DOOR_NORTH || currentFieldType == FieldType::DOOR_EAST || currentFieldType == FieldType::DOOR_SOUTH || currentFieldType == FieldType::DOOR_WEST) {
+			const int left = i - 1;
+			const int right = i + 1;
+			const int top = i - static_cast<int>(worldFieldSize.x);
+			const int bot = i + static_cast<int>(worldFieldSize.x);
+
+			bool neighbourIsDoor = false;
+			if (left >= 0) {
+				const FieldType checkType = mapToGenerateIn.m_Fields[left].m_FieldType;
+				if (checkType == FieldType::DOOR_NORTH || checkType == FieldType::DOOR_EAST || checkType == FieldType::DOOR_SOUTH || checkType == FieldType::DOOR_WEST) {
+					neighbourIsDoor = true;
+				}
+			}
+			if (top >= 0) {
+				const FieldType checkType = mapToGenerateIn.m_Fields[top].m_FieldType;
+				if (checkType == FieldType::DOOR_NORTH || checkType == FieldType::DOOR_EAST || checkType == FieldType::DOOR_SOUTH || checkType == FieldType::DOOR_WEST) {
+					neighbourIsDoor = true;
+				}
+			}
+			if (right < worldFieldSize.x * worldFieldSize.y) {
+				const FieldType checkType = mapToGenerateIn.m_Fields[right].m_FieldType;
+				if (checkType == FieldType::DOOR_NORTH || checkType == FieldType::DOOR_EAST || checkType == FieldType::DOOR_SOUTH || checkType == FieldType::DOOR_WEST) {
+					neighbourIsDoor = true;
+				}
+			}
+			if (bot < worldFieldSize.x * worldFieldSize.y) {
+				const FieldType checkType = mapToGenerateIn.m_Fields[bot].m_FieldType;
+				if (checkType == FieldType::DOOR_NORTH || checkType == FieldType::DOOR_EAST || checkType == FieldType::DOOR_SOUTH || checkType == FieldType::DOOR_WEST) {
+					neighbourIsDoor = true;
+				}
+			}
+
+			if (!neighbourIsDoor) {
+				if (currentFieldType == FieldType::DOOR_NORTH || currentFieldType == FieldType::DOOR_SOUTH)
+					mapToGenerateIn.m_Fields[i].m_FieldType = FieldType::WALL_X;
+				else mapToGenerateIn.m_Fields[i].m_FieldType = FieldType::WALL_Z;
+			}
+		}
+	
+	}
+
 
 	/* Generate batches by field type */
 

@@ -166,7 +166,7 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 			if (projectileComponent == nullptr) {
 				projectileComponent = bullet->addComponent(new ProjectileComponent);
 			}
-			projectileComponent->initialize(m_GameObject->getTransform().getPosition() + glm::vec3(0, 0, 0), dir + combinedVector, .15f, 1.0f, CollisionLayer::FRIENDLY_UNITS);
+			projectileComponent->initialize(m_GameObject->getTransform().getPosition() + glm::vec3(0, 0, 0), dir + combinedVector, 6.0f, 1.0f, CollisionLayer::FRIENDLY_UNITS);
 			Game::getInstance()->getCurrentScene()->m_ProjectilePool.updateRenderBatch();
 
 		}

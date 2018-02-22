@@ -43,10 +43,10 @@ void RoomBlueprint::fillWithTypes(const glm::vec2 _roomSize, FieldType * _fillDa
 	for (int iX = 0; iX < m_roomSize.x; iX++) {
 		for (int iY = 0; iY < m_roomSize.y; iY++) {
 			const FieldType ft = this->m_fieldData[static_cast<int>(iX + iY * m_roomSize.x)];
-			if (ft == FieldType::DOOR_NORTH) m_HasDoorFacingNorth = true;
-			else if (ft == FieldType::DOOR_EAST) m_HasDoorFacingEast = true;
-			else if (ft == FieldType::DOOR_SOUTH) m_HasDoorFacingSouth = true;
-			else if (ft == FieldType::DOOR_WEST) m_HasDoorFacingWest = true;
+			if (ft == FieldType::DOOR_NORTH) m_HasLeftoverDoorFacingNorth = true;
+			else if (ft == FieldType::DOOR_EAST) m_HasLeftoverDoorFacingEast = true;
+			else if (ft == FieldType::DOOR_SOUTH) m_HasLeftoverDoorFacingSouth = true;
+			else if (ft == FieldType::DOOR_WEST) m_HasLeftoverDoorFacingWest = true;
 		}
 	}
 }
@@ -76,10 +76,10 @@ void RoomBlueprint::fillWithBlueprint(RoomBlueprint* _data) {
 	for (int iX = 0; iX < m_roomSize.x; iX++) {
 		for (int iY = 0; iY < m_roomSize.y; iY++) {
 			const FieldType ft = this->m_fieldData[static_cast<int>(iX + iY * m_roomSize.x)];
-			if (ft == FieldType::DOOR_NORTH) m_HasDoorFacingNorth = true;
-			else if (ft == FieldType::DOOR_EAST) m_HasDoorFacingEast = true;
-			else if (ft == FieldType::DOOR_SOUTH) m_HasDoorFacingSouth = true;
-			else if (ft == FieldType::DOOR_WEST) m_HasDoorFacingWest = true;
+			if (ft == FieldType::DOOR_NORTH) m_HasLeftoverDoorFacingNorth = true;
+			else if (ft == FieldType::DOOR_EAST) m_HasLeftoverDoorFacingEast = true;
+			else if (ft == FieldType::DOOR_SOUTH) m_HasLeftoverDoorFacingSouth = true;
+			else if (ft == FieldType::DOOR_WEST) m_HasLeftoverDoorFacingWest = true;
 		}
 	}
 	this->m_LightPositions = _data->m_LightPositions;
@@ -99,20 +99,20 @@ FieldType* RoomBlueprint::getFieldData() const {
 std::vector<int> RoomBlueprint::getLeftoverDoorsIndices() const
 {
 	 std::vector<int> ret = std::vector<int>();
-	 if (m_HasDoorFacingNorth) ret.push_back(0);
-	 if (m_HasDoorFacingEast) ret.push_back(1);
-	 if (m_HasDoorFacingSouth) ret.push_back(2);
-	 if (m_HasDoorFacingWest) ret.push_back(3);
+	 if (m_HasLeftoverDoorFacingNorth) ret.push_back(0);
+	 if (m_HasLeftoverDoorFacingEast) ret.push_back(1);
+	 if (m_HasLeftoverDoorFacingSouth) ret.push_back(2);
+	 if (m_HasLeftoverDoorFacingWest) ret.push_back(3);
 	 return ret;
 }
 
 void RoomBlueprint::markDoorAsUsed(const int direction)
 {
 	switch (direction) {
-	case 0: m_HasDoorFacingNorth = false; break;
-	case 1: m_HasDoorFacingEast = false; break;
-	case 2: m_HasDoorFacingSouth = false; break;
-	case 3: m_HasDoorFacingWest = false; break;
+	case 0: m_HasLeftoverDoorFacingNorth = false; break;
+	case 1: m_HasLeftoverDoorFacingEast = false; break;
+	case 2: m_HasLeftoverDoorFacingSouth = false; break;
+	case 3: m_HasLeftoverDoorFacingWest = false; break;
 	default: break;
 	}
 }
