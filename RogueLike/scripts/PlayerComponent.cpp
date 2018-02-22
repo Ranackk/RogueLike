@@ -14,10 +14,10 @@ const float PlayerComponent::JOYSTICK_MOVE_THRESHHOLD_Y = 0.5f;
 
 PlayerComponent::PlayerComponent() {}
 
-void PlayerComponent::initialize() {
+void PlayerComponent::initialize(Scene* _scene) {
 	const float rad = 0.1f;
 	this->m_MovementSpeed = 4.0f;
-	this->m_GameObject->getTransform().setLocalPosition(glm::vec3(19.5, 0, 13.5));
+	this->m_GameObject->getTransform().setLocalPosition(_scene->getStartingPoint());
 	this->m_GameObject->getTransform().setLocalScale(glm::vec3(rad * 2,1.5, rad * 2));
 	m_FacingDirection = glm::vec3(1, 0, 0);
 

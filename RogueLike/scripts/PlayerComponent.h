@@ -7,7 +7,7 @@ class PlayerComponent : public UpdateComponent
 {
 public:
 	PlayerComponent();
-	void initialize();
+	void initialize(Scene* _scene);
 	void takeDamage(const float _amount);
 	class LightComponent* m_Light;
 	float m_MovementSpeed;

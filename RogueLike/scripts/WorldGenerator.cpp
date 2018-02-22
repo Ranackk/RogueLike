@@ -9,34 +9,183 @@
 
 void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGenerateIn)
 {
+	/* === INITIALIZATION === */
 	/* Const vars for easier calculation */
 	const glm::vec2 individualRoomSize = glm::vec2(Game::m_s_cRoomWidthInFields, Game::m_s_cRoomHeightInFields);
-	const glm::vec2 worldFieldSize = glm::vec2(roomGridSize.x * individualRoomSize.x,roomGridSize.y * individualRoomSize.y);
+	const glm::vec2 worldFieldSize = glm::vec2(roomGridSize.x * individualRoomSize.x, roomGridSize.y * individualRoomSize.y);
 	/* Initialize arrays */
 	RoomBlueprint* _rooms = new RoomBlueprint[static_cast<unsigned int>(roomGridSize.x * roomGridSize.y)];
-	mapToGenerateIn.m_Fields = new FieldComponent [static_cast<unsigned int>(worldFieldSize.x * worldFieldSize.y)];
-	
+	mapToGenerateIn.m_Fields = new FieldComponent[static_cast<unsigned int>(worldFieldSize.x * worldFieldSize.y)];
+
+
+	/* === READ THE ROOMS FILE AND STORE IT === */
 	/* Read all room blueprints from files */
 	int roomCount;
 	RoomBlueprint* _roomBlueprints = readRoomBlueprintsFromFile(individualRoomSize, "graphics/rooms.png", mapToGenerateIn, &roomCount);
 
-	/* Fill rooms with the just read blueprints */
-	for (int rX = 0; rX < roomGridSize.x; rX++) {
-		for (int rY = 0; rY < roomGridSize.y; rY++) {
-			RoomBlueprint currentRoom = _rooms[(int)roomGridSize.x * rY + rX];
-			// TODO: Get a random room blueprint
-			const int id = rand() % roomCount;
-			currentRoom.fillWithTypes(individualRoomSize, _roomBlueprints[id].getFieldData());
-			currentRoom.fillLightAndEnemyVector(_roomBlueprints[id].m_LightPositions, _roomBlueprints[id].m_EnemyInformation);
-			_rooms[(int)roomGridSize.x * rY + rX] = currentRoom;
+	/* Sort the room blue prints by their availible door directions */
+	std::vector<RoomBlueprint> _roomBlueprintsWithDoorToNorth;
+	std::vector<RoomBlueprint> _roomBlueprintsWithDoorToEast;
+	std::vector<RoomBlueprint> _roomBlueprintsWithDoorToSouth;
+	std::vector<RoomBlueprint> _roomBlueprintsWithDoorToWest;
+
+	for (int i = 0; i < roomCount; i++) {
+		if (_roomBlueprints[i].m_HasDoorFacingNorth) _roomBlueprintsWithDoorToNorth.push_back(_roomBlueprints[i]);
+		if (_roomBlueprints[i].m_HasDoorFacingEast) _roomBlueprintsWithDoorToEast.push_back(_roomBlueprints[i]);
+		if (_roomBlueprints[i].m_HasDoorFacingSouth) _roomBlueprintsWithDoorToSouth.push_back(_roomBlueprints[i]);
+		if (_roomBlueprints[i].m_HasDoorFacingWest) _roomBlueprintsWithDoorToWest.push_back(_roomBlueprints[i]);
+	}
+
+	/* === START OF THE WORLD GENERATION === */
+
+	std::vector<glm::vec2> roomCoordinatesPlaced = std::vector<glm::vec2>();
+
+	/* Place the starting room (always index 0 in blueprints array) at the mid of the world */
+	{	
+	const int midX = ceil(roomGridSize.x / 2.0f);
+	const int midY = ceil(roomGridSize.y / 2.0f);
+	RoomBlueprint currentRoom = _rooms[static_cast<int>(roomGridSize.x) * midY + midX];
+	currentRoom.fillWithBlueprint(&_roomBlueprints[0]);
+	_rooms[static_cast<int>(roomGridSize.x) * midY + midX] = currentRoom;
+
+	roomCoordinatesPlaced.push_back(glm::vec2(midX, midY));
+	}
+
+	/* Start the room placement of the rest */
+	const int countOfRoomsInGrid = static_cast<int>(roomGridSize.x * roomGridSize.y);
+	int maxRooms = 10;
+	int maxTryCount = 20;
+
+	int currentTryCount = 0;
+	while (currentTryCount < maxTryCount) {
+		currentTryCount++;
+
+		/* Try to find a already placed room */
+		const int randomPlacedIndex = rand() % roomCoordinatesPlaced.size();
+
+
+		const int randomRoomX = roomCoordinatesPlaced[randomPlacedIndex].x;
+		const int randomRoomY = roomCoordinatesPlaced[randomPlacedIndex].y;
+
+		const int randomRoomIndex = randomRoomY * roomGridSize.x + randomRoomX;
+
+		if (_rooms[randomRoomIndex].isPlacedInWorld()) {
+			RoomBlueprint currentRoom = _rooms[randomRoomIndex];
+			std::vector<int> roomDoors = currentRoom.getLeftoverDoorsIndices();
+
+			/* Check if the room has open doors */
+			if (roomDoors.size() == 0) continue;
+
+			/* If so, get a random open door*/
+			const int randomIndex = rand() % roomDoors.size();
+			const int doorDirection = roomDoors[randomIndex];
+			
+			/* Calculate position of new room */
+			int roomToGenerateX = -1;
+			int roomToGenerateY = -1;
+			switch (doorDirection) {
+			case 0:
+				roomToGenerateX = randomRoomX;
+				roomToGenerateY = randomRoomY - 1;
+				break;
+			case 1:
+				roomToGenerateX = randomRoomX + 1;
+				roomToGenerateY = randomRoomY;
+				break;
+			case 2:
+				roomToGenerateX = randomRoomX;
+				roomToGenerateY = randomRoomY + 1;
+				break;
+			case 3:
+				roomToGenerateX = randomRoomX - 1;
+				roomToGenerateY = randomRoomY;
+				break;
+			default: break;
+			}
+
+			/* Validate (is this field empty & in bounds ?)*/
+			if (roomToGenerateX < 0 || roomToGenerateX > roomGridSize.x || roomToGenerateY < 0 || roomToGenerateY > roomGridSize.y) continue;
+			int roomToGenerateIndex = roomToGenerateY * roomGridSize.x + roomToGenerateX;
+
+			/* If the room already exists, try another one. */
+			if (_rooms[roomToGenerateIndex].isPlacedInWorld()) {
+				// TODO: Check if this door has to be seales or not (depending on the state of the door next to it)
+				continue;
+			}
+
+			/* Find a room to place there */
+			std::vector<RoomBlueprint>* roomVectorToUse = nullptr;
+			switch (doorDirection) {
+			case 0:
+				roomVectorToUse = &_roomBlueprintsWithDoorToSouth;
+				break;
+			case 1:
+				roomVectorToUse = &_roomBlueprintsWithDoorToWest;
+				break;
+			case 2:
+				roomVectorToUse = &_roomBlueprintsWithDoorToNorth;
+				break;
+			case 3:
+				roomVectorToUse = &_roomBlueprintsWithDoorToEast;
+				break;
+			default: break;
+			}
+
+			const int roomToPlaceIndexInDoorList = rand() % (*roomVectorToUse).size();
+			RoomBlueprint roomToPlaceBlueprint = (*roomVectorToUse)[roomToPlaceIndexInDoorList];
+
+			/* Place the room */
+			RoomBlueprint roomToPlace = _rooms[roomToGenerateIndex];
+			roomToPlace.fillWithBlueprint(&roomToPlaceBlueprint);
+			_rooms[roomToGenerateIndex] = roomToPlace;
+
+			roomCoordinatesPlaced.push_back(glm::vec2(roomToGenerateX, roomToGenerateY));
+
+			/* Unmark the both rooms (original & newly placed) as having doors left over */
+			int inverseDoorDirection = -1;
+			switch (doorDirection) {
+			case 0: inverseDoorDirection = 2; break;
+			case 1: inverseDoorDirection = 3; break;
+			case 2: inverseDoorDirection = 0; break;
+			case 3: inverseDoorDirection = 1; break;
+			default: break;
+			}
+
+			currentRoom.markDoorAsUsed(doorDirection);
+			roomToPlace.markDoorAsUsed(inverseDoorDirection);
+		}
+
+		if (roomCoordinatesPlaced.size() == countOfRoomsInGrid) {
+			break;
 		}
 	}
-	
+
+	/* Fill all empty rooms with void */
+	for (int rX = 0; rX < roomGridSize.x; rX++) {
+		for (int rY = 0; rY < roomGridSize.y; rY++) {
+			if (_rooms[static_cast<int>(roomGridSize.x) * rY + rX].getFieldData() == nullptr) {
+				_rooms[static_cast<int>(roomGridSize.x) * rY + rX].fillWithVoid(individualRoomSize);
+			}
+		}
+	}
+
+
+	///* Fill rooms with the just read blueprints */
+	//for (int rX = 0; rX < roomGridSize.x; rX++) {
+	//	for (int rY = 0; rY < roomGridSize.y; rY++) {
+	//		RoomBlueprint currentRoom = _rooms[(int)roomGridSize.x * rY + rX];
+	//		// TODO: Get a random room blueprint
+	//		const int id = rand() % roomCount;
+	//		currentRoom.fillWithBlueprint(&_roomBlueprints[id]);
+	//		_rooms[static_cast<int>(roomGridSize.x) * rY + rX] = currentRoom;
+	//	}
+	//}
+
 	/* Apply every room blueprint */
 	for (int rX = 0; rX < roomGridSize.x; rX ++) {
 		for (int rY = 0; rY < roomGridSize.y; rY++) {
 			/* Fetch the correct room blueprint */
-			const RoomBlueprint currentRoom = _rooms[(int)roomGridSize.x * rY + rX];
+			const RoomBlueprint currentRoom = _rooms[static_cast<int>(roomGridSize.x) * rY + rX];
 			const glm::vec2 topLeftWorldPosition = glm::vec2(rX * individualRoomSize.x, rY * individualRoomSize.y);
 
 			std::cout << "Creating Room " << rX << ", " << rY << " at topLeftPos " << topLeftWorldPosition.x << ", " << topLeftWorldPosition.y << std::endl;
@@ -45,14 +194,12 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 				for (int fY = 0; fY < individualRoomSize.y; fY++) {
 					/* The array spot we want to access is always current world Y * world width + current world X */
 					const glm::vec2 worldPosition = topLeftWorldPosition + glm::vec2(fX, fY);
-					/* Create the field from the field type specified in the room blueprint */
-					//FieldComponent newField =
-					//newField.initialize(&mapToGenerateIn, worldPosition, currentRoom.getFieldTypeAt(glm::vec2(fX, fY)));
 
+					/* Create the field from the field type specified in the room blueprint */
 					FieldType ft = currentRoom.getFieldTypeAt(glm::vec2(fX, fY));
 					GameObject* gO = new GameObject("Field [" + std::to_string(fX) + ", " + std::to_string(fY) + "]");
-					mapToGenerateIn.m_Fields[(int)(worldPosition.x + worldPosition.y * worldFieldSize.x)] = *gO->addComponent(new FieldComponent());
-					mapToGenerateIn.m_Fields[(int)(worldPosition.x + worldPosition.y * worldFieldSize.x)].initialize(&mapToGenerateIn, worldPosition, ft);
+					mapToGenerateIn.m_Fields[static_cast<int>(worldPosition.x + worldPosition.y * worldFieldSize.x)] = *gO->addComponent(new FieldComponent());
+					mapToGenerateIn.m_Fields[static_cast<int>(worldPosition.x + worldPosition.y * worldFieldSize.x)].initialize(&mapToGenerateIn, worldPosition, ft);
 
 				}
 			}

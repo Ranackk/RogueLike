@@ -25,16 +25,16 @@ Scene::Scene(const glm::vec2 size) {
 	this->m_Lights = std::vector<LightComponent*>();
 	this->m_Enemies = std::vector<EnemyComponent*>();
 
-	/* Setup PlayerComponent */
-	GameObject* gO = new GameObject("Player");
-	this->m_Player = gO->addComponent(new PlayerComponent());
-	this->m_Player->initialize();
-	this->m_Lights.push_back(m_Player->m_Light);
-
 	/* Setup fields */
 	m_RoomsPerMap = size;
 	m_FieldSize = glm::vec2(m_RoomsPerMap.x * Game::m_s_cRoomWidthInFields, m_RoomsPerMap.y * Game::m_s_cRoomHeightInFields);
 	generateMap(m_RoomsPerMap); 
+
+	/* Setup PlayerComponent */
+	GameObject* gO = new GameObject("Player");
+	this->m_Player = gO->addComponent(new PlayerComponent());
+	this->m_Player->initialize(this);
+	this->m_Lights.push_back(m_Player->m_Light);
 
 	/* Shadow Mapping */
 	m_DepthMaterial = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_TEC_RenderDistanceToNearestSurfaceIntoDepthBuffer");
@@ -237,6 +237,12 @@ int Scene::getLightCount() const {
 
 std::vector<LightComponent*> Scene::getLights() const {
 	return m_Lights;
+}
+
+glm::vec3 Scene::getStartingPoint() const
+{
+	glm::vec3 ret = glm::vec3(ceil(m_RoomsPerMap.x / 2) * (Game::m_s_cRoomWidthInFields) + 0.5 * Game::m_s_cRoomWidthInFields, 0, ceil(m_RoomsPerMap.y / 2) * (Game::m_s_cRoomHeightInFields) + 0.5 * Game::m_s_cRoomHeightInFields);
+	return ret;
 }
 
 glm::vec2 Scene::getCurrentRoomGridPos() const {
