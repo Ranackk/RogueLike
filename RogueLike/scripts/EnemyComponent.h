@@ -34,7 +34,8 @@ public:
 	void takeDamage(const float _amount, const glm::vec3 _knockback) const;
 	void die() const;
 	void setRoomCoord(const glm::vec2 _roomCoord);
-
+	glm::vec2 getRoomCoord() const { return m_RoomCoord; }
+	 
 	EnemyType getType() const { return m_Type; }
 private:
 	EnemyType m_Type;

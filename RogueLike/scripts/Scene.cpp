@@ -136,6 +136,10 @@ void Scene::update(GLFWwindow* window, const float deltaTime) {
 	m_HUDHealthContainer->update(window, deltaTime);
 
 	m_ProjectilePool.update(window, deltaTime);
+
+	for (int i = 0; i < m_FieldSize.x * m_FieldSize.y; i++) {
+		m_Fields[i].update(window, deltaTime);
+	}
 }
 
 /* Draws the whole scene to the screen */
@@ -323,4 +327,16 @@ bool Scene::collidesWithSceneGeometry(CircleCollider& checkFor, const bool _outO
 
 	return false;
 
+}
+
+
+bool Scene::enemyInRoom(const glm::vec2 _roomCoord) {
+	// TODO: find out if an enemy is in this room!
+	//std::cout << "Implement this function pls " << std::endl;
+
+	for (int i = 0; i < m_Enemies.size(); i++) {
+		if (m_Enemies[i]->getRoomCoord() == _roomCoord) return true;
+	}
+
+	return false;
 }

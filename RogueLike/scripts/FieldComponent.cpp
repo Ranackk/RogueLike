@@ -39,9 +39,33 @@ void FieldComponent::initialize(Scene* map, const glm::vec2 worldGridPosition, c
 		bc.setCollisionLayer(CollisionLayer::MAP_GEOMETRY);
 		cc->initialize(bc);
 	}
+
+
 }
 
 void FieldComponent::setRoomCoord(const glm::vec2 _roomCoord)
 {
 	m_RoomCoord = _roomCoord;
+
+}
+
+void FieldComponent::update(GLFWwindow* window, const float deltaTime) {
+	if (!m_FirstUpdateHappened) {
+		m_FirstUpdateHappened = true;
+		if (m_FieldType == FieldType::DOOR_NORTH || m_FieldType == FieldType::DOOR_EAST || m_FieldType == FieldType::DOOR_SOUTH || m_FieldType == FieldType::DOOR_WEST) {
+			m_isDoor = true;
+		}
+	}
+	if (m_isDoor) {
+		// Is player in this room
+		if (m_Map->getCurrentRoomGridPos() == m_RoomCoord) {
+			// Are there any enemies?
+			if (m_Map->enemyInRoom(m_RoomCoord)) {
+
+				// If yes, set collider active & perform some kind of visual effect via material
+				std::cout << m_GameObject->getName().c_str() << " yells " << "BLOCKADE!" << std::endl;
+				
+			}
+		}
+	}
 }

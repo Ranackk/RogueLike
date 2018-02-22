@@ -9,7 +9,7 @@ public:
 	FieldComponent();
 	void initialize(Scene *map, const glm::vec2 worldGridPosition, const FieldType fieldType);
 	void setRoomCoord(glm::vec2 _roomCoord);
-	void update(GLFWwindow* window, const float deltaTime) override {}
+	void update(GLFWwindow* window, const float deltaTime) override;
 
 	FieldType m_FieldType;
 private:
@@ -18,5 +18,8 @@ private:
 	glm::vec2 m_worldGridPosition;
 	Scene* m_Map;
 
+	bool m_isDoor = false;
+
+	bool m_FirstUpdateHappened = false;
 }; 
 

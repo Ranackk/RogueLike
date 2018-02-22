@@ -47,6 +47,7 @@ public:
 	glm::vec2 getCurrentRoomGridPos() const;
 	glm::vec2 getRoomGridPos(glm::vec3 _position) const;
 	glm::vec3 getCurrentRoomMid() const;
+	bool enemyInRoom(glm::vec2 _roomCoord);
 
 	class PlayerComponent* m_Player;
 	FieldComponent* m_Fields;
