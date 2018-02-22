@@ -17,8 +17,14 @@ public:
 	std::vector<std::pair<glm::vec2, EnemyComponent::EnemyType>> m_EnemyInformation;
 	std::vector<glm::vec2> m_LightPositions;
 
+	bool m_HasDoorFacingNorth = false;
+	bool m_HasDoorFacingEast = false;
+	bool m_HasDoorFacingSouth = false;
+	bool m_HasDoorFacingWest = false;
+
 private:
 	glm::vec2 m_roomSize;
 	FieldType* m_fieldData;
+
 };
 

@@ -23,11 +23,20 @@ void RoomBlueprint::fillWithTypes(const glm::vec2 _roomSize, FieldType * _fillDa
 	if (this->m_fieldData == nullptr) {
 		for (int iX = 0; iX < _roomSize.x; iX++) {
 			for (int iY = 0; iY < _roomSize.y; iY++) {
-				this->m_fieldData[(int)(iX + iY * _roomSize.x)] = FieldType::FLOOR;
+				this->m_fieldData[static_cast<int>(iX + iY * _roomSize.x)] = FieldType::FLOOR;
 			}
 		}
 	}
 
+	for (int iX = 0; iX < _roomSize.x; iX++) {
+		for (int iY = 0; iY < _roomSize.y; iY++) {
+			const FieldType ft = this->m_fieldData[static_cast<int>(iX + iY * _roomSize.x)];
+			if (ft == FieldType::DOOR_NORTH) m_HasDoorFacingNorth = true;
+			else if (ft == FieldType::DOOR_EAST) m_HasDoorFacingEast = true;
+			else if (ft == FieldType::DOOR_SOUTH) m_HasDoorFacingSouth = true;
+			else if (ft == FieldType::DOOR_WEST) m_HasDoorFacingWest = true;
+		}
+	}
 }
 
 void RoomBlueprint::fillLightAndEnemyVector(const std::vector<glm::vec2> _lightPositions,

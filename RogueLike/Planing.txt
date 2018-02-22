@@ -8,6 +8,7 @@
 	camera shake on damage
 	second basic wall type for the symmetry?
 
+	basic power ups? (damage, speed, movespeed?)
 
 	-> Player as Batch?
 

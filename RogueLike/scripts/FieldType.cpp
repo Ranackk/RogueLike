@@ -2,19 +2,27 @@
 #include "FieldType.h"
 #include "Game.h"
 
+FieldType FieldType::VOID = FieldType(-1, "tex_Floor", "mat_Floor", "mesh_Floor", BLOCKED);
+
 FieldType FieldType::FLOOR = FieldType(0, "tex_Floor", "mat_Floor", "mesh_Floor", WALKING);
-FieldType FieldType::WALL_X = FieldType(1, "tex_Wall", "mat_Wall", "mesh_Wall_basic_x", BLOCKED);
-FieldType FieldType::WALL_Z = FieldType(2, "tex_Wall", "mat_Wall", "mesh_Wall_basic_z", BLOCKED);
 
-FieldType FieldType::WALL_ARCH_L_X = FieldType(3, "tex_Wall", "mat_Wall", "mesh_Wall_arch_left_x", BLOCKED);
-FieldType FieldType::WALL_ARCH_L_Z = FieldType(4, "tex_Wall", "mat_Wall", "mesh_Wall_arch_left_z", BLOCKED);
-FieldType FieldType::WALL_ARCH_R_X = FieldType(5, "tex_Wall", "mat_Wall", "mesh_Wall_arch_right_x", BLOCKED);
-FieldType FieldType::WALL_ARCH_R_Z = FieldType(6, "tex_Wall", "mat_Wall", "mesh_Wall_arch_right_z", BLOCKED);
+FieldType FieldType::DOOR_NORTH = FieldType(1, "tex_Floor", "mat_Floor", "mesh_Floor", WALKING);
+FieldType FieldType::DOOR_EAST  = FieldType(2, "tex_Floor", "mat_Floor", "mesh_Floor", WALKING);
+FieldType FieldType::DOOR_SOUTH = FieldType(3, "tex_Floor", "mat_Floor", "mesh_Floor", WALKING);
+FieldType FieldType::DOOR_WEST  = FieldType(4, "tex_Floor", "mat_Floor", "mesh_Floor", WALKING);
 
-FieldType FieldType::WALL_CORNER_NW = FieldType(7, "tex_Wall", "mat_Wall", "mesh_Wall_corner_left_back", BLOCKED);
-FieldType FieldType::WALL_CORNER_NE = FieldType(8, "tex_Wall", "mat_Wall", "mesh_Wall_corner_right_back", BLOCKED);
-FieldType FieldType::WALL_CORNER_SW = FieldType(9, "tex_Wall", "mat_Wall", "mesh_Wall_corner_left_front", BLOCKED);
-FieldType FieldType::WALL_CORNER_SE = FieldType(10, "tex_Wall", "mat_Wall", "mesh_Wall_corner_right_front", BLOCKED);
+FieldType FieldType::WALL_X = FieldType(5, "tex_Wall", "mat_Wall", "mesh_Wall_basic_x", BLOCKED);
+FieldType FieldType::WALL_Z = FieldType(6, "tex_Wall", "mat_Wall", "mesh_Wall_basic_z", BLOCKED);
+
+FieldType FieldType::WALL_ARCH_L_X = FieldType(7, "tex_Wall", "mat_Wall", "mesh_Wall_arch_left_x", BLOCKED);
+FieldType FieldType::WALL_ARCH_L_Z = FieldType(8, "tex_Wall", "mat_Wall", "mesh_Wall_arch_left_z", BLOCKED);
+FieldType FieldType::WALL_ARCH_R_X = FieldType(9, "tex_Wall", "mat_Wall", "mesh_Wall_arch_right_x", BLOCKED);
+FieldType FieldType::WALL_ARCH_R_Z = FieldType(10, "tex_Wall", "mat_Wall", "mesh_Wall_arch_right_z", BLOCKED);
+
+FieldType FieldType::WALL_CORNER_NW = FieldType(11, "tex_Wall", "mat_Wall", "mesh_Wall_corner_left_back", BLOCKED);
+FieldType FieldType::WALL_CORNER_NE = FieldType(12, "tex_Wall", "mat_Wall", "mesh_Wall_corner_right_back", BLOCKED);
+FieldType FieldType::WALL_CORNER_SW = FieldType(13, "tex_Wall", "mat_Wall", "mesh_Wall_corner_left_front", BLOCKED);
+FieldType FieldType::WALL_CORNER_SE = FieldType(14, "tex_Wall", "mat_Wall", "mesh_Wall_corner_right_front", BLOCKED);
 
 
 FieldType::FieldType() {
@@ -52,11 +60,22 @@ FieldType FieldType::byColor(const unsigned char r) {
 	case 80: return WALL_CORNER_SW;
 	case 90: return WALL_CORNER_SE;
 
+	case 200: 
+		return VOID;
+
+	case 210: return DOOR_NORTH;
+	case 220: return DOOR_EAST;
+	case 230: return DOOR_SOUTH;
+	case 240: return DOOR_WEST;
+
 	case 255: return FLOOR;
 
-	default: return FLOOR;
+	default: return VOID;
 	}
-	return WALL_X;
+}
+
+bool FieldType::isVoid() const {
+	return m_Id == -1;
 }
 
 std::string FieldType::toString() const{

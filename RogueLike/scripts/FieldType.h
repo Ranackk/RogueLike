@@ -8,7 +8,14 @@ public:
 		WALKING, BLOCKED
 	};
 
+	static FieldType VOID;
+
 	static FieldType FLOOR;
+
+	static FieldType DOOR_NORTH;
+	static FieldType DOOR_EAST;
+	static FieldType DOOR_SOUTH;
+	static FieldType DOOR_WEST;
 
 	static FieldType WALL_X;
 	static FieldType WALL_Z;
@@ -24,6 +31,7 @@ public:
 	static FieldType WALL_CORNER_SE;
 
 	static FieldType byColor(unsigned char r);
+	bool isVoid() const;
 
 	std::string toString() const;
 	GLuint getSprite() const;

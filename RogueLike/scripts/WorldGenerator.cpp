@@ -48,9 +48,12 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 					/* Create the field from the field type specified in the room blueprint */
 					//FieldComponent newField =
 					//newField.initialize(&mapToGenerateIn, worldPosition, currentRoom.getFieldTypeAt(glm::vec2(fX, fY)));
+
+					FieldType ft = currentRoom.getFieldTypeAt(glm::vec2(fX, fY));
 					GameObject* gO = new GameObject("Field [" + std::to_string(fX) + ", " + std::to_string(fY) + "]");
 					mapToGenerateIn.m_Fields[(int)(worldPosition.x + worldPosition.y * worldFieldSize.x)] = *gO->addComponent(new FieldComponent());
-					mapToGenerateIn.m_Fields[(int)(worldPosition.x + worldPosition.y * worldFieldSize.x)].initialize(&mapToGenerateIn, worldPosition, currentRoom.getFieldTypeAt(glm::vec2(fX, fY)));
+					mapToGenerateIn.m_Fields[(int)(worldPosition.x + worldPosition.y * worldFieldSize.x)].initialize(&mapToGenerateIn, worldPosition, ft);
+
 				}
 			}
 
@@ -79,7 +82,10 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	std::map<int, std::vector<GameObject*>> fieldsByFieldType = std::map<int, std::vector <GameObject*>> ();
 	for (int i = 0; i < worldFieldSize.x * worldFieldSize.y; i++) {
 		const FieldType currentFieldType = mapToGenerateIn.m_Fields[i].m_FieldType;
-
+		/* Dont create render batches for VOID type fields */
+		if (currentFieldType.isVoid()) {
+			continue;
+		}
 		bool found = false;
 		for (auto it = fieldsByFieldType.begin(); it != fieldsByFieldType.end(); ++it) {
 			if (it->first == currentFieldType.m_Id) {
@@ -91,13 +97,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 			fieldsByFieldType[currentFieldType.m_Id] = std::vector<GameObject*>();
 			fieldsByFieldType[currentFieldType.m_Id].push_back(mapToGenerateIn.m_Fields[i].getGameObject());
 		}
-		//if (fieldsByFieldType.find(currentFieldType) != fieldsByFieldType.end()) {
-		//	fieldsByFieldType[currentFieldType].push_back(&mapToGenerateIn.m_Fields[i]);
-		//}
-		//else {
-		//	fieldsByFieldType[currentFieldType] = std::vector<GameObject*>();
-		//	fieldsByFieldType[currentFieldType].push_back(&mapToGenerateIn.m_Fields[i]);
-		//}
+
 	}
 	// Create a batch for each type
 	mapToGenerateIn.m_FieldBatches = std::vector<RenderBatch>();
