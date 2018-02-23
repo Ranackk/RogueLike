@@ -55,7 +55,7 @@ void LightComponent::update(GLFWwindow * window, const float deltaTime)
 {
 	if (m_Flicker) {
 		m_FlickerCounter += deltaTime;
-		m_LightRange = m_DefaultLightRange + 10 * glm::sin(m_FlickerCounter * 1.2);
+		m_LightRange = m_DefaultLightRange + (m_DefaultLightRange * 0.3f) * glm::sin(m_FlickerCounter * 1.2);
 	}
 }
 

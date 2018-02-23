@@ -62,9 +62,19 @@ void FieldComponent::update(GLFWwindow* window, const float deltaTime) {
 			// Are there any enemies?
 			if (m_Map->enemyInRoom(m_RoomCoord)) {
 
+				if (!m_CurrentlyLocked) {
+					m_CurrentlyLocked = true;
+					m_Map->blockDoor(m_FieldType, m_worldGridPosition);
+				}
 				// If yes, set collider active & perform some kind of visual effect via material
-				std::cout << m_GameObject->getName().c_str() << " yells " << "BLOCKADE!" << std::endl;
+				//std::cout << m_GameObject->getName().c_str() << " yells " << "BLOCKADE!" << std::endl;
 				
+			}
+			else {
+				if (m_CurrentlyLocked) {
+					m_CurrentlyLocked = false;
+					m_Map->unblockDoor(m_FieldType);
+				}
 			}
 		}
 	}

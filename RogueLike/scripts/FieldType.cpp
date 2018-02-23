@@ -24,7 +24,18 @@ FieldType FieldType::WALL_CORNER_NE = FieldType(12, "tex_Wall", "mat_Wall", "mes
 FieldType FieldType::WALL_CORNER_SW = FieldType(13, "tex_Wall", "mat_Wall", "mesh_Wall_corner_left_front", BLOCKED);
 FieldType FieldType::WALL_CORNER_SE = FieldType(14, "tex_Wall", "mat_Wall", "mesh_Wall_corner_right_front", BLOCKED);
 
+FieldType FieldType::WALL_COLUMN_POS_X = FieldType(15, "tex_Wall", "mat_Wall", "mesh_Wall_column_pos_x", BLOCKED);
+FieldType FieldType::WALL_COLUMN_NEG_X = FieldType(16, "tex_Wall", "mat_Wall", "mesh_Wall_column_neg_x", BLOCKED);
+FieldType FieldType::WALL_COLUMN_POS_Z = FieldType(17, "tex_Wall", "mat_Wall", "mesh_Wall_column_pos_z", BLOCKED);
+FieldType FieldType::WALL_COLUMN_NEG_Z = FieldType(18, "tex_Wall", "mat_Wall", "mesh_Wall_column_neg_z", BLOCKED);
 
+FieldType FieldType::WALL_WINDOW_X = FieldType(19, "tex_Wall", "mat_Wall", "mesh_Wall_window_x", BLOCKED);
+FieldType FieldType::WALL_WINDOW_Z = FieldType(20, "tex_Wall", "mat_Wall", "mesh_Wall_window_x", BLOCKED);
+
+FieldType FieldType::WALL_BROKEN_X = FieldType(21, "tex_Wall", "mat_Wall", "mesh_Wall_broken_z", BLOCKED);
+FieldType FieldType::WALL_BROKEN_Z = FieldType(22, "tex_Wall", "mat_Wall", "mesh_Wall_broken_z", BLOCKED);
+
+FieldType FieldType::SHRINE = FieldType(100, "tex_Wall", "mat_Floor", "mesh_Shrine", BLOCKED);
 FieldType::FieldType() {
 	m_textureHandle = "";
 	m_modelHandle = "";
@@ -59,6 +70,19 @@ FieldType FieldType::byColor(const unsigned char r) {
 	case 70: return WALL_CORNER_NE;
 	case 80: return WALL_CORNER_SW;
 	case 90: return WALL_CORNER_SE;
+
+	case 100: return WALL_COLUMN_POS_X;
+	case 110: return WALL_COLUMN_NEG_X;
+	case 120: return WALL_COLUMN_POS_Z;
+	case 130: return WALL_COLUMN_NEG_Z;
+
+	case 140: return WALL_WINDOW_X;
+	case 150: return WALL_WINDOW_Z;
+
+	case 160: return WALL_BROKEN_X;
+	case 170: return WALL_BROKEN_Z;
+
+	case 180: return SHRINE;
 
 	case 200: 
 		return VOID;

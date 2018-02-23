@@ -16,6 +16,7 @@ const float Game::m_s_cNearClip = 0.1f;
 const float Game::m_s_cFarClip = 70.0f;
 const float Game::m_s_cShadowNearClip = 0.01f;
 const float Game::m_s_cShadowFarClip = 30.0f;
+const float Game::m_s_cLightActiveDistance = 19.0f;
 
 
 const string Game::m_s_cWindowTitle = "Ranogue!";
@@ -128,9 +129,10 @@ void Game::initializeManagers() {
 	m_TextureManager->loadTextureAs("graphics/map/stone_01.png", FieldType::FLOOR.getTextureIdentifier());
 	// ENTITIES
 	m_TextureManager->loadTextureAs("graphics/stone.png", "tex_Player");
+	m_TextureManager->loadTextureAs("graphics/bullet.png", "tex_Projectile");
 
-	m_TextureManager->loadTextureAs("graphics/stone.png", "tex_Enemy_Rogue");
-	m_TextureManager->loadTextureAs("graphics/stone.png", "tex_Enemy_Archer");
+	m_TextureManager->loadTextureAs("graphics/bullet.png", "tex_Enemy_Rogue");
+	m_TextureManager->loadTextureAs("graphics/bullet.png", "tex_Enemy_Archer");
 	// UI
 	m_TextureManager->loadTextureAs("graphics/ui/heartcontainerBackground.png", "tex_UI_HeartContainer_BG");
 	m_TextureManager->loadTextureAs("graphics/ui/heartcontainerFill.png", "tex_UI_HeartContainer_Fill");
@@ -181,17 +183,30 @@ void Game::initializeManagers() {
 	m_ModelManager->loadModelAs("models/map/Wall_corner_right_back.obj", "mesh_Wall_corner_right_back");
 	m_ModelManager->loadModelAs("models/map/Wall_corner_left_front.obj", "mesh_Wall_corner_left_front");
 	m_ModelManager->loadModelAs("models/map/Wall_corner_right_front.obj", "mesh_Wall_corner_right_front");
+
+	m_ModelManager->loadModelAs("models/map/Wall_column_pos_x.obj",  "mesh_Wall_column_pos_x");
+	m_ModelManager->loadModelAs("models/map/Wall_column_neg_x.obj", "mesh_Wall_column_neg_x");
+	m_ModelManager->loadModelAs("models/map/Wall_column_pos_z.obj", "mesh_Wall_column_pos_z");
+	m_ModelManager->loadModelAs("models/map/Wall_column_neg_z.obj", "mesh_Wall_column_neg_z");
+
+	m_ModelManager->loadModelAs("models/map/Wall_window_x.obj", "mesh_Wall_window_x");
+	m_ModelManager->loadModelAs("models/map/Wall_window_z.obj", "mesh_Wall_window_z");
+
+	m_ModelManager->loadModelAs("models/map/Wall_broken_x.obj", "mesh_Wall_broken_x");
+	m_ModelManager->loadModelAs("models/map/Wall_broken_z.obj", "mesh_Wall_broken_z");
+
+	m_ModelManager->loadModelAs("models/map/Shrine.obj", "mesh_Shrine");
 	// ENTITES
 	m_ModelManager->loadModelAs("models/player.obj", "mesh_Player");
 	m_ModelManager->loadModelAs("models/player.obj", "mesh_Enemy_Rogue");
 	m_ModelManager->loadModelAs("models/player.obj", "mesh_Enemy_Archer");
 
-	m_ModelManager->loadModelAs("models/testmodel.obj", "mesh_Projectile");
+	m_ModelManager->loadModelAs("models/player.obj", "mesh_Projectile");
 
 }
 
 void Game::initializeGameComponents() {
-	this->m_Scene = new Scene(glm::vec2(8, 8));
+	this->m_Scene = new Scene(glm::vec2(7, 7));
 
 	GameObject* gO = new GameObject("Camera");
 	this->m_Camera = gO->addComponent(new CameraComponent());

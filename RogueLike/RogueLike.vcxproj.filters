@@ -114,69 +114,6 @@
     <Object Include="models\Wall_04.obj">
       <Filter>models</Filter>
     </Object>
-    <Object Include="models\map\Wall_v02_arch_left_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_arch_left_z.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_arch_right_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_arch_right_z.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_basic_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_basic_z.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_bridge_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_bridge_z.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_broken_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_broken_z.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_column_broken_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_column_broken_z.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_column_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_column_z_left.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_column_z_right.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_corner_left_back.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_corner_left_front.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_corner_right_back.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_corner_right_front.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_window_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_v02_window_z.obj">
-      <Filter>models\map</Filter>
-    </Object>
     <Object Include="models\map\Shrine.obj">
       <Filter>models\map</Filter>
     </Object>

@@ -81,7 +81,7 @@
 	> Sowas wie m_TextureManager = TextureManager(); reicht anscheinen nicht, wenn m_TextureManager vom Typen TextureManager& ist.
 
 	> Wir nutzen referenzen, weil beim returnen von Pointern der Pointer gelöscht werden könnte von außerhalb
-	> Also muss man halt dafür sorgen, dass der Default Constructor alles initialisiert und dann halt später die Werte richtig setzt.
+	> Also muss man halt dafür sorgen, dass der Default Constructor alles initialisiert und dann halt spter die Werte richtig setzt.
 
 	====
 

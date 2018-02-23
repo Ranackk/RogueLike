@@ -16,7 +16,9 @@ void CameraComponent::initialize(const Mode _mode, PlayerComponent* _player) {
 	this->m_Mode = _mode;
 	this->m_Player = _player;
 
-	this->m_GameObject->getTransform().setLocalPosition(glm::vec3(25, 20, 30));
+	const glm::vec3 startPos = Game::getInstance()->getCurrentScene()->getStartingPoint();
+	this->m_GameObject->getTransform().setLocalPosition(glm::vec3(startPos.x, -10, startPos.z) + m_Offset);
+	m_DesiredPosition = startPos + m_Offset;
 	//= Transform(glm::vec3(25, 20, 30), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
 
 	//this->m_ProjectionMatrix = glm::ortho(0, 1, 0, 1, -20, 100);
@@ -29,15 +31,16 @@ void CameraComponent::initialize(const Mode _mode, PlayerComponent* _player) {
 	//m_ProjectionMatrix = glm::perspective(glm::radians(45.0f), (float)Game::m_s_cWindowWidth / Game::m_s_cWindowHeight, Game::m_s_cNearClip, Game::m_s_cFarClip);
 
 	this->m_ViewMatrix = glm::lookAt(
-		glm::vec3(25, 50, 20),			// position
-		glm::vec3(25, 0, 19.999f),		// focus point
-		glm::vec3(0, 1, 0)				// up vector
+		this->m_GameObject->getTransform().getLocalPosition(),			// position
+		glm::vec3(25, 0, 19.999f),										// focus point
+		glm::vec3(0, 1, 0)												// up vector
 										//glm::vec3(60, 100, 30),			// position
 										//glm::vec3(60, 0, 29.999f),		// focus point
 										//glm::vec3(0, 1, 0)				// up vector
 	);
 
 	this->m_Offset = glm::vec3(0, 15, 0);
+
 }
 
 CameraComponent::~CameraComponent() {

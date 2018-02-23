@@ -49,6 +49,9 @@ public:
 	glm::vec3 getCurrentRoomMid() const;
 	bool enemyInRoom(glm::vec2 _roomCoord);
 
+	void blockDoor(FieldType _fieldType, glm::vec2 _worldGridPosition);
+	void unblockDoor(FieldType _fieldType);
+
 	class PlayerComponent* m_Player;
 	FieldComponent* m_Fields;
 	std::vector<RenderBatch> m_FieldBatches;
@@ -79,5 +82,7 @@ private:
 	void generateMap(const glm::vec2 mapSize);
 
 	class GameObject* m_HUDHealthContainer;
+
+	class std::vector<GameObject*> m_BlockadeObjects;
 };
 

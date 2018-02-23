@@ -110,7 +110,7 @@ float EnemyComponent::getDamage(const Range _range) const {
 
 
 void EnemyComponent::takeDamage(const float _amount, const glm::vec3 _knockback) const {
-	std::cout << m_GameObject->getName().c_str() << " took " << _amount << " damage! NEW HP: " << std::to_string((*m_HealthComponent->getCurrentHealthPointer())) << std::endl;
+	//std::cout << m_GameObject->getName().c_str() << " took " << _amount << " damage! NEW HP: " << std::to_string((*m_HealthComponent->getCurrentHealthPointer())) << std::endl;
 
 	/* Damage */
 	if (m_HealthComponent->takeDamage(_amount)) {

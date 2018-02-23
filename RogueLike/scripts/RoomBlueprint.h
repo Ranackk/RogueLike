@@ -19,7 +19,7 @@ public:
 	FieldType* getFieldData() const;
 
 	std::vector<std::pair<glm::vec2, EnemyComponent::EnemyType>> m_EnemyInformation;
-	std::vector<glm::vec2> m_LightPositions;
+	std::vector<glm::vec3> m_LightPositions;
 
 	std::vector<int> getLeftoverDoorsIndices() const;
 

@@ -30,6 +30,19 @@ public:
 	static FieldType WALL_CORNER_SW;
 	static FieldType WALL_CORNER_SE;
 
+	static FieldType WALL_COLUMN_POS_X;
+	static FieldType WALL_COLUMN_NEG_X;
+	static FieldType WALL_COLUMN_POS_Z;
+	static FieldType WALL_COLUMN_NEG_Z;
+
+	static FieldType WALL_WINDOW_X;
+	static FieldType WALL_WINDOW_Z;
+
+	static FieldType WALL_BROKEN_X;
+	static FieldType WALL_BROKEN_Z;
+
+	static FieldType SHRINE;
+
 	static FieldType byColor(unsigned char r);
 	bool isVoid() const;
 
@@ -40,6 +53,7 @@ public:
 	std::string getMaterialIdentifer() const;
 
 	Walkability getPassing() const { return m_walkability; }
+	int getDoorDirection() const { return m_Id - 1; }
 
 	FieldType();
 	~FieldType();

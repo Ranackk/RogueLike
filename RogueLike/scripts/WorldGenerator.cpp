@@ -53,10 +53,12 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	roomCoordinatesPlaced.push_back(glm::vec2(midX, midY));
 	}
 
+	srand(10);
+
 	/* Start the room placement of the rest */
 	const int countOfRoomsInGrid = static_cast<int>(roomGridSize.x * roomGridSize.y);
-	const int maxRooms = 10;
-	const int maxTryCount = 20;
+	const int maxRooms = 18;
+	const int maxTryCount = 100;
 
 	int currentTryCount = 0;
 	while (currentTryCount < maxTryCount) {
@@ -192,7 +194,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 			const RoomBlueprint currentRoom = _rooms[static_cast<int>(roomGridSize.x) * rY + rX];
 			const glm::vec2 topLeftWorldPosition = glm::vec2(rX * individualRoomSize.x, rY * individualRoomSize.y);
 
-			std::cout << "Creating Room " << rX << ", " << rY << " at topLeftPos " << topLeftWorldPosition.x << ", " << topLeftWorldPosition.y << std::endl;
+			//std::cout << "Creating Room " << rX << ", " << rY << " at topLeftPos " << topLeftWorldPosition.x << ", " << topLeftWorldPosition.y << std::endl;
 			/* For every field in the room */
 			for (int fX = 0; fX < individualRoomSize.x; fX++) {
 				for (int fY = 0; fY < individualRoomSize.y; fY++) {
@@ -213,7 +215,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 				//if (mapToGenerateIn.m_Lights.size() >= 2* 2) continue;
 				GameObject* go = new GameObject("Scene Light " + mapToGenerateIn.m_Lights.size());
 				LightComponent* l = go->addComponent(new LightComponent());
-				l->initialize(glm::vec3(topLeftWorldPosition.x + it->x + 0.5, 1, topLeftWorldPosition.y + it->y + 0.5), 30.0f, glm::vec4(0.8, 0.8, 1.3, 1.0), LightComponent::STATIC, true);
+				l->initialize(glm::vec3(topLeftWorldPosition.x + it->x + 0.5, 1.5f, topLeftWorldPosition.y + it->y + 0.5), it->z / 255.0f * 35.0f, glm::vec4(0.8, 0.8, 1.3, 1.0), LightComponent::STATIC, true);
 				mapToGenerateIn.m_Lights.push_back(l);
 			}
 			for (auto it = currentRoom.m_EnemyInformation.begin(); it != currentRoom.m_EnemyInformation.end(); ++it) {
@@ -265,8 +267,8 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 
 			if (!neighbourIsDoor) {
 				if (currentFieldType == FieldType::DOOR_NORTH || currentFieldType == FieldType::DOOR_SOUTH)
-					mapToGenerateIn.m_Fields[i].m_FieldType = FieldType::WALL_X;
-				else mapToGenerateIn.m_Fields[i].m_FieldType = FieldType::WALL_Z;
+					mapToGenerateIn.m_Fields[i].initialize(&mapToGenerateIn, mapToGenerateIn.m_Fields[i].getWorldGridPosition(), FieldType::WALL_X);
+				else mapToGenerateIn.m_Fields[i].initialize(&mapToGenerateIn, mapToGenerateIn.m_Fields[i].getWorldGridPosition(), FieldType::WALL_Z);
 			}
 		}
 	
@@ -353,7 +355,7 @@ RoomBlueprint* WorldGenerator::readRoomBlueprintsFromFile(const glm::vec2 roomFi
 					types[fX + fY * static_cast<int>(roomFieldSize.x)] = FieldType::byColor(r);
 					
 					if (b != 0) {
-						currentBlueprint.m_LightPositions.push_back(glm::vec2(fX, fY));
+						currentBlueprint.m_LightPositions.push_back(glm::vec3(fX, fY, b));
 					}
 					if (g != 0) {
 						currentBlueprint.m_EnemyInformation.push_back(std::pair<glm::vec2, EnemyComponent::EnemyType>(glm::vec2(fX, fY), EnemyComponent::getTypeByColor(g)));

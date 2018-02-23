@@ -1,5 +1,5 @@
 #version 410
-#define MAX_LIGHT_COUNT 16
+#define MAX_LIGHT_COUNT 64
 
 in vec2 uv;
 in vec4 posWorldSpace;
@@ -14,6 +14,7 @@ uniform sampler2D _Texture;
 
 uniform int _LightCount;
 uniform float[MAX_LIGHT_COUNT] _LightRanges;
+uniform float[MAX_LIGHT_COUNT] _LightActives;
 uniform vec3[MAX_LIGHT_COUNT] _LightPositions;
 uniform vec4[MAX_LIGHT_COUNT] _LightColors;
 uniform samplerCubeArrayShadow _LightStaticShadowMaps;
@@ -46,10 +47,12 @@ vec4 calculateLight(int lightID){
 }
 
 void main(){
-	vec4 tex = texture(_Texture, uv) * 0.3; // * 0.1
+	vec4 tex = texture(_Texture, uv) * 0.5; // * 0.1
 	color = _Diffuse * tex; // * vec4(pos.xyz / pos.w, 1);
 
 	for (int i = 0; i < _LightCount; i++){
-		color += tex * calculateLight(i) * 6;
+		if (_LightActives[i] == 1){
+			color += tex * calculateLight(i) * 3;
+		}
 	}
 }

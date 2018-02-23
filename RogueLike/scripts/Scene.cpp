@@ -11,6 +11,7 @@
 #include "GameObjectPool.h"
 #include "HUDPlayerHealthDisplayComponent.h"
 #include <ammintrin.h>
+#include <string>
 
 // Does not create the map yet!
 Scene::Scene() {
@@ -103,12 +104,38 @@ void Scene::setupSystems() {
 	/* Projectiles */
 	m_ProjectilePool = GameObjectPool();
 	std::shared_ptr<Material> mat = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Projectile");
-	mat->setTexture(Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player"));
+	mat->setTexture(Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Projectile"));
 	m_ProjectilePool.initialize(128, Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Projectile"), mat);
 	m_DynamicNonShadowRenderComponents.push_back(m_ProjectilePool.getRenderBatch().getComponent<RenderComponent>());
 
 	/* Player */
 	m_DynamicRenderComponents.push_back(m_Player->getGameObject()->getComponent<RenderComponent>());
+
+	/* Blockades */
+	for (int i = 0; i < 4; i++) {
+		GameObject* gO = new GameObject("Blockade " + std::to_string(i));
+		gO->getTransform().setLocalPosition(glm::vec3(-100, -100, -100));
+		/* Add Render Component */
+		const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player");
+		std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Player");
+		const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Player");
+		material->setTexture(texture);
+
+		RenderComponent* rc = gO->addComponent<>(new RenderComponent());
+		rc->initialize(modelData, material);
+
+		m_DynamicNonShadowRenderComponents.push_back(rc);
+
+		/* Add Collider Component*/
+		BoxColliderComponent* cc = gO->addComponent<>(new BoxColliderComponent());
+		BoxCollider boxC = BoxCollider(glm::vec2(1,1), glm::vec3(0,0,0));
+		boxC.initialize(std::shared_ptr<GameObject>(gO));
+		boxC.setCollisionLayer(CollisionLayer::FRIENDLY_UNITS);
+		cc->initialize(boxC);
+
+		gO->setActive(false);
+		m_BlockadeObjects.push_back(gO);
+	}
 
 	/* === HUD Rendering === */
 	m_HUDHealthContainer = new GameObject("HUD_HeartDisplay_Main");
@@ -189,9 +216,12 @@ void Scene::drawHudElements(const glm::mat4x4 _perspectiveMatrix, const glm::mat
 
 void Scene::prepareLightsForShaderProgram(const GLuint _shaderProgramID) const {
 	// TODO: do all this generation stuff at scene initialize, not every frame
+	glm::vec3 playerPos = m_Player->getGameObject()->getTransform().getPosition();
+
 	std::vector<float> ranges;
 	std::vector<glm::vec3> positions;
 	std::vector<glm::vec4> colors;
+	std::vector<float> actives;
 	int amount = 0;
 
 	/* Lights*/
@@ -203,6 +233,7 @@ void Scene::prepareLightsForShaderProgram(const GLuint _shaderProgramID) const {
 			ranges.push_back(range);
 			positions.push_back(position);
 			colors.push_back(color);
+			actives.push_back(glm::distance(playerPos, position) <= Game::m_s_cLightActiveDistance ? 1 : 0);
 		}
 	}
 
@@ -210,11 +241,13 @@ void Scene::prepareLightsForShaderProgram(const GLuint _shaderProgramID) const {
 	if (err != GL_NO_ERROR) {
 		std::cout << "LightPrep-start GL ERROR " << err << std::endl;
 	}
+
 	//std::cout << "... " << amount << " Lights eligable " << std::endl;
 	glUniform1i(glGetUniformLocation(_shaderProgramID, "_LightCount"), m_Lights.size());
 	glUniform1fv(glGetUniformLocation(_shaderProgramID, "_LightRanges"), m_Lights.size(), &ranges[0]);
 	glUniform3fv(glGetUniformLocation(_shaderProgramID, "_LightPositions"), m_Lights.size(), &positions[0].x);
 	glUniform4fv(glGetUniformLocation(_shaderProgramID, "_LightColors"), m_Lights.size(), &colors[0].x);
+	glUniform1fv(glGetUniformLocation(_shaderProgramID, "_LightActives"), m_Lights.size(), &actives[0]);
 
 	// Shadow Map Texture - Texture Unit 2 & 3
 	glUniform1i(glGetUniformLocation(_shaderProgramID, "_LightStaticShadowMaps"), 2);
@@ -250,13 +283,12 @@ glm::vec3 Scene::getStartingPoint() const
 }
 
 glm::vec2 Scene::getCurrentRoomGridPos() const {
-	const glm::vec3 pPos = m_Player->getGameObject()->getTransform().getPosition();
-	return glm::vec2(floor(round(pPos.x) / Game::m_s_cRoomWidthInFields),
-		floor(round(pPos.z) / Game::m_s_cRoomHeightInFields));
+	const glm::vec3 pPos = m_Player->getGameObject()->getTransform().getPosition() - glm::vec3(0.5f, 0, 0.5f);
+	return getRoomGridPos(pPos);
 }
 
 glm::vec2 Scene::getRoomGridPos(const glm::vec3 _position) const {
-	return glm::vec2(floor(round(_position.x) / Game::m_s_cRoomWidthInFields),
+	return glm::vec2(floor(ceil(_position.x) / Game::m_s_cRoomWidthInFields),
 		floor(round(_position.z) / Game::m_s_cRoomHeightInFields));
 }
 
@@ -301,13 +333,11 @@ bool Scene::collidesWithSceneGeometry(CircleCollider& checkFor, const bool _outO
 
 	for (int iX = fieldX - 1; iX < fieldX + 1; iX++) {
 		for (int iY = fieldY - 1; iY < fieldY + 1; iY++) {
-			//std::cout << "FieldComponent at " << iX << ", " << iY << std::endl;
 			if (iX >= 0 && iY >= 0 && iX < m_FieldSize.x && iY < m_FieldSize.y) {
 				FieldComponent& fieldToCheck = m_Fields[iX + iY * static_cast<int>(m_FieldSize.x)];
 				BoxColliderComponent* bcc = fieldToCheck.getGameObject()->getComponent<BoxColliderComponent>();
 				if (bcc == nullptr) continue;
 
-				//std::cout << "Blocked FieldComponent at " << iX << ", " << iY << ", of type " << fieldToCheck.m_FieldType.toString().c_str() << std::endl;
 				BoxCollider bc = bcc->getCollider();
 
 				if (bc.collidesWith(checkFor))
@@ -323,6 +353,14 @@ bool Scene::collidesWithSceneGeometry(CircleCollider& checkFor, const bool _outO
 		}
 	}
 
+	/* Check blockades */
+	for (int i = 0; i < 4; i++) {
+		if (m_BlockadeObjects[i]->isActive()) {
+			BoxCollider c = m_BlockadeObjects[i]->getComponent<BoxColliderComponent>()->getCollider();
+			if (c.collidesWith(checkFor)) return true;
+		}
+	}
+
 	//std::cout << "No collision with " << fieldX << ", " << fieldY << ", range = 1" << std::endl;
 
 	return false;
@@ -331,12 +369,39 @@ bool Scene::collidesWithSceneGeometry(CircleCollider& checkFor, const bool _outO
 
 
 bool Scene::enemyInRoom(const glm::vec2 _roomCoord) {
-	// TODO: find out if an enemy is in this room!
-	//std::cout << "Implement this function pls " << std::endl;
-
 	for (int i = 0; i < m_Enemies.size(); i++) {
-		if (m_Enemies[i]->getRoomCoord() == _roomCoord) return true;
+		if (m_Enemies[i]->getRoomCoord() == _roomCoord) {
+			if (m_Enemies[i]->getGameObject()->isActive()) return true;
+		}
 	}
 
 	return false;
+}
+
+void Scene::blockDoor(const FieldType _fieldType, const glm::vec2 _worldGridPosition) {
+	const int direction = _fieldType.getDoorDirection();
+	std::cout << "Block door " << std::to_string(direction) << std::endl;
+	glm::vec3 blockadeOffset;
+	if (direction == 0) {
+		blockadeOffset = glm::vec3(0, 0, -1.0f);
+	}
+	else if (direction == 1) {
+		blockadeOffset = glm::vec3(1.0f, 0, 0);
+	}
+	else if (direction == 2) {
+		blockadeOffset = glm::vec3(0, 0, 1.0f);
+	}
+	else if (direction == 3) {
+		blockadeOffset = glm::vec3(-1.0f, 0, 0);
+	}
+
+	m_BlockadeObjects[direction]->getTransform().setLocalPosition(glm::vec3(_worldGridPosition.x + 0.5f, 1, _worldGridPosition.y + 0.5f) + blockadeOffset);
+	m_BlockadeObjects[direction]->setActive(true);
+}
+
+void Scene::unblockDoor(FieldType _fieldType) {
+	const int direction = _fieldType.getDoorDirection();
+	std::cout << "Unblock door " << std::to_string(direction) << std::endl;
+	m_BlockadeObjects[direction]->getTransform().setLocalPosition(glm::vec3(-100, -100, -100));
+	m_BlockadeObjects[direction]->setActive(true);
 }

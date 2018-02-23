@@ -183,6 +183,8 @@ void RenderEngine::prerenderStaticShadowMaps(Scene* _scene, Material* _material)
 
 	/* Set the viewport size */
 	glViewport(0, 0, Game::m_s_cWindowWidth, Game::m_s_cWindowHeight);
+
+
 }
 
 void RenderEngine::renderShadowMaps(Scene* _scene, Material* _material) {
@@ -198,6 +200,7 @@ void RenderEngine::renderShadowMaps(Scene* _scene, Material* _material) {
 
 	/* Loop through all lights to let them render the dynamic objects in the scene */
 	for (int lightID = 0; lightID < _scene->getLightCount(); lightID++) {
+		if (distance(lights[lightID]->getGameObject()->getTransform().getPosition(), _scene->getPlayer()->getGameObject()->getTransform().getPosition()) > Game::m_s_cLightActiveDistance) continue;
 		/* Loop through each face */
 		const glm::mat4x4* viewMatrices = lights[lightID]->getCubeMapViewMatrices();
 		for (int faceID = 0; faceID < 6; faceID++) {
@@ -228,6 +231,7 @@ void RenderEngine::renderShadowMaps(Scene* _scene, Material* _material) {
 
 	/* Loop through all dynamic lights to let them render the static objects in the scene */
 	for (int lightID = 0; lightID < _scene->getLightCount(); lightID++) {
+		if (distance(lights[lightID]->getGameObject()->getTransform().getPosition(), _scene->getPlayer()->getGameObject()->getTransform().getPosition()) > Game::m_s_cLightActiveDistance) continue;
 		if (lights[lightID]->isStatic()) continue;
 		/* Loop through each face */
 		const glm::mat4x4* viewMatrices = lights[lightID]->getCubeMapViewMatrices();

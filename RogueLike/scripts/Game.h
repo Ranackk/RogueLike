@@ -32,6 +32,7 @@ public:
 
 	static const float m_s_cShadowNearClip;
 	static const float m_s_cShadowFarClip;
+	static const float m_s_cLightActiveDistance;
 	static const int m_s_cShadowMapResolution = 256 * 2;		//Performance tests (2 lights): 256 -> 5.7ms, 512 -> 6.5ms
 
 	void createStaticShadowMaps() const;
