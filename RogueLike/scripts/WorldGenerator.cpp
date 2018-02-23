@@ -56,6 +56,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	roomCoordinatesPlaced.push_back(glm::vec2(midX, midY));
 	}
 
+
 	srand(10);
 
 	/* Start the room placement of the rest */
@@ -140,6 +141,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 
 			const int roomToPlaceIndexInDoorList = rand() % (*roomVectorToUse).size();
 			RoomBlueprint roomToPlaceBlueprint = (*roomVectorToUse)[roomToPlaceIndexInDoorList];
+
 
 			/* Prepare the room */
 			RoomBlueprint roomToPlace = _rooms[roomToGenerateIndex];
