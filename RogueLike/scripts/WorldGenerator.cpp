@@ -57,11 +57,11 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	}
 
 
-	srand(10);
+	srand(Game::m_s_cSeed);
 
 	/* Start the room placement of the rest */
 	const int countOfRoomsInGrid = static_cast<int>(roomGridSize.x * roomGridSize.y);
-	const int maxRooms = 18;
+	const int maxRooms = 25;
 	const int maxTryCount = 100;
 
 	int currentTryCount = 0;
@@ -77,7 +77,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 
 		const int randomRoomIndex = static_cast<int>(randomRoomY * roomGridSize.x + randomRoomX);
 
-		if (_rooms[randomRoomIndex].isPlacedInWorld()) {
+		//if (_rooms[randomRoomIndex].isPlacedInWorld()) {
 			RoomBlueprint currentRoom = _rooms[randomRoomIndex];
 			std::vector<int> roomDoors = currentRoom.getLeftoverDoorsIndices();
 
@@ -147,6 +147,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 			RoomBlueprint roomToPlace = _rooms[roomToGenerateIndex];
 			roomToPlace.fillWithBlueprint(&roomToPlaceBlueprint);
 
+			std::cout << "Generated room at " << roomToGenerateX << "´, " << roomToGenerateY << std::endl;
 			roomCoordinatesPlaced.push_back(glm::vec2(roomToGenerateX, roomToGenerateY));
 
 			/* Unmark the both rooms (original & newly placed) as having doors left over */
@@ -164,7 +165,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 
 			/* Place it */
 			_rooms[roomToGenerateIndex] = roomToPlace;
-		}
+		//}
 
 		if (roomCoordinatesPlaced.size() == countOfRoomsInGrid || roomCoordinatesPlaced.size() >= maxRooms) {
 			break;

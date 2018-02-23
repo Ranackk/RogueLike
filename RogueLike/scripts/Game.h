@@ -25,6 +25,7 @@ public:
 
 	static const int m_s_cRoomWidthInFields = 13;
 	static const int m_s_cRoomHeightInFields = 9;
+	static const int m_s_cSeed = 1;
 
 	static const int m_s_cFieldPixelSize = 32;
 
