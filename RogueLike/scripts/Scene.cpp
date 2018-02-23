@@ -391,7 +391,7 @@ bool Scene::isEnemyInRoomCoord(const glm::vec2 _roomCoord) {
 
 void Scene::blockDoor(const FieldType _fieldType, const glm::vec2 _worldGridPosition) {
 	const int direction = _fieldType.getDoorDirection();
-	std::cout << "Block door " << std::to_string(direction) << std::endl;
+	//std::cout << "Block door " << std::to_string(direction) << std::endl;
 	glm::vec3 blockadeOffset;
 	if (direction == 0) {
 		blockadeOffset = glm::vec3(0, 0, -.5f);
@@ -412,7 +412,7 @@ void Scene::blockDoor(const FieldType _fieldType, const glm::vec2 _worldGridPosi
 
 void Scene::unblockDoor(FieldType _fieldType) {
 	const int direction = _fieldType.getDoorDirection();
-	std::cout << "Unblock door " << std::to_string(direction) << std::endl;
+	//std::cout << "Unblock door " << std::to_string(direction) << std::endl;
 	m_BlockadeObjects[direction]->getTransform().setLocalPosition(glm::vec3(-100, -100, -100));
 	m_BlockadeObjects[direction]->setActive(true);
 }

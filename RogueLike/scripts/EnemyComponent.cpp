@@ -125,7 +125,7 @@ void EnemyComponent::takeDamage(const float _amount, const glm::vec3 _knockback)
 }
 
 void EnemyComponent::die() const {
-	std::cout << "EnemyComponent died!" << std::endl;
+	//std::cout << "EnemyComponent died!" << std::endl;
 	m_GameObject->setActive(false);
 	m_Scene->m_EnemyPools[m_Type].freeObjectIntoPool(m_GameObject);
 }

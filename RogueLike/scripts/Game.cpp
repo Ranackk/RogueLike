@@ -138,6 +138,7 @@ void Game::initializeManagers() {
 	m_TextureManager->loadTextureAs("graphics/ui/heartcontainerFill.png", "tex_UI_HeartContainer_Fill");
 	m_TextureManager->loadTextureAs("graphics/ui/heartcontainerGradient.png", "tex_UI_HeartContainer_Gradient");
 
+	std::cout << "=====" << std::endl;
 
 	/* Load up all needed materials */
 	m_MaterialManager = new MaterialManager();
@@ -165,6 +166,7 @@ void Game::initializeManagers() {
 	m_MaterialManager->createMaterialByShader("uiHeartContainerShader", "mat_UIHeartContainer8", Material::UI_HEART_CONTAINER);
 	m_MaterialManager->createMaterialByShader("uiHeartContainerShader", "mat_UIHeartContainer9", Material::UI_HEART_CONTAINER);
 
+	std::cout << "=====" << std::endl;
 
 	/* Load up all the models needed */
 	m_ModelManager = new ModelManager();

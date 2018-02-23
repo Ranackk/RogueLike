@@ -8,7 +8,6 @@ MaterialManager::MaterialManager()
 	m_s_Materials = std::map<std::string, std::shared_ptr<Material>>();
 
 	this->m_Skybox = Game::getInstance()->getTextureManager()->createColorCubeMapFromTexture("graphics/cube", 256);
-	std::cout << "Created Cube Map from file: " << this->m_Skybox << std::endl;
 }
 
 
@@ -32,7 +31,7 @@ bool MaterialManager::createMaterialByShader(const std::string& filePath, const 
 	/* Put texture id into map */
 	m_s_Materials[materialName] = std::make_shared<Material>(m);
 
-	std::cout << "... Material withshader \"" << filePath.c_str() << "\" loaded as \"" << materialName.c_str() << "\"" << std::endl;
+	std::cout << "... Material \"" << materialName.c_str() << "\" created from shader \"" << filePath.c_str() << "\"" <<  std::endl;
 	return true;
 }
 

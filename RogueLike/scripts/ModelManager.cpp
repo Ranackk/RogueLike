@@ -51,7 +51,7 @@ bool ModelManager::loadModelAs(const std::string& filePath, const std::string& m
 	/* Put texture id into map */
 	m_s_Models[modelName] = std::make_shared<ModelData>(m);
 
-	std::cout << "... Model at path \"" << filePath.c_str() << "\" loaded as \"" << modelName.c_str() << "\"" << std::endl;
+	std::cout << "... Loaded model \"" << modelName.c_str() << "\"" << " from \"" << filePath.c_str() << "\"" << std::endl;
 	return true;
 }
 

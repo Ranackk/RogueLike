@@ -93,7 +93,7 @@ void ModelData::initialize(const std::vector<unsigned short> _indexBufferData, c
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	printf("... Initialized ModelData \n");
+	//printf("... Initialized ModelData \n");
 }
 
 //const auto it = m_s_PrimitiveData.find(_primitive);

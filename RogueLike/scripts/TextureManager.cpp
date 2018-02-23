@@ -49,8 +49,8 @@ GLuint TextureManager::createColorCubeMapFromTexture(const std::string filePath,
 		if (err != GL_NO_ERROR) {
 			std::cout << "Cube Map Color for " << err << std::endl;
 		}
-		std::cout << "Loaded up " << path << " as part of a cube map " << std::endl;
 	}
+	std::cout << "... Loaded CubeMapTexture from \"" << filePath.c_str() << "\" as OpenGLID " << textureID << std::endl;
 	GLenum err = glGetError();
 	if (err != GL_NO_ERROR) {
 		std::cout << "Cube Map Color " << err << std::endl;
@@ -155,7 +155,7 @@ bool TextureManager::loadTextureAs(const std::string& filePath, const std::strin
 	/* Put texture id into map */
 	m_s_Textures[textureName] = texId;
 
-	std::cout << "... Texure at path \"" << filePath << "\" loaded as \"" << textureName << "\", GLID = " << texId << std::endl;
+	std::cout << "... Loaded Texture \"" << textureName << "\" from \"" << filePath << "\" as OpenGLID = " << texId << std::endl;
 
 	return true;
 /*

@@ -307,7 +307,7 @@ void RenderEngine::createShadowFrameBufferObject(GLuint &fboHandle, GLuint &cube
 		std::cout << "Create FBO GL ERROR " << err << std::endl;
 	}
 	else {
-		std::cout << "Created Shadow FBO with ID " << fboHandle << " & depthCubeMapID " << cubeMapHandle << std::endl;
+		std::cout << "+ Created Shadow FBO with ID " << fboHandle << " & depthCubeMapID " << cubeMapHandle << std::endl;
 	}
 }
 

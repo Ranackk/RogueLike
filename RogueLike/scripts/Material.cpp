@@ -32,7 +32,7 @@ Material::Material(std::string shaderName, const Type _type) {
 		setupHealthBarShader(-1, -1, -1, nullptr);
 	}
 
-	std::cout << "Created new material of shader name" << shaderName.c_str() << std::endl;
+	//std::cout << "+ Created new material of shader name" << shaderName.c_str() << std::endl;
 }
 
 void Material::setupMatricesOnly() {
