@@ -17,6 +17,9 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	RoomBlueprint* _rooms = new RoomBlueprint[static_cast<unsigned int>(roomGridSize.x * roomGridSize.y)];
 	mapToGenerateIn.m_Fields = new FieldComponent[static_cast<unsigned int>(worldFieldSize.x * worldFieldSize.y)];
 
+	for (int i = 0; i < roomGridSize.x * roomGridSize.y; i++) {
+		_rooms[i] = RoomBlueprint();
+	}
 
 	/* === READ THE ROOMS FILE AND STORE IT === */
 	/* Read all room blueprints from files */

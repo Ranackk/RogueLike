@@ -58,9 +58,9 @@ void FieldComponent::update(GLFWwindow* window, const float deltaTime) {
 	}
 	if (m_isDoor) {
 		// Is player in this room
-		if (m_Map->getCurrentRoomGridPos() == m_RoomCoord) {
+		if (m_Map->isPlayerFullyInRoom(m_RoomCoord)) {
 			// Are there any enemies?
-			if (m_Map->enemyInRoom(m_RoomCoord)) {
+			if (m_Map->isEnemyInRoomCoord(m_RoomCoord)) {
 
 				if (!m_CurrentlyLocked) {
 					m_CurrentlyLocked = true;

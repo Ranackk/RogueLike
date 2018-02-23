@@ -47,7 +47,8 @@ public:
 	glm::vec2 getCurrentRoomGridPos() const;
 	glm::vec2 getRoomGridPos(glm::vec3 _position) const;
 	glm::vec3 getCurrentRoomMid() const;
-	bool enemyInRoom(glm::vec2 _roomCoord);
+	bool isPlayerFullyInRoom(glm::vec2 roomGridCoords) const;
+	bool isEnemyInRoomCoord(glm::vec2 _roomCoord);
 
 	void blockDoor(FieldType _fieldType, glm::vec2 _worldGridPosition);
 	void unblockDoor(FieldType _fieldType);

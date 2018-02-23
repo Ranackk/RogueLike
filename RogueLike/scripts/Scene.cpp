@@ -130,7 +130,7 @@ void Scene::setupSystems() {
 		BoxColliderComponent* cc = gO->addComponent<>(new BoxColliderComponent());
 		BoxCollider boxC = BoxCollider(glm::vec2(1,1), glm::vec3(0,0,0));
 		boxC.initialize(std::shared_ptr<GameObject>(gO));
-		boxC.setCollisionLayer(CollisionLayer::FRIENDLY_UNITS);
+		boxC.setCollisionLayer(CollisionLayer::MAP_GEOMETRY);
 		cc->initialize(boxC);
 
 		gO->setActive(false);
@@ -287,6 +287,17 @@ glm::vec2 Scene::getCurrentRoomGridPos() const {
 	return getRoomGridPos(pPos);
 }
 
+
+bool Scene::isPlayerFullyInRoom(const glm::vec2 roomGridCoords) const {
+	const glm::vec3 pPos = m_Player->getGameObject()->getTransform().getPosition();
+	const glm::vec3 roomTopLeft = glm::vec3(roomGridCoords.x * Game::m_s_cRoomWidthInFields, 0, roomGridCoords.y * Game::m_s_cRoomHeightInFields);
+	if (pPos.x < roomTopLeft.x + 1) return false;
+	if (pPos.x > roomTopLeft.x + Game::m_s_cRoomWidthInFields - 1) return false;
+	if (pPos.z < roomTopLeft.z + 1) return false;
+	if (pPos.z > roomTopLeft.z + Game::m_s_cRoomHeightInFields - 1) return false;
+	return true;
+}
+
 glm::vec2 Scene::getRoomGridPos(const glm::vec3 _position) const {
 	return glm::vec2(floor(ceil(_position.x) / Game::m_s_cRoomWidthInFields),
 		floor(round(_position.z) / Game::m_s_cRoomHeightInFields));
@@ -368,7 +379,7 @@ bool Scene::collidesWithSceneGeometry(CircleCollider& checkFor, const bool _outO
 }
 
 
-bool Scene::enemyInRoom(const glm::vec2 _roomCoord) {
+bool Scene::isEnemyInRoomCoord(const glm::vec2 _roomCoord) {
 	for (int i = 0; i < m_Enemies.size(); i++) {
 		if (m_Enemies[i]->getRoomCoord() == _roomCoord) {
 			if (m_Enemies[i]->getGameObject()->isActive()) return true;
@@ -383,16 +394,16 @@ void Scene::blockDoor(const FieldType _fieldType, const glm::vec2 _worldGridPosi
 	std::cout << "Block door " << std::to_string(direction) << std::endl;
 	glm::vec3 blockadeOffset;
 	if (direction == 0) {
-		blockadeOffset = glm::vec3(0, 0, -1.0f);
+		blockadeOffset = glm::vec3(0, 0, -.5f);
 	}
 	else if (direction == 1) {
-		blockadeOffset = glm::vec3(1.0f, 0, 0);
+		blockadeOffset = glm::vec3(.5f, 0, 0);
 	}
 	else if (direction == 2) {
-		blockadeOffset = glm::vec3(0, 0, 1.0f);
+		blockadeOffset = glm::vec3(0, 0, .5f);
 	}
 	else if (direction == 3) {
-		blockadeOffset = glm::vec3(-1.0f, 0, 0);
+		blockadeOffset = glm::vec3(-.5f, 0, 0);
 	}
 
 	m_BlockadeObjects[direction]->getTransform().setLocalPosition(glm::vec3(_worldGridPosition.x + 0.5f, 1, _worldGridPosition.y + 0.5f) + blockadeOffset);
