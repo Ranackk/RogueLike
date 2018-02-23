@@ -20,8 +20,8 @@ public:
 	static const float m_s_cFarClip;
 	static const std::string m_s_cWindowTitle;
 
-	static const int m_s_cRoomsPerRow = 1;
-	static const int m_s_cRoomsPerColumn = 1;
+	static const int m_s_cRoomsPerRow = 7;
+	static const int m_s_cRoomsPerColumn = 7;
 
 	static const int m_s_cRoomWidthInFields = 13;
 	static const int m_s_cRoomHeightInFields = 9;

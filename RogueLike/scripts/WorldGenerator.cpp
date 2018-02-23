@@ -6,6 +6,7 @@
 #include "lodepng.h"
 #include <filesystem>
 #include <detail/_vectorize.hpp>
+#include <array>
 
 void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGenerateIn)
 {
@@ -14,12 +15,12 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	const glm::vec2 individualRoomSize = glm::vec2(Game::m_s_cRoomWidthInFields, Game::m_s_cRoomHeightInFields);
 	const glm::vec2 worldFieldSize = glm::vec2(roomGridSize.x * individualRoomSize.x, roomGridSize.y * individualRoomSize.y);
 	/* Initialize arrays */
-	RoomBlueprint* _rooms = new RoomBlueprint[static_cast<unsigned int>(roomGridSize.x * roomGridSize.y)];
+	std::array<RoomBlueprint, Game::m_s_cRoomsPerRow * Game::m_s_cRoomsPerColumn> _rooms = std::array<RoomBlueprint, Game::m_s_cRoomsPerRow * Game::m_s_cRoomsPerColumn>();
 	mapToGenerateIn.m_Fields = new FieldComponent[static_cast<unsigned int>(worldFieldSize.x * worldFieldSize.y)];
 
-	for (int i = 0; i < roomGridSize.x * roomGridSize.y; i++) {
-		_rooms[i] = RoomBlueprint();
-	}
+	//for (int i = 0; i < roomGridSize.x * roomGridSize.y; i++) {
+	//	_rooms[i] = RoomBlueprint();
+	//}
 
 	/* === READ THE ROOMS FILE AND STORE IT === */
 	/* Read all room blueprints from files */
@@ -112,7 +113,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 			}
 
 			/* Validate (is this field empty & in bounds ?)*/
-			if (roomToGenerateX < 0 || roomToGenerateX > roomGridSize.x || roomToGenerateY < 0 || roomToGenerateY > roomGridSize.y) continue;
+			if (roomToGenerateX < 0 || roomToGenerateX >= roomGridSize.x || roomToGenerateY < 0 || roomToGenerateY >= roomGridSize.y) continue;
 			const int roomToGenerateIndex = static_cast<int>(roomToGenerateY * roomGridSize.x + roomToGenerateX);
 
 			/* If the room already exists, try another one. */
@@ -147,7 +148,6 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 			RoomBlueprint roomToPlace = _rooms[roomToGenerateIndex];
 			roomToPlace.fillWithBlueprint(&roomToPlaceBlueprint);
 
-			std::cout << "Generated room at " << roomToGenerateX << "´, " << roomToGenerateY << std::endl;
 			roomCoordinatesPlaced.push_back(glm::vec2(roomToGenerateX, roomToGenerateY));
 
 			/* Unmark the both rooms (original & newly placed) as having doors left over */
@@ -319,7 +319,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	std::cout << "... Created " << amount << " batches for the map geometry" << std::endl;
 
 	/* Cleanup */
-	delete[] _rooms;
+	//delete[] _rooms;
 }
 
 RoomBlueprint* WorldGenerator::readRoomBlueprintsFromFile(const glm::vec2 roomFieldSize, const std::string filePath, Scene &mapToGenerateIn, int* roomCount)

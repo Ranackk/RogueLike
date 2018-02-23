@@ -206,7 +206,7 @@ void Game::initializeManagers() {
 }
 
 void Game::initializeGameComponents() {
-	this->m_Scene = new Scene(glm::vec2(7, 7));
+	this->m_Scene = new Scene(glm::vec2(m_s_cRoomsPerRow, m_s_cRoomsPerColumn));
 
 	GameObject* gO = new GameObject("Camera");
 	this->m_Camera = gO->addComponent(new CameraComponent());
