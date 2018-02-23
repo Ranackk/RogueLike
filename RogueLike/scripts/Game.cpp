@@ -126,13 +126,13 @@ void Game::initializeManagers() {
 	m_TextureManager = new TextureManager();
 	// MAP
 	m_TextureManager->loadTextureAs("graphics/map/stone_02.png", FieldType::WALL_X.getTextureIdentifier());
-	m_TextureManager->loadTextureAs("graphics/map/stone_01.png", FieldType::FLOOR.getTextureIdentifier());
+	m_TextureManager->loadTextureAs("graphics/map/earth_01.png", FieldType::FLOOR.getTextureIdentifier());
 	// ENTITIES
-	m_TextureManager->loadTextureAs("graphics/stone.png", "tex_Player");
+	m_TextureManager->loadTextureAs("graphics/map/stone_01.png", "tex_Player");
 	m_TextureManager->loadTextureAs("graphics/bullet.png", "tex_Projectile");
 
 	m_TextureManager->loadTextureAs("graphics/bullet.png", "tex_Enemy_Rogue");
-	m_TextureManager->loadTextureAs("graphics/bullet.png", "tex_Enemy_Archer");
+	m_TextureManager->loadTextureAs("graphics/enemy_01.png", "tex_Enemy_Archer");
 	// UI
 	m_TextureManager->loadTextureAs("graphics/ui/heartcontainerBackground.png", "tex_UI_HeartContainer_BG");
 	m_TextureManager->loadTextureAs("graphics/ui/heartcontainerFill.png", "tex_UI_HeartContainer_Fill");

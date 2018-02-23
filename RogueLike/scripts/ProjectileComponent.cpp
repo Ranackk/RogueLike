@@ -31,6 +31,7 @@ void ProjectileComponent::update(GLFWwindow* window, const float deltaTime) {
 		die();
 	}
 
+	if (glm::distance(m_StartPos, m_GameObject->getTransform().getPosition()) > 6.0f) die();
 
 	// Generic approach: Check for every collision, then send collision events such as:
 	//hit.getComponent<ColliderComponent>()->fireCollision(*m_CircleColliderComponent);
@@ -49,6 +50,7 @@ void ProjectileComponent::initialize(const glm::vec3 _position, const glm::vec3 
 	m_Direction = glm::normalize(_direction);
 	m_MovementSpeed = _speed;
 	m_Damage = _damage;
+	m_StartPos = _position;
 
 	/* Auto-Add Collider */
 	m_CircleColliderComponent = m_GameObject->getComponent<CircleColliderComponent>();

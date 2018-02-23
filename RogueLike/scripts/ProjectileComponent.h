@@ -10,6 +10,7 @@ public:
 
 	float m_MovementSpeed;
 	float m_Damage;
+	glm::vec3 m_StartPos;
 	glm::vec3 m_Direction;
 	CircleCollider* m_CircleCollider;
 	CircleColliderComponent* m_CircleColliderComponent;

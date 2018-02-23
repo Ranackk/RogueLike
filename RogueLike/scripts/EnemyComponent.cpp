@@ -134,14 +134,16 @@ void EnemyComponent::updateEnemyTypRogue(GLFWwindow* _window, const float _delta
 	//const glm::vec3 newPosition = m_StartPosition + 0.5f * glm::vec3(cos(m_AliveTime), 0.0f, sin(m_AliveTime));
 	//m_GameObject->getTransform().setLocalPosition(newPosition);
 
-	const glm::vec2 _currentRoomGridPos = m_Scene->getCurrentRoomGridPos();
+	bool playerInMyRoom = m_Scene->isPlayerFullyInRoom(m_RoomGridPos);
+
+	//const glm::vec2 _currentRoomGridPos = m_Scene->getCurrentRoomGridPos();
 	const glm::vec3 _currentPosition = m_GameObject->getTransform().getPosition();
 
 	glm::vec3 _desiredPosition;
 	glm::vec3 _desiredVector;
 	if (m_RogueCharging) {
 		/* Check if the rogue should stop charging */
-		if (_currentRoomGridPos != m_RoomGridPos) {
+		if (!playerInMyRoom) {
 			m_RogueCharging = false;
 		}
 
@@ -151,7 +153,7 @@ void EnemyComponent::updateEnemyTypRogue(GLFWwindow* _window, const float _delta
 	}
 	else {
 		/* Check if the rogue should start charging */
-		if (_currentRoomGridPos == m_RoomGridPos) {
+		if (playerInMyRoom) {
 			m_RogueCharging = true;
 		}
 
