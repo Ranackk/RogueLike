@@ -35,9 +35,9 @@ FieldType FieldType::WALL_WINDOW_Z = FieldType(20, "tex_Wall", "mat_Wall", "mesh
 FieldType FieldType::WALL_BROKEN_X = FieldType(21, "tex_Wall", "mat_Wall", "mesh_Wall_broken_z", BLOCKED);
 FieldType FieldType::WALL_BROKEN_Z = FieldType(22, "tex_Wall", "mat_Wall", "mesh_Wall_broken_z", BLOCKED);
 
-FieldType FieldType::SHRINE = FieldType(100, "tex_Wall", "mat_Floor", "mesh_Shrine", BLOCKED);
+FieldType FieldType::SHRINE = FieldType(100, "tex_Wall", "mat_Wall", "mesh_Shrine", BLOCKED);
 
-FieldType FieldType::ROCKS = FieldType(100, "tex_Wall", "mat_Floor", "mesh_Rocks", BLOCKED);
+FieldType FieldType::ROCKS = FieldType(101, "tex_Floor", "mat_Floor", "mesh_Rocks", BLOCKED);
 
 FieldType::FieldType() {
 	m_textureHandle = "";
@@ -88,6 +88,7 @@ FieldType FieldType::byColor(const unsigned char r) {
 	case 180: return SHRINE;
 
 	case 190: return ROCKS;
+
 
 	case 200: 
 		return VOID;

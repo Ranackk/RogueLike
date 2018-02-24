@@ -44,11 +44,11 @@
     <Filter Include="scripts\logic\datacontainers">
       <UniqueIdentifier>{8401a332-f02b-4bf3-bf68-1ceb10b8df19}</UniqueIdentifier>
     </Filter>
-    <Filter Include="models\map">
-      <UniqueIdentifier>{646eac17-116a-4f91-8bef-583a05e04eef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="scripts\logic\core">
       <UniqueIdentifier>{3cbd8948-d0ee-447e-813a-5a8d8696ec63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="models\map">
+      <UniqueIdentifier>{b6b19125-2e39-4ccd-b522-6c5d1d98fb41}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -82,101 +82,6 @@
     <None Include="shaders\billboardShader.vert">
       <Filter>shaders</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="models\baseFloor.obj">
-      <Filter>models</Filter>
-    </Object>
-    <Object Include="models\basePassage.obj">
-      <Filter>models</Filter>
-    </Object>
-    <Object Include="models\baseWall.obj">
-      <Filter>models</Filter>
-    </Object>
-    <Object Include="anglerfish.obj">
-      <Filter>models</Filter>
-    </Object>
-    <Object Include="testmodel.obj">
-      <Filter>models</Filter>
-    </Object>
-    <Object Include="models\player.obj">
-      <Filter>models</Filter>
-    </Object>
-    <Object Include="models\Wall_02.obj">
-      <Filter>models</Filter>
-    </Object>
-    <Object Include="models\Wall_03.obj">
-      <Filter>models</Filter>
-    </Object>
-    <Object Include="models\Wall_01.obj">
-      <Filter>models</Filter>
-    </Object>
-    <Object Include="models\Wall_04.obj">
-      <Filter>models</Filter>
-    </Object>
-    <Object Include="models\map\Shrine.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_arch_left_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_arch_left_z.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_arch_right_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_arch_right_z.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_basic_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_basic_z.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_bridge_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_bridge_z.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_broken_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_broken_z.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_column_neg_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_column_neg_z.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_column_pos_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_column_pos_z.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_corner_left_back.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_corner_left_front.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_corner_right_back.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_corner_right_front.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_window_x.obj">
-      <Filter>models\map</Filter>
-    </Object>
-    <Object Include="models\map\Wall_window_z.obj">
-      <Filter>models\map</Filter>
-    </Object>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scripts\main.cpp">
@@ -412,5 +317,115 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Planing.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="models\anglerfish.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\baseFloor.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\basePassage.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\baseWall.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\enemy_01.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\enemy_02.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\player.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\testmodel.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\trapdoor_x.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\trapdoor_z.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\Wall_01.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\Wall_02.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\Wall_03.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\Wall_04.obj">
+      <Filter>models</Filter>
+    </Object>
+    <Object Include="models\map\rocks.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Shrine.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_arch_left_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_arch_left_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_arch_right_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_arch_right_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_basic_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_basic_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_bridge_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_bridge_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_broken_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_broken_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_column_neg_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_column_neg_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_column_pos_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_column_pos_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_corner_left_back.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_corner_left_front.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_corner_right_back.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_corner_right_front.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_window_x.obj">
+      <Filter>models\map</Filter>
+    </Object>
+    <Object Include="models\map\Wall_window_z.obj">
+      <Filter>models\map</Filter>
+    </Object>
   </ItemGroup>
 </Project>
