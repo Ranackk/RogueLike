@@ -78,13 +78,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(SolutionDir)ExternalLibraries\SFML\include;%(SolutionDir)ExternalLibraries\freeglut\include;%(SolutionDir)ExternalLibraries\glfw-3.2.1.bin.WIN32\include;%(SolutionDir)ExternalLibraries\glew-2.1.0-win32\glew-2.1.0\include;%(SolutionDir)ExternalLibraries\glm-0.9.9-a1\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(SolutionDir)ExternalLibraries\glfw-3.2.1.bin.WIN32\include;%(SolutionDir)ExternalLibraries\glew-2.1.0-win32\glew-2.1.0\include;%(SolutionDir)ExternalLibraries\glm-0.9.9-a1\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>%(SolutionDir)ExternalLibraries\SFML\lib;%(SolutionDir)ExternalLibraries\glfw-3.2.1.bin.WIN32\lib-vc2015;%(SolutionDir)ExternalLibraries\glew-2.1.0\lib\Release\Win32;%(SolutionDir)ExternalLibraries\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-window-s-d.lib;sfml-graphics-s-d.lib;sfml-system-s-d.lib;sfml-network-s-d.lib;sfml-audio-s-d.lib;sfml-main-d.lib;%(AdditionalDependencies);opengl32.lib;openal32.lib;flac.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;vorbis.lib;ogg.lib;vorbisenc.lib;vorbisfile.lib;ws2_32.lib;glew32.lib;freeglut.lib;glfw3.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(SolutionDir)ExternalLibraries\glfw-3.2.1.bin.WIN32\lib-vc2015;%(SolutionDir)ExternalLibraries\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);opengl32.lib;glew32.lib;glfw3.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -101,7 +101,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(SolutionDir)ExternalLibraries\SFML\include;%(SolutionDir)ExternalLibraries\freeglut\include;%(SolutionDir)ExternalLibraries\glfw-3.2.1.bin.WIN32\include;%(SolutionDir)ExternalLibraries\glew-2.1.0-win32\glew-2.1.0\include;%(SolutionDir)ExternalLibraries\glm-0.9.9-a1\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(SolutionDir)ExternalLibraries\glfw-3.2.1.bin.WIN32\include;%(SolutionDir)ExternalLibraries\glew-2.1.0-win32\glew-2.1.0\include;%(SolutionDir)ExternalLibraries\glm-0.9.9-a1\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -109,8 +109,8 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>%(SolutionDir)ExternalLibraries\SFML\lib;%(SolutionDir)ExternalLibraries\glfw-3.2.1.bin.WIN32\lib-vc2015;%(SolutionDir)ExternalLibraries\glew-2.1.0\lib\Release\Win32;%(SolutionDir)ExternalLibraries\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-window-s.lib;sfml-graphics-s.lib;sfml-system-s.lib;sfml-network-s.lib;sfml-audio-s.lib;sfml-main.lib;%(AdditionalDependencies);opengl32.lib;openal32.lib;flac.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;vorbis.lib;ogg.lib;vorbisenc.lib;vorbisfile.lib;ws2_32.lib;glew32.lib;freeglut.lib;glfw3.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(SolutionDir)ExternalLibraries\glfw-3.2.1.bin.WIN32\lib-vc2015;%(SolutionDir)ExternalLibraries\glew-2.1.0\lib\Release\Win32;%(SolutionDir)ExternalLibraries\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);opengl32.lib;glew32.lib;glfw3.lib</AdditionalDependencies>
       <ShowProgress>LinkVerboseLib</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
