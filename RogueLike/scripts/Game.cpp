@@ -205,6 +205,9 @@ void Game::initializeManagers() {
 
 	m_ModelManager->loadModelAs("models/player.obj", "mesh_Projectile");
 
+	m_ModelManager->loadModelAs("models/trapdoor_x.obj", "mesh_Barrier_x");
+	m_ModelManager->loadModelAs("models/trapdoor_z.obj", "mesh_Barrier_z");
+
 }
 
 void Game::initializeGameComponents() {

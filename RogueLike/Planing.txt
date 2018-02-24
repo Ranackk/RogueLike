@@ -1,50 +1,35 @@
 	
-	player death?
-	Memory leak in world gen
-	last heart blinking?
-	custom models & shjader for player, enemies & bullets?
+	
+	Todo:
+	> Add several room types, make a random world generation out of it
+	> Add camera shake on damage, based on trauma formular (trauma += dmg - time, shake = pow(trauma, 2))
+	> let the last heart blink 
+	> custom models & shjader for player, enemies & bullets
+	
+	Unsure:
+	
+	> player death?
+	> basic power ups? (damage, speed, movespeed?)
 
-	camera shake on damage
 
+	Furhter Ideas for the Engine & Game:
 
-	basic power ups? (damage, speed, movespeed?)
-
-	-> Player as Batch?
-
+	> Font Atlas Loader
 	> Cache Line Optimization via using Systems (or at least trying for some things, maybe collision should be like it is)
 		> Rendering & Input should be Systems
 		> NEVERMIND: Just use an array with a set size for all static render elements (always rooms*roomX*roomY). Linear memory layout! 
 
-	> Font Atlas Loader
-
-
-	Todo:
-
-	Current:
-	> Find out why dynamic render components throw random shadows (maybe try out the method of copying tha static map to the dynamic, then render to dynamic again when i get it to work)
-
-	> Add several room types, make a random world generation out of it
-	> Add enemies
-	> Add ability to shoot at enemies
-	> Animate LightStrength over time
-	> INverse Shadow matrices & use inversed lightvector to sample
-
-	Optional:
-	> Add camera shake on damage, based on trauma formular (trauma += dmg - time, shake = pow(trauma, 2))
+	> Fix non instanced objects not rendering to shadow maps
 	> Add Healthbars
 	> Add items that amplify the projectiles
 	> Add some kind of screen space transitions / effects on certain actions (requires additional fbo)
 
 	Optimization:
-	> Use static & dynamic shadowmaps (combine them?) and render only entities to the dynmaic map, render static map once at game start
 	> Use Geometry shader to redner shadow cube map in one x draw calls instead of six x draw calls
 
 	OR:
 	> Use frustum culing for rendering (makes geometry shader approach useless)
 	======
-
-	> Clean up camera movement to fit with my system | use transform rotation instead of angles?
-	> Create cmaera room focus methods & pers to ortho interpolation
 
 	> Store lighting in rooms via special color channel? (find a way to represent lighting, e.g. voxel torches)
 	> Add enenmies with hp bars (using custom cutoff shader)
@@ -58,7 +43,7 @@
 	======
 
 	Redo for next game:
-	> World gen completely procedural? A bit like in my old game with rooms & corridors
+	> World with non fixed sized rooms (each field & enemy needs to know its room ID then)
 
 	======
 
@@ -72,15 +57,6 @@
 	> To make the rendering less expensive, consider using froms/blueprints which have a premade mesh and just change colors on demand based on the gems/voxels/pixels used
 	> Could add some mining elements like in the old lego games
 
-
-	======
-
-	Fragen:
-	> Wenn ich eine referenz in einer Klasse erstelle, muss sie initialisiert werden im Konstruktor. Wie kann ich verhindern, dass das ein muss ist? Oder brauche ich dann zwangsweise einen pointer?
-	> Sowas wie m_TextureManager = TextureManager(); reicht anscheinen nicht, wenn m_TextureManager vom Typen TextureManager& ist.
-
-	> Wir nutzen referenzen, weil beim returnen von Pointern der Pointer gelöscht werden könnte von außerhalb
-	> Also muss man halt dafür sorgen, dass der Default Constructor alles initialisiert und dann halt spter die Werte richtig setzt.
 
 	====
 

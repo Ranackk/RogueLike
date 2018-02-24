@@ -118,7 +118,8 @@ void Scene::setupSystems() {
 		/* Add Render Component */
 		const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player");
 		std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Player");
-		const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier("mesh_Player");
+		std::string modelIdentifier = (i == 0 || i == 2) ? "mesh_Barrier_x" : "mesh_Barrier_z";
+		const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier(modelIdentifier);
 		material->setTexture(texture);
 
 		RenderComponent* rc = gO->addComponent<>(new RenderComponent());
@@ -406,7 +407,7 @@ void Scene::blockDoor(const FieldType _fieldType, const glm::vec2 _worldGridPosi
 		blockadeOffset = glm::vec3(-.5f, 0, 0);
 	}
 
-	m_BlockadeObjects[direction]->getTransform().setLocalPosition(glm::vec3(_worldGridPosition.x + 0.5f, 1, _worldGridPosition.y + 0.5f) + blockadeOffset);
+	m_BlockadeObjects[direction]->getTransform().setLocalPosition(glm::vec3(_worldGridPosition.x + 0.5f, 0, _worldGridPosition.y + 0.5f) + blockadeOffset);
 	m_BlockadeObjects[direction]->setActive(true);
 }
 
