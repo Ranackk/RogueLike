@@ -16,6 +16,8 @@ public:
 
 	void update(GLFWwindow* window, const float deltaTime) override;
 
+	float getCurrentTraumaSqr() const { return m_Trauma == 0.0f? 0.0f : m_Trauma * m_Trauma; }
+
 private:
 	std::shared_ptr<Material> m_Material;
 
@@ -31,6 +33,8 @@ private:
 	float m_InvincibleCooldown = 0;
 	float m_InvincibleCooldownDuration = 2.0f;
 
+	float m_Trauma = 0;
+	float m_TraumaPerHP = 1.8f;
 
 	static const int JOYSTICK_MOVE_AXIS_X = 0;
 	static const int JOYSTICK_MOVE_AXIS_Y = 1;

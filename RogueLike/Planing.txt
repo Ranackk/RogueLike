@@ -2,9 +2,7 @@
 	
 	Todo:
 	> Add several room types, make a random world generation out of it
-	> Add camera shake on damage, based on trauma formular (trauma += dmg - time, shake = pow(trauma, 2))
 	> let the last heart blink 
-	> custom models & shjader for player, enemies & bullets
 	
 	Unsure:
 	

@@ -55,6 +55,7 @@ void PlayerComponent::initialize(Scene* _scene) {
 
 void PlayerComponent::takeDamage(const float _amount) {
 	if (m_InvincibleCooldown <= 0) {
+		m_Trauma += m_TraumaPerHP;
 		m_HealthComponent->takeDamage(_amount);
 		std::cout << m_GameObject->getName().c_str() << " took " << _amount << " damage! NEW HP: " << std::to_string((*m_HealthComponent->getCurrentHealthPointer())) << std::endl;
 		m_InvincibleCooldown = m_InvincibleCooldownDuration;
@@ -63,6 +64,11 @@ void PlayerComponent::takeDamage(const float _amount) {
 }
 
 void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
+	if (m_Trauma > 0.0f) {
+		m_Trauma -= deltaTime * 8;
+		if (m_Trauma <= 0.0f) m_Trauma = 0.0f;
+	}
+
 	const bool joystickActive = glfwJoystickPresent(GLFW_JOYSTICK_1) == 1;
 	
 	int joystickAxesCount;

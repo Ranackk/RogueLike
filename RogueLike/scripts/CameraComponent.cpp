@@ -4,7 +4,7 @@
 #include "Transform.h"
 #include "Game.h"
 
-
+#include <gtc/noise.hpp>
 
 
 CameraComponent::CameraComponent()
@@ -197,10 +197,20 @@ void CameraComponent::performFollowMovementUpdate(GLFWwindow* window, const floa
 
 void CameraComponent::performFollowRoomMovementUpdate(GLFWwindow* window, const float _ellapsed) {
 	const glm::vec3 roomMidPoint = Game::getInstance()->getCurrentScene()->getCurrentRoomMid();
-	m_DesiredPosition = roomMidPoint + m_Offset;
-	const glm::vec3 focusPoint = glm::mix(m_GameObject->getTransform().getLocalPosition(), roomMidPoint + m_Offset, _ellapsed * m_FollowSpeed) - m_Offset;
 
-	m_GameObject->getTransform().setLocalPosition(glm::mix(m_GameObject->getTransform().getLocalPosition(), m_DesiredPosition, _ellapsed * m_FollowSpeed));
+	const float playerTrauma = Game::getInstance()->getCurrentScene()->getPlayer()->getCurrentTraumaSqr();
+	const float gameTime = Game::getInstance()->getGameTime();
+	const float noise1 = glm::perlin(glm::vec3(gameTime + 10)) * 10;
+	const float noise2 = glm::perlin(glm::vec3(gameTime)) * 10;
+	const float noise3 = glm::perlin(glm::vec3(gameTime - 10));
+	const float noise4 = glm::perlin(glm::vec3(gameTime - 30));
+	const glm::vec3 cameraShakeFocusOffset = glm::vec3(playerTrauma * noise1, 0, playerTrauma * noise2);
+	const glm::vec3 cameraShadePositionOffset = glm::vec3(playerTrauma * noise3, 0, playerTrauma * noise4);
+
+	m_DesiredPosition = roomMidPoint + m_Offset;
+	const glm::vec3 focusPoint = glm::mix(m_GameObject->getTransform().getLocalPosition(), roomMidPoint + m_Offset + cameraShakeFocusOffset, _ellapsed * m_FollowSpeed) - m_Offset;
+
+	m_GameObject->getTransform().setLocalPosition(glm::mix(m_GameObject->getTransform().getLocalPosition(), m_DesiredPosition + cameraShadePositionOffset, _ellapsed * m_FollowSpeed));
 
 	m_ProjectionMatrix = glm::perspective(glm::radians(45.0f), (float)Game::m_s_cWindowWidth / Game::m_s_cWindowHeight, Game::m_s_cNearClip, Game::m_s_cFarClip);
 

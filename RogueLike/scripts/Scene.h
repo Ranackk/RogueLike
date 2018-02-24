@@ -85,5 +85,6 @@ private:
 	class GameObject* m_HUDHealthContainer;
 
 	class std::vector<GameObject*> m_BlockadeObjects;
+
 };
 
