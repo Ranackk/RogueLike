@@ -8,8 +8,11 @@ uniform sampler2D _BackgroundTexture;
 uniform sampler2D _FillTexture;
 uniform sampler2D _GradientTexture;
 
+uniform float _Blink;
+
 uniform float _FillAmount;
 uniform float _GameTime;
+uniform float _CosGameTimeFast;
 
 void main(){
 	vec4 bg = texture(_BackgroundTexture, uv);
@@ -28,5 +31,8 @@ void main(){
 	}
 	// If the frag is not part of the healthbar, discard it
 	if (color.a < 0.9) discard; 
+
+	color += vec4(_Blink * _CosGameTimeFast * 0.35, 0, 0, 0);
+
 	gl_FragDepth = 0;
 }

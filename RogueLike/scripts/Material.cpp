@@ -46,6 +46,7 @@ void Material::setupMatricesOnly() {
 	this->uniformClippingPlane = glGetUniformLocation(this->shaderProgramID, "_ClippingPlane");
 	this->uniformShadowClippingPlane = glGetUniformLocation(this->shaderProgramID, "_ShadowClippingPlane");
 	this->uniformCosGameTime = glGetUniformLocation(this->shaderProgramID, "_CosGameTime");
+	this->uniformCosGameTimeFast = glGetUniformLocation(this->shaderProgramID, "_CosGameTimeFast");
 	this->uniformGameTime = glGetUniformLocation(this->shaderProgramID, "_GameTime");
 
 	this->uniformUseInstancing = glGetUniformLocation(this->shaderProgramID, "_UseInstancing");
@@ -88,6 +89,7 @@ void Material::setupHealthBarShader(const GLuint _backgroundTextureID, const GLu
 	this->uniformFillTextue = glGetUniformLocation(this->shaderProgramID, "_FillTexture");
 	this->uniformGradientTexture = glGetUniformLocation(this->shaderProgramID, "_GradientTexture");
 	this->uniformHealthbarFillAmount = glGetUniformLocation(this->shaderProgramID, "_FillAmount");
+	this->uniformBlink = glGetUniformLocation(this->shaderProgramID, "_Blink");
 }
 
 void Material::setTexture(const GLuint texture) {
@@ -95,6 +97,10 @@ void Material::setTexture(const GLuint texture) {
 }
 void Material::setDiffuse(const glm::vec4 diffuse) {
 	p_diffuseColor = diffuse;
+}
+
+void Material::setBlink(const float _blink) {
+	p_Blink = _blink;
 }
 
 
@@ -197,6 +203,7 @@ void Material::bindMaterial(glm::mat4x4 _perspectiveMatrix, glm::mat4x4 _viewMat
 
 		// Fill Amount
 		glUniform1f(this->uniformHealthbarFillAmount, *p_healthbarFillAmount);
+		glUniform1f(this->uniformBlink, p_Blink);
 
 		glDisable(GL_BLEND);
 
@@ -230,6 +237,7 @@ void Material::bindMaterial(glm::mat4x4 _perspectiveMatrix, glm::mat4x4 _viewMat
 	/* Game Time */
 	glUniform1f(this->uniformGameTime, Game::getInstance()->getGameTime());
 	glUniform1f(this->uniformCosGameTime, cos(Game::getInstance()->getGameTime()));
+	glUniform1f(this->uniformCosGameTimeFast, cos(3.5 * Game::getInstance()->getGameTime()));
 
 	/* Instancing */
 	glUniform1i(this->uniformUseInstancing, _instanced);

@@ -24,6 +24,7 @@ public:
 
 	void setTexture(const GLuint texture);
 	void setDiffuse(const glm::vec4 diffuse);
+	void setBlink(const float _blink);
 
 	~Material();
 
@@ -49,6 +50,7 @@ private:
 	GLint uniformUseInstancing;
 	GLuint uniformGameTime;
 	GLuint uniformCosGameTime;
+	GLuint uniformCosGameTimeFast;
 
 	/* === Custom Properties "BaseShader" === */
 	/* Material Properties */
@@ -72,5 +74,7 @@ private:
 	GLuint uniformFillTextue;
 	GLuint uniformGradientTexture;
 	GLuint uniformHealthbarFillAmount;
+	GLuint uniformBlink;
+	float p_Blink = 0.0f;
 };
 

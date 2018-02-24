@@ -18,7 +18,18 @@ void HUDPlayerHealthDisplayComponent::update(GLFWwindow* window, const float del
 		if (m_CurrentVisualHP < currentHp) m_CurrentVisualHP = currentHp;
 	}
 
+	/* Let last heart blink */
+	std::shared_ptr<Material> uiMat = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_UIHeartContainer0");
+	if (m_CurrentVisualHP <= 1.0f) {
+		uiMat->setBlink(1);
+	}
+	else {
+		uiMat->setBlink(0);
+	}
+
+	/* Fill all hearts to their value */
 	float amountToFill = m_CurrentVisualHP;
+
 	for (int i = 0; i != m_CurrentHeartContainerCount; i++) {
 		if (amountToFill >= 1.0f) {
 			m_FillAmountsVisual[i] = 1.0f;

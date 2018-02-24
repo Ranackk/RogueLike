@@ -149,7 +149,6 @@ void Scene::setupSystems() {
 }
 
 void Scene::update(GLFWwindow* window, const float deltaTime) {
-	m_GameTime += deltaTime;
 
 	m_Player->getGameObject()->update(window, deltaTime);
 
