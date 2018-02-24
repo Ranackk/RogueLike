@@ -13,7 +13,7 @@ void Transform::updateCurrentMatrix()
 {
 	if (isDirty) {
 		const mat4x4 scaleMatrix = Utility::scaleMatrix(m_ParentScale * m_LocalScale);
-		const mat4x4 rotMatrix = glm::mat4_cast(m_ParentRotation * m_LocalRotation);
+		const mat4x4 rotMatrix = glm::mat4_cast(m_ParentRotation) * glm::mat4_cast(m_LocalRotation);
 		const mat4x4 posMatrix = Utility::translationMatrix(m_ParentPosition + m_LocalPosition);
 
 		this->currentMatrix = posMatrix * rotMatrix * scaleMatrix;

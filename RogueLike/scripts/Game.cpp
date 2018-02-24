@@ -200,8 +200,8 @@ void Game::initializeManagers() {
 	m_ModelManager->loadModelAs("models/map/Shrine.obj", "mesh_Shrine");
 	// ENTITES
 	m_ModelManager->loadModelAs("models/player.obj", "mesh_Player");
-	m_ModelManager->loadModelAs("models/player.obj", "mesh_Enemy_Rogue");
-	m_ModelManager->loadModelAs("models/player.obj", "mesh_Enemy_Archer");
+	m_ModelManager->loadModelAs("models/enemy_01.obj", "mesh_Enemy_Rogue");
+	m_ModelManager->loadModelAs("models/enemy_02.obj", "mesh_Enemy_Archer");
 
 	m_ModelManager->loadModelAs("models/player.obj", "mesh_Projectile");
 

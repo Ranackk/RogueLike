@@ -125,7 +125,7 @@ void Scene::setupSystems() {
 		RenderComponent* rc = gO->addComponent<>(new RenderComponent());
 		rc->initialize(modelData, material);
 
-		m_DynamicNonShadowRenderComponents.push_back(rc);
+		m_DynamicRenderComponents.push_back(rc);
 
 		/* Add Collider Component*/
 		BoxColliderComponent* cc = gO->addComponent<>(new BoxColliderComponent());

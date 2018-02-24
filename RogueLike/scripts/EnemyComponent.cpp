@@ -6,6 +6,7 @@
 #include "HealthComponent.h"
 #include <string>
 #include "ProjectileComponent.h"
+#include <gtc/matrix_transform.inl>
 
 
 EnemyComponent::EnemyType EnemyComponent::getTypeByColor(int v) {
@@ -162,9 +163,13 @@ void EnemyComponent::updateEnemyTypRogue(GLFWwindow* _window, const float _delta
 		_desiredVector = _desiredPosition - _currentPosition;
 	}
 
+
+
 	/* Carry out movement */
 	if (glm::length(_desiredVector) > 0.01f) {
+		m_GameObject->getTransform().setLocalRotation(glm::lookAt(_currentPosition, _currentPosition + glm::vec3(-_desiredVector.x, 0, _desiredVector.z), glm::vec3(0, 1, 0)));
 		const glm::vec3 movementVector = normalize(_desiredVector) * _deltaTime * m_RogueSpeed;
+
 		//std::cout << glm::length(_desiredPosition) << " " <<movementVector.x << std::endl;
 		m_GameObject->getTransform().translate(glm::vec3(movementVector.x, 0, 0));
 		if (Game::getInstance()->getCurrentScene()->collidesWithSceneGeometry(*m_CircleCollider)) {
@@ -185,9 +190,12 @@ void EnemyComponent::updateEnemyTypArcher(GLFWwindow* _window, const float _delt
 
 	if (_currentRoomGridPos == m_RoomGridPos) {
 		/* Try to shoot */
+		/* Find vector to player */
+		const glm::vec3 shootVector = glm::normalize(m_Scene->getPlayer()->getGameObject()->getTransform().getPosition() - m_GameObject->getTransform().getPosition());
+		/* Aim*/
+		const glm::vec3 pos = m_GameObject->getTransform().getPosition();
+		m_GameObject->getTransform().setLocalRotation(glm::lookAt(pos, pos + glm::vec3(-shootVector.x, 0, shootVector.z), glm::vec3(0, 1, 0)));
 		if (m_ArcherShootCooldown <= 0.0f) {
-			/* Find vector to player */
-			glm::vec3 shootVector = glm::normalize(m_Scene->getPlayer()->getGameObject()->getTransform().getPosition() - m_GameObject->getTransform().getPosition());
 			/* Shoot */
 			GameObject* bullet = Game::getInstance()->getCurrentScene()->m_ProjectilePool.getNextFreeObject();
 			ProjectileComponent* projectileComponent = bullet->getComponent<ProjectileComponent>();
