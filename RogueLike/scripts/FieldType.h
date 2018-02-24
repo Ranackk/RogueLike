@@ -41,6 +41,8 @@ public:
 	static FieldType WALL_BROKEN_X;
 	static FieldType WALL_BROKEN_Z;
 
+	static FieldType ROCKS;
+
 	static FieldType SHRINE;
 
 	static FieldType byColor(unsigned char r);

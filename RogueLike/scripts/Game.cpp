@@ -197,6 +197,8 @@ void Game::initializeManagers() {
 	m_ModelManager->loadModelAs("models/map/Wall_broken_x.obj", "mesh_Wall_broken_x");
 	m_ModelManager->loadModelAs("models/map/Wall_broken_z.obj", "mesh_Wall_broken_z");
 
+	m_ModelManager->loadModelAs("models/map/rocks.obj", "mesh_Rocks");
+
 	m_ModelManager->loadModelAs("models/map/Shrine.obj", "mesh_Shrine");
 	// ENTITES
 	m_ModelManager->loadModelAs("models/player.obj", "mesh_Player");

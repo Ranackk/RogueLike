@@ -37,7 +37,7 @@ void PlayerComponent::initialize(Scene* _scene) {
 	circC.setCollisionLayer(CollisionLayer::FRIENDLY_UNITS);
 	cc->initialize(circC);
 
-	m_LightOffset = glm::vec3(0, 1, 0);
+	m_LightOffset = glm::vec3(0, 1.1, 0);
 
 	/* Add child gameobject with LightComponent */
 	GameObject* gO = new GameObject("Player Light");
