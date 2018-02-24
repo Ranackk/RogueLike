@@ -205,3 +205,5 @@
 	glfw				- Open GL Library
 	glew				- Open GL Extention Wrapper
 	glm					- Math Library!
+
+	All 3 of them should work on their own as they are provided withing the "Additional dependencies" folder.
