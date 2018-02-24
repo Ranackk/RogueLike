@@ -273,4 +273,4 @@ __pycache__/
 !/RogueLike/models/map/*.obj
 *.rar
 
-*/docs/
+**/docs/
