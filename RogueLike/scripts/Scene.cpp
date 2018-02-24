@@ -116,9 +116,9 @@ void Scene::setupSystems() {
 		GameObject* gO = new GameObject("Blockade " + std::to_string(i));
 		gO->getTransform().setLocalPosition(glm::vec3(-100, -100, -100));
 		/* Add Render Component */
-		const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Player");
-		std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Player");
-		std::string modelIdentifier = (i == 0 || i == 2) ? "mesh_Barrier_x" : "mesh_Barrier_z";
+		const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier("tex_Barrier");
+		std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName("mat_Barrier");
+		const std::string modelIdentifier = (i == 0 || i == 2) ? "mesh_Barrier_x" : "mesh_Barrier_z";
 		const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier(modelIdentifier);
 		material->setTexture(texture);
 

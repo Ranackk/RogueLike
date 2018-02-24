@@ -8,6 +8,7 @@
 #include "PhysicsEngine.h"
 #include "ProjectileComponent.h"
 #include "HealthComponent.h"
+#include <gtc/matrix_transform.inl>
 
 const float PlayerComponent::JOYSTICK_MOVE_THRESHHOLD_X = 0.65f;
 const float PlayerComponent::JOYSTICK_MOVE_THRESHHOLD_Y = 0.5f;
@@ -129,6 +130,9 @@ void PlayerComponent::update(GLFWwindow* window, const float deltaTime) {
 	if (combinedVector != glm::vec3()) {
 		m_FacingDirection = combinedVector;
 	}
+
+	const glm::vec3 _position = m_GameObject->getTransform().getLocalPosition();
+	m_GameObject->getTransform().setLocalRotation(glm::lookAt(_position, _position + glm::vec3(-m_FacingDirection.x, 0, m_FacingDirection.z), glm::vec3(0, 1, 0)));
 
 	/* Shooting Stars */
 	if (m_FireCooldown > 0) {
