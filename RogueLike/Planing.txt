@@ -82,16 +82,6 @@
 	1.7ms  w/ unbind shader programm
 	> binding / undbinding doesnt make a difference as it is not the bottleneck anymore
 	
-	Planned optimization:
-	? Save for each object a room id (if i want hide / unhide)
-	> Make sure fields are accesible by xz koordinate but rendered by batch
-
-
-
-
-
-
-
 
 
 
@@ -102,7 +92,8 @@
 	- Random Map Generator using the rooms described in "graphics/rooms.png"
 		> Loads up all rooms from the file, starts with the first one in the middle of the map, then puzzles
 		fitting rooms (depending on whether they have the right doors) together to create a map. Use camera mode 4 to have a look at it!
-
+			> A room is currently 13 times 9 fields big.
+			Each field has a fieldtype which determines the behaviour of that field, e.g. how it is rendered, whether it has a collider, which material it uses and so on.
 	- 2 Enemy Types
 		> Rogue that charges at you and does big melee damage
 		> Archer that sits still but shoots you with moderate ranged damage
