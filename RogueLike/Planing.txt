@@ -1,15 +1,8 @@
 	
+	Further Ideas for the Engine & Game:
 	
-	Todo:
-	> Add several room types, make a random world generation out of it
-	
-	Unsure:
-	
-	> player death?
+	> Define player death & End of game!
 	> basic power ups? (damage, speed, movespeed?)
-
-
-	Furhter Ideas for the Engine & Game:
 
 	> Font Atlas Loader
 	> Cache Line Optimization via using Systems (or at least trying for some things, maybe collision should be like it is)
@@ -17,46 +10,24 @@
 		> NEVERMIND: Just use an array with a set size for all static render elements (always rooms*roomX*roomY). Linear memory layout! 
 
 	> Fix non instanced objects not rendering to shadow maps
-	> Add Healthbars
-	> Add items that amplify the projectiles
+	> Add healthbars to enemies
 	> Add some kind of screen space transitions / effects on certain actions (requires additional fbo)
-	> Add Water (This requieres 3 new layers, freindly_projectiles, hostile_projectiles, water, but the system currently does not allow that many)
+	> Add Water (This requires 3 new layers, freindly_projectiles, hostile_projectiles, water, but the system currently does not allow that many)
 
 	Optimization:
-	> Use Geometry shader to redner shadow cube map in one x draw calls instead of six x draw calls
+	> Use Geometry shader to render shadow cube map in one x draw calls instead of six x draw calls
 
 	OR:
-	> Use frustum culing for rendering (makes geometry shader approach useless)
-	======
-
-	> Store lighting in rooms via special color channel? (find a way to represent lighting, e.g. voxel torches)
-	
-	Juicyness;
-	Fade i out
-	Camera shake ono dmg
-	Camerafahrt at game start over the random dugeon (across, like in mario kart)
-	
+	> Use frustum culling for rendering (makes geometry shader approach useless)
 
 	======
 
 	Redo for next game:
 	> World with non fixed sized rooms (each field & enemy needs to know its room ID then)
 
-	======
-
-	Planning:
-	> Create small game rogue like game with a random world generator
-	> Add custom distance base lighting (only light directly around you)
-	> Add custom shader effects for things such as transitions 
-
-	> Enemy death -> Either plops into its voxels or drops the voxels
-	> Use the voxels to craft your own weapons, voxel per voxel.
-	> To make the rendering less expensive, consider using froms/blueprints which have a premade mesh and just change colors on demand based on the gems/voxels/pixels used
-	> Could add some mining elements like in the old lego games
-
-
 	====
 
+	Import Notes:
 	3D Models need to be triangulated
 	They are currently VBO Indexed & use Instancing
 
@@ -96,21 +67,27 @@
 			Each field has a fieldtype which determines the behaviour of that field, e.g. how it is rendered, whether it has a collider, which material it uses and so on.
 			> Basic Idea: There is a big texture that stores all possible rooms in the game as colors. Red channel holds value about field type, green channel holds value 
 			about enemies & blue channel holds values about lights
+	- 30 unique rooms
 	- 2 Enemy Types
 		> Rogue that charges at you and does big melee damage
 		> Archer that sits still but shoots you with moderate ranged damage
 
 	- Completely self written game engine
 		> GameObjects with Components
-			> There are basic components for general purposes and special "UpdateComponents" & "RenderComponents" that can support the update & render method
+			> There are basic components for general purposes and special "UpdateComponents" & "RenderComponents" that can participate in the update & rendering systems.
+			In general, I used components a lot and systems to some degree. Most of the time, I decided against systems, as I like to do things completely.
+			And for example doing a completely autonomous physics system requires a system that creates a scene oct tree for performance reasons. 
+			Which I then also would have to incorporate in the render batch system, the pooling system, the render system in general and so on.
+			What I ended up with is a solution where I add components to gameobject manually and then manually add them to e.g. a vector of "dynamic geometry" which from there
+			on handles the rendering of the object.
 		> Transform Hierarchies
 			> Supports position, rotation (both via quaternion & via euler) & scale as well as parenting
 		> Custom Render Engine
-			> Up to 64 Lights in Total
 			> Mixed baked & realtime shadow mapping for point lights
 				> Basic Concept: Each frame, each light takes 6 snapshots of the depth(!) of the scene in all directions and stores 
 				them inside a cube map. Later on, shadow-receiving shaders sample the cube map at the correct direction and calculates whether it
 				is the first surface hit by the light (lit) or not (inside shadow)
+				> Up to 64 Lights in Total
 			> Realtime Batching/Instancing, Pooling
 				> All objects in the game that share the same model & material can be batched together using a "RenderBatch" or even a "GameObjectPool" wrapper.
 				All of those results are rendered using instancing, meaning that the model only gets send to the GPU once with an array of modelmatrices, one for
@@ -118,6 +95,10 @@
 				this application. During the early stages of production, I rendered 2000 cubes non instanced in ~13 ms (80 fps) and 200 cubes instanced in ~1.2 ms (~830 fps)
 				> This supports static objects such as the fields that amke up the map as well as pooled game objects like the enemies or bullets, for both cases optimizing
 				how much data needs to be calculated each frame (none for the static objects, some for the dynamic ones)
+				> As a result, the drawcalls for the scene are: 1 per fieldtype (~20), 1 per enemy type (2), 1 per player, 1 per UI element (5), 1 for bullets (1), 4 for the unique room barricades
+					> Thats about 30 drawcalls for about 2500 objects. 
+					On top of that, I perform 6 scene draws (minus HUD, Bullets, Player, things that should not throw shadows) per lightsource. Even though, I use only a depth map for those scne draws,
+					a single light costs about 3-4 times as much as the scene draw that the player sees.
 			> Range Culling on Lights
 				Only Lights that are near to the player render, allowing for the world to hold up to 64 Lights (which, when rendered all at the same time, would result in ~15 fps)
 		> Custom Physics Engine
@@ -211,4 +192,10 @@
 	glm					- Math Library!
 	lodepng				- PNG Library
 
-	All 3 of them should work on their own as they are provided withing the "Additional dependencies" folder.
+	All of them should work on their own as they are provided withing the "Additional dependencies" folder or are part of the project itself.
+
+	Credits:
+
+	- I used the 4 libraries stated in the dependencies section
+	- Modeling (Enemies, Rocks & Walls) - Charlotte Kügler
+	- Everything else (Programming, UVs, Textures) was created by me!
