@@ -1,3 +1,145 @@
 # RogueLike
 
-A small 3D game engine I am currently working on
+Game Features:
+=
+Random Map Generator
+-
+Loads up all rooms from a file (graphics/rooms.png), starts with the first one in the middle of the map, then puzzles
+	fitting rooms (depending on whether they have the right doors) together to create a map. Use camera mode 4 to have a look at it!	
+> A room is currently 13 times 9 fields big.
+		Each field has a fieldtype which determines the behaviour of that field, e.g. how it is rendered, whether it has a collider, which material it uses and so on.
+
+Basic Idea: There is a big texture that stores all possible rooms in the game as colors. Red channel holds value about field type, green channel holds value 
+		about enemies & blue channel holds values about lights
+> Currently there are 30 unique room types
+
+Two types of enemies
+-
+Rogue that charges at you and does big melee damage
+Archer that sits still but shoots you with moderate ranged damage
+
+Self written game engine
+-
+- GameObjects with Components
+    There are basic components for general purposes and special "UpdateComponents" & "RenderComponents" that can participate in the update & rendering systems.
+
+	In general, I used components a lot and systems to some degree. Most of the time, I decided against systems, as I like to do things completely. And for example doing a completely autonomous physics system requires a system that creates a scene oct tree for performance reasons. Which I then also would have to incorporate in the render batch system, the pooling system, the render system in general and so on. What I ended up with is a solution where I add components to gameobject manually and then manually add them to e.g. a vector of "dynamic geometry" which from there on handles the rendering of the object.
+- Transform Hierarchies
+	> Supports position, rotation (both via quaternion & via euler) & scale as well as parenting
+- Custom Render Engine
+    - Mixed baked & realtime shadow mapping for point lights
+        - Basic Concept: Each frame, each light takes 6 snapshots of the depth(!) of the scene in all directions and stores 
+		them inside a cube map. Later on, shadow-receiving shaders sample the cube map at the correct direction and calculates whether it is the first surface hit by the light (lit) or not (inside shadow)
+		    - Up to 64 Lights in Total
+    - Realtime Batching/Instancing, Pooling
+		All objects in the game that share the same model & material can be batched together using a "RenderBatch" or even a "GameObjectPool" wrapper. All of those results are rendered using instancing, meaning that the model only gets send to the GPU once with an array of modelmatrices, one for each instance. This is still the same amount of work on the GPU but drastically decreases the bandwidth needed, which is the actual bottleneck in this application. During the early stages of production, I rendered 2000 cubes non instanced in ~13 ms (80 fps) and 200 cubes instanced in ~1.2 ms (~830 fps)
+	    - This supports static objects such as the fields that amke up the map as well as pooled game objects like the enemies or bullets, for both cases optimizing
+		how much data needs to be calculated each frame (none for the static objects, some for the dynamic ones)
+		- As a result, the drawcalls for the scene are: 1 per fieldtype (~20), 1 per enemy type (2), 1 per player, 1 per UI element (5), 1 for bullets (1), 4 for the unique room barricades. Thats about 30 drawcalls for about 2500 objects. 
+			On top of that, I perform 6 scene draws (minus HUD, Bullets, Player, things that should not throw shadows) per lightsource. Even though, I use only a depth map for those scne draws, a single light costs about 3-4 times as much as the scene draw that the player sees.
+    - Range Culling on Lights
+		Only Lights that are near to the player render, allowing for the world to hold up to 64 Lights (which, when rendered all at the same time, would result in ~15 fps)
+- Custom Physics Engine
+Currently only supports 2D-Circle Colliders & 2D-BoxColliders. Basically not that far away from 3D collisions, just simplified for performance purposes as there is no need for 3D collision in this game.
+	- Supports CollisionLayers
+		E.G. the whole Map Geometry is on layer 1, all Friendly Units on layer 2 & all Hostile Units on layer 3.
+		A Collision Matrix that is layed out like this determines whether objects can collide
+```
+			M F H
+		M   0 1 1
+		F     0 1
+		H       0
+```
+(The other 3 layers that i use are used for projectiles (friendly/hostile) & water )
+
+Currently the system supports up to 7 layers (limited by the length of an int. A long would allow many more layers if needed) and uses bits as flags, meaning that a check on two layers colliding uses just a single bitwise & between the global layerMaskField and the two layers to collide.
+
+- Texture, Model & Material Manager
+	All of them story identifiers (strings) and combine them with data to be able to easily get a model in the code by calling "getModelByIdentifer("mesh_Player");"
+
+	- MaterialManager:	System to load up shaders and build up materials on top of them to communicate with the shaders
+	
+	- ModelManager:		Custom .Obj loader to load up triangulated & indexed models. (Non Indexed .objs will be indexed during the loading process. models need to be triangulated though)
+	
+	- TextureManager:	uses the .lodepng Loader by Lode Vandevenne
+- Custom Shaders
+	- Base Shader supports being lit by up to 64 Lights at the same time, also is able to receive shadows. Can be used both instanced & non-instanced!
+	- UI Shader is able to draw cutout sprites (support for transparent textures) onto the HUD
+	- Billboard Shader (non used in this project) is able to draw a billboard such as a enemy healthbar or particle that is stuck in the 3D world.
+	- Depth Shader is used to draw the scene depth into a texture for shadow mapping
+	- HealthContainer Shader is used to display the players current health. It uses a gradient texture to blend between the empty and the full heart depending on
+	the players current health. Result is that this HUD can even display things like 0.23 HP which would result in a 23% filled heartcontainer.
+	Also has 2 small animations: 
+		> If it is not fully filled or completly empty, the red heart-mass "waves" around.
+		> If it is the last filled heart, it blinks in bright red to alarm the player
+
+-  5 Camera Modes (see "Controls")
+		> Camera Shake support for Camera Mode 1
+			> Basic Idea: Whenever the player takes damage, he gets some "trauma". Trauma linearly sinks over time.
+				Trauma gets used exponentially to shake the cameras focus point using Perlin Noise.
+			> Result is that upon taking the damage, the trauma linearly goes from 1 to 0, while the shake amount scales exponentially:
+```
+			Time	Trauma		Shake Amount
+			0		1			100%
+			1		0.75		56%
+			2		0.5			25%
+			3		0.25		6%
+			4		0			0%
+```
+Also, this allows for (if usefull for the game) staking trauma. E.g. the player gets hit once and has a little bit of nausea and with each
+			further hit in the near future, he gets exponentially more trauma until its is completely reduced to 0 again.
+
+Notes:
+=
+
+This is not a complete game.
+Currently it features no set goal / end of game / player death action.
+Those things would have upped the scope by quite a bit as I would have had to create a secondary scene for which the engine currently is not
+made yet. (The other option would be to just enable a HUD overlay but I want to do things right with this game and dont use bad workarounds)
+
+Controls:
+=
+Camera:
+-
+
+1- Default Camera (focuses current room, also has a feature to shake on player damage)
+2- Player Camera 1
+3 - Player Camera 2
+4 - Free Flight
+  - JL -> Move Left/Right
+  - KI -> Move Forward/Backward
+  - UO -> Strive Up/Down
+  - Hold Shift -> Go faster
+  
+ 5 - Free Flight with paused gameplay
+
+Player:
+-
+
+WASD				- Movement
+Left Joystick		- Movement (highly recommended, tested with a XBox360 Controller)
+
+Arrow Keys			- Shooting
+Right Joystick		- Shooting
+Controller Buttons	- Shooting
+
+General:
+-
+Escape				- Toggle Camera Lock / Pause, Unpause Game
+
+
+Dependencies:
+=
+This game uses:
+glfw				- Open GL Library
+glew				- Open GL Extention Wrapper
+glm					- Math Library!
+lodepng				- PNG Library
+
+All of them should work on their own as they are provided withing the "Additional dependencies" folder or are part of the project itself.
+
+Credits:
+=
+- I used the 4 libraries stated in the dependencies section
+- Modeling (Enemies, Rocks & Walls) - Charlotte Kügler
+- Everything else (Programming, UVs, Textures) was created by me!
