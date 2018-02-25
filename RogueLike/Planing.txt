@@ -88,7 +88,7 @@
 	Readme:
 
 	Game Features:
-
+	
 	- Random Map Generator using the rooms described in "graphics/rooms.png"
 		> Loads up all rooms from the file, starts with the first one in the middle of the map, then puzzles
 		fitting rooms (depending on whether they have the right doors) together to create a map. Use camera mode 4 to have a look at it!
@@ -166,8 +166,14 @@
 				3		0.25		6%
 				4		0			0%
 				> Also, this allows for (if usefull for the game) staking trauma. E.g. the player gets hit once and has a little bit of nausea and with each
-				further hit in the near future, he gets exponentially more trauma until its is completly reduced to 0 again.
+				further hit in the near future, he gets exponentially more trauma until its is completely reduced to 0 again.
 
+	Notes:
+
+	This is not a complete game.
+	Currently it features no set goal / end of game / player death action.
+	Those things would have upped the scope by quite a bit as I would have had to create a secondary scene for which the engine currently is not
+	made yet. (The other option would be to just enable a HUD overlay but I want to do things right with this game and dont use bad workarounds)
 
 	Controls:
 

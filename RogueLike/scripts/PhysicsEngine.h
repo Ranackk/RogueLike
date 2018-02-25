@@ -5,13 +5,13 @@
 
 class CollisionLayer {
 public:
-	static const unsigned char NONE					= 0100000000;
-	static const unsigned char MAP_GEOMETRY			= 0b00000000;
-	static const unsigned char FRIENDLY_UNITS		= 0b00000001;
-	static const unsigned char HOSTILE_UNITS		= 0b00000010;
+	static const unsigned char NONE						= 0b10000000;
+	static const unsigned char MAP_GEOMETRY				= 0b00000000;
+	static const unsigned char FRIENDLY_UNITS			= 0b00000001;
+	static const unsigned char HOSTILE_UNITS			= 0b00000010;
 	static const unsigned char FRIENDLY_UNITS_FLIGHT	= 0b00000011;
-	static const unsigned char HOSTILE_UNITS_FLIGHT = 0b00000100;
-	static const unsigned char WATER				= 0b00000101;
+	static const unsigned char HOSTILE_UNITS_FLIGHT		= 0b00000100;
+	static const unsigned char WATER					= 0b00000101;
 };
 
 class PhysicsEngine
@@ -98,10 +98,14 @@ private:
 	*	i =		(n + 1) * L - ((n)^2 + n) / 2)		+ m				- n
 	*
 	*	Inside the "layerMaskAllowsCollision" method, I use a slightly altered formula to make things a bit faster.
+	*	
+	*	
+	*	NOTE:
+	*	After writing this, I upped the layer count to 6 which shift some calculations a bit - but the core idea is still the same.
 	*/
 
 	//const static unsigned int m_s_c_CollisionLayerMaskFlagField = 0b000000001000110;	// for 5 layers;
-	const static unsigned int m_s_c_CollisionLayerMaskFlagField = 0b0000010101011001011110;// 0b1000110; //0b011000100000000;
+	const static unsigned int m_s_c_CollisionLayerMaskFlagField = 0b0000010101011010011110;// 0b1000110; //0b011000100000000;
 	const static unsigned short m_s_c_CollisionLayers = 6;
 
 	static bool layerMaskAllowsCollision(Collider& c1, Collider& c2);
