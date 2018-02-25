@@ -127,7 +127,7 @@ void Game::initializeManagers() {
 	// MAP
 	m_TextureManager->loadTextureAs("graphics/map/stone_02.png", FieldType::WALL_X.getTextureIdentifier());
 	m_TextureManager->loadTextureAs("graphics/map/earth_01.png", FieldType::FLOOR.getTextureIdentifier());
-	m_TextureManager->loadTextureAs("graphics/map/water_01.png", FieldType::WATER.getTextureIdentifier());
+	m_TextureManager->loadTextureAs("graphics/map/water_03.png", FieldType::WATER.getTextureIdentifier());
 	// ENTITIES
 	m_TextureManager->loadTextureAs("graphics/player.png", "tex_Player");
 	m_TextureManager->loadTextureAs("graphics/bullet.png", "tex_Projectile");

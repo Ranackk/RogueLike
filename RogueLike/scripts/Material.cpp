@@ -62,6 +62,7 @@ void Material::setupBaseShader(const glm::vec4 _diffuseColor, const GLuint _text
 	/* Setup the uniform locations for the base shader */
 	this->uniformDiffuseColor = glGetUniformLocation(this->shaderProgramID, "_Diffuse");
 	this->uniformTexture = glGetUniformLocation(this->shaderProgramID, "_Texture");
+	this->uniformUvOffset = glGetUniformLocation(this->shaderProgramID, "_UvOffset");
 
 	/* Test Area */
 	p_skyboxID = _skyboxID; 
@@ -73,6 +74,7 @@ void Material::setupBaseUiShader(const GLuint _textureID) {
 	m_Type = UI_BASE_SHADER;
 	this->p_textureID = _textureID;
 	this->uniformTexture = glGetUniformLocation(this->shaderProgramID, "_Texture");
+	p_uvOffset = glm::vec2(0);
 }
 void Material::setupHealthBarShader(const GLuint _backgroundTextureID, const GLuint _fillTextureID, const GLuint _gradientTextureID,
 	float* _fillAmount) {
@@ -101,6 +103,10 @@ void Material::setDiffuse(const glm::vec4 diffuse) {
 
 void Material::setBlink(const float _blink) {
 	p_Blink = _blink;
+}
+
+void Material::setUvOffset(const glm::vec2 _offset) {
+	p_uvOffset = _offset;
 }
 
 
@@ -169,6 +175,8 @@ void Material::bindMaterial(glm::mat4x4 _perspectiveMatrix, glm::mat4x4 _viewMat
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, this->p_textureID);
 		glUniform1i(this->uniformTexture, 0);
+		/* UV offset */
+		glUniform2f(this->uniformUvOffset, p_uvOffset.x, p_uvOffset.y);
 
 		// This was not more than a test for cube maps! Still might be usefull later on
 		//// Skybox Texture - Texture Unit 1

@@ -25,6 +25,7 @@ public:
 	void setTexture(const GLuint texture);
 	void setDiffuse(const glm::vec4 diffuse);
 	void setBlink(const float _blink);
+	void setUvOffset(const glm::vec2 _offset);
 
 	~Material();
 
@@ -60,6 +61,9 @@ private:
 	/* Material Uniform GLuints */
 	GLuint uniformDiffuseColor;
 	GLuint uniformTexture;
+
+	GLint uniformUvOffset;
+	glm::vec2 p_uvOffset;
 
 	GLuint p_skyboxID;
 	GLuint uniformSkybox;

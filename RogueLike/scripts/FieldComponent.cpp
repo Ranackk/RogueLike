@@ -24,13 +24,13 @@ void FieldComponent::initialize(Scene* map, const glm::vec2 worldGridPosition, c
 	/* Create Render Component */
 	const GLuint texture = Game::getInstance()->getTextureManager()->getTextureByIdentifier(fieldType.getTextureIdentifier());
 
-	std::shared_ptr<Material> material = Game::getInstance()->getMaterialManager()->getMaterialByName(fieldType.getMaterialIdentifer());
-	material->setTexture(texture);
+	m_Material = Game::getInstance()->getMaterialManager()->getMaterialByName(fieldType.getMaterialIdentifer());
+	m_Material->setTexture(texture);
 
 	const std::shared_ptr<ModelData> modelData = Game::getInstance()->getModelManager()->getModelDataByIdentifier(fieldType.getModelIdentifier());
 
 	RenderComponent* rc = m_GameObject->addComponent(new RenderComponent());
-	rc->initialize(modelData, material);
+	rc->initialize(modelData, m_Material);
 
 	if (m_FieldType.getPassing() == FieldType::BLOCKED) {
 		BoxColliderComponent* cc = m_GameObject->addComponent(new BoxColliderComponent());
@@ -83,5 +83,11 @@ void FieldComponent::update(GLFWwindow* window, const float deltaTime) {
 				}
 			}
 		}
+	}
+
+	if (m_FieldType == FieldType::WATER) {
+		/* UV scroll */
+		const float gameTime = Game::getInstance()->getGameTime();
+		m_Material->setUvOffset(glm::vec2(cos(gameTime) / 20.0f,-sin(20 + gameTime) / 20.0f));
 	}
 }

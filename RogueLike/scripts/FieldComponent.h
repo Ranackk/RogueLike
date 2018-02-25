@@ -13,6 +13,7 @@ public:
 	glm::vec2 getWorldGridPosition() const { return m_worldGridPosition; }
 	FieldType m_FieldType;
 private:
+	std::shared_ptr<Material> m_Material;
 	glm::vec2 m_RoomCoord;
 	int m_fieldID = -1;
 	glm::vec2 m_worldGridPosition;
