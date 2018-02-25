@@ -20,6 +20,7 @@
 	> Add Healthbars
 	> Add items that amplify the projectiles
 	> Add some kind of screen space transitions / effects on certain actions (requires additional fbo)
+	> Add Water (This requieres 3 new layers, freindly_projectiles, hostile_projectiles, water, but the system currently does not allow that many)
 
 	Optimization:
 	> Use Geometry shader to redner shadow cube map in one x draw calls instead of six x draw calls
@@ -29,7 +30,6 @@
 	======
 
 	> Store lighting in rooms via special color channel? (find a way to represent lighting, e.g. voxel torches)
-	> Add enenmies with hp bars (using custom cutoff shader)
 	
 	Juicyness;
 	Fade i out
@@ -94,6 +94,8 @@
 		fitting rooms (depending on whether they have the right doors) together to create a map. Use camera mode 4 to have a look at it!
 			> A room is currently 13 times 9 fields big.
 			Each field has a fieldtype which determines the behaviour of that field, e.g. how it is rendered, whether it has a collider, which material it uses and so on.
+			> Basic Idea: There is a big texture that stores all possible rooms in the game as colors. Red channel holds value about field type, green channel holds value 
+			about enemies & blue channel holds values about lights
 	- 2 Enemy Types
 		> Rogue that charges at you and does big melee damage
 		> Archer that sits still but shoots you with moderate ranged damage
@@ -172,9 +174,11 @@
 	2					- Player Camera 1
 	3					- Player Camera 2
 	4					- Free Flight
-							> AD -> Move Left/Right
-							> WS -> Move Forward/Backward
-							> QE -> Strive Up/Down
+							> JL -> Move Left/Right
+							> KI -> Move Forward/Backward
+							> UO -> Strive Up/Down
+							> Hold Shift -> Go faster
+	5					- Free Flight with paused gameplay
 
 	Player:
 
@@ -196,5 +200,6 @@
 	glfw				- Open GL Library
 	glew				- Open GL Extention Wrapper
 	glm					- Math Library!
+	lodepng				- PNG Library
 
 	All 3 of them should work on their own as they are provided withing the "Additional dependencies" folder.

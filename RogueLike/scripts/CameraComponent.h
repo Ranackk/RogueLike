@@ -7,7 +7,7 @@ class CameraComponent : public UpdateComponent
 public:
 	enum Mode {
 		FREE, SMOOTH_FOLLOW, FOLLOW, FOLLOW_ROOM,
-		LOCKED
+		LOCKED, FREE_PAUSED
 	};
 
 	glm::mat4x4 m_ProjectionMatrix;

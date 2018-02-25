@@ -65,6 +65,7 @@ void CameraComponent::update(GLFWwindow* window ,const float ellapsed)
 	checkForCameraModeChange(window);
 	switch (m_Mode) {
 		case LOCKED: break;
+		case FREE_PAUSED:
 		case FREE: performFreeMovementUpdate(window, ellapsed); break;
 		case FOLLOW: performFollowMovementUpdate(window, ellapsed); break;
 		case SMOOTH_FOLLOW: performSmoothFollowMovementUpdate(window, ellapsed); break;
@@ -86,6 +87,9 @@ void CameraComponent::checkForCameraModeChange(GLFWwindow* window) {
 	}
 	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
 		setMode(window, Mode::FREE);
+	}
+	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
+		setMode(window, Mode::FREE_PAUSED);
 	}
 
 	const int _currentStateEscape = glfwGetKey(window, GLFW_KEY_ESCAPE);
@@ -137,27 +141,27 @@ void CameraComponent::performFreeMovementUpdate(GLFWwindow* window, const float 
 	float moveSpeed = m_Speed;
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) moveSpeed *= 3;
 	// Move forward
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) {
 		_transform.setLocalPosition(_transform.getLocalPosition() + direction * _ellapsed * moveSpeed);
 	}
 	// Move backward
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) {
 		_transform.setLocalPosition(_transform.getLocalPosition() - direction * _ellapsed * moveSpeed);
 	}
 	// Strafe left
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
 		_transform.setLocalPosition(_transform.getLocalPosition() - right * _ellapsed * moveSpeed);
 	}
 	// Strafe right
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) {
 		_transform.setLocalPosition(_transform.getLocalPosition() + right * _ellapsed * moveSpeed);
 	}
 	// UP
-	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
 		_transform.setLocalPosition(_transform.getLocalPosition() + up * _ellapsed * moveSpeed);
 	}
 	// DOWN
-	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS) {
 		_transform.setLocalPosition(_transform.getLocalPosition() - up * _ellapsed * moveSpeed);
 	}
 	m_GameObject->getTransform().setLocalPosition(_transform.getLocalPosition());
