@@ -39,7 +39,13 @@ void FieldComponent::initialize(Scene* map, const glm::vec2 worldGridPosition, c
 		bc.setCollisionLayer(CollisionLayer::MAP_GEOMETRY);
 		cc->initialize(bc);
 	}
-
+	else if (m_FieldType.getPassing() == FieldType::FLYING) {
+		BoxColliderComponent* cc = m_GameObject->addComponent(new BoxColliderComponent());
+		BoxCollider bc = BoxCollider(glm::vec2(1, 1), glm::vec3(-0.5, 0, -0.5));
+		bc.initialize(std::shared_ptr<GameObject>(m_GameObject));
+		bc.setCollisionLayer(CollisionLayer::WATER);
+		cc->initialize(bc);
+	}
 
 }
 

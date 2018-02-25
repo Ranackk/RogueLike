@@ -191,7 +191,9 @@ void EnemyComponent::updateEnemyTypArcher(GLFWwindow* _window, const float _delt
 	if (_currentRoomGridPos == m_RoomGridPos) {
 		/* Try to shoot */
 		/* Find vector to player */
-		const glm::vec3 shootVector = glm::normalize(m_Scene->getPlayer()->getGameObject()->getTransform().getPosition() - m_GameObject->getTransform().getPosition());
+		const glm::vec3 shootVector = m_Scene->getPlayer()->getGameObject()->getTransform().getPosition() - m_GameObject->getTransform().getPosition();
+		if (abs(shootVector.x) > m_ArcherAggroRangeX) return;
+		if (abs(shootVector.z) > m_ArcherAggroRangeY) return;
 		/* Aim*/
 		const glm::vec3 pos = m_GameObject->getTransform().getPosition();
 		m_GameObject->getTransform().setLocalRotation(glm::lookAt(pos, pos + glm::vec3(-shootVector.x, 0, shootVector.z), glm::vec3(0, 1, 0)));
@@ -202,7 +204,7 @@ void EnemyComponent::updateEnemyTypArcher(GLFWwindow* _window, const float _delt
 			if (projectileComponent == nullptr) {
 				projectileComponent = bullet->addComponent(new ProjectileComponent);
 			}
-			projectileComponent->initialize(m_GameObject->getTransform().getPosition() + glm::vec3(0, 0, 0), shootVector, m_ArcherShootSpeed, m_ArcherRangedDamage, CollisionLayer::HOSTILE_UNITS);
+			projectileComponent->initialize(m_GameObject->getTransform().getPosition() + glm::vec3(0, 0, 0), glm::normalize(shootVector), m_ArcherShootSpeed, m_ArcherRangedDamage, CollisionLayer::HOSTILE_UNITS_FLIGHT);
 			Game::getInstance()->getCurrentScene()->m_ProjectilePool.updateRenderBatch();
 			/* Reset Cooldown */
 			m_ArcherShootCooldown = m_ArcherShootCooldownDuration;

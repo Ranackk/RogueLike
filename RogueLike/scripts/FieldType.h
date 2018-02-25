@@ -5,7 +5,7 @@ class FieldType
 {
 public:
 	enum Walkability {
-		WALKING, BLOCKED
+		WALKING, FLYING, BLOCKED
 	};
 
 	static FieldType VOID;
@@ -44,6 +44,8 @@ public:
 	static FieldType ROCKS;
 
 	static FieldType SHRINE;
+
+	static FieldType WATER;
 
 	static FieldType byColor(unsigned char r);
 	bool isVoid() const;

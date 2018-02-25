@@ -39,6 +39,8 @@ FieldType FieldType::SHRINE = FieldType(100, "tex_Wall", "mat_Wall", "mesh_Shrin
 
 FieldType FieldType::ROCKS = FieldType(101, "tex_Floor", "mat_Floor", "mesh_Rocks", BLOCKED);
 
+FieldType FieldType::WATER = FieldType(200, "tex_Water", "mat_Water", "mesh_Water", FLYING);
+
 FieldType::FieldType() {
 	m_textureHandle = "";
 	m_modelHandle = "";
@@ -62,6 +64,8 @@ FieldType FieldType::byColor(const unsigned char r) {
 	switch (red) {
 	case 0: return WALL_X;
 	case 10: return WALL_Z;
+
+	case 15: return WATER;
 
 	case 20: return WALL_ARCH_L_X;
 	case 30: return WALL_ARCH_L_Z;
@@ -89,14 +93,13 @@ FieldType FieldType::byColor(const unsigned char r) {
 
 	case 190: return ROCKS;
 
-
-	case 200: 
-		return VOID;
+	case 200:  return VOID;
 
 	case 210: return DOOR_NORTH;
 	case 220: return DOOR_EAST;
 	case 230: return DOOR_SOUTH;
 	case 240: return DOOR_WEST;
+
 
 	case 255: return FLOOR;
 

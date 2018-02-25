@@ -127,6 +127,7 @@ void Game::initializeManagers() {
 	// MAP
 	m_TextureManager->loadTextureAs("graphics/map/stone_02.png", FieldType::WALL_X.getTextureIdentifier());
 	m_TextureManager->loadTextureAs("graphics/map/earth_01.png", FieldType::FLOOR.getTextureIdentifier());
+	m_TextureManager->loadTextureAs("graphics/map/water_01.png", FieldType::WATER.getTextureIdentifier());
 	// ENTITIES
 	m_TextureManager->loadTextureAs("graphics/player.png", "tex_Player");
 	m_TextureManager->loadTextureAs("graphics/bullet.png", "tex_Projectile");
@@ -149,6 +150,7 @@ void Game::initializeManagers() {
 	// MAP
 	m_MaterialManager->createMaterialByShader("baseShader", "mat_Wall", Material::BASE_SHADER);
 	m_MaterialManager->createMaterialByShader("baseShader", "mat_Floor", Material::BASE_SHADER);
+	m_MaterialManager->createMaterialByShader("baseShader", "mat_Water", Material::BASE_SHADER);
 	// ENTITIES
 	m_MaterialManager->createMaterialByShader("baseShader", "mat_Player", Material::BASE_SHADER);
 	m_MaterialManager->createMaterialByShader("baseShader", "mat_Enemy_Rogue", Material::BASE_SHADER);
@@ -175,7 +177,8 @@ void Game::initializeManagers() {
 	/* Load up all the models needed */
 	m_ModelManager = new ModelManager();
 	// MAP
-	m_ModelManager->loadModelAs("models/baseFloor.obj", "mesh_Floor");
+	m_ModelManager->loadModelAs("models/map/floor.obj", "mesh_Floor");
+	m_ModelManager->loadModelAs("models/map/water.obj", "mesh_Water");
 
 	m_ModelManager->loadModelAs("models/map/Wall_basic_x.obj", "mesh_Wall_basic_x");
 	m_ModelManager->loadModelAs("models/map/Wall_basic_z.obj", "mesh_Wall_basic_z");
@@ -204,6 +207,8 @@ void Game::initializeManagers() {
 	m_ModelManager->loadModelAs("models/map/rocks.obj", "mesh_Rocks");
 
 	m_ModelManager->loadModelAs("models/map/Shrine.obj", "mesh_Shrine");
+
+	m_ModelManager->loadModelAs("models/map/water.obj", "mesh_Water");
 	// ENTITES
 	m_ModelManager->loadModelAs("models/enemy_02.obj", "mesh_Player");
 	m_ModelManager->loadModelAs("models/enemy_01.obj", "mesh_Enemy_Rogue");

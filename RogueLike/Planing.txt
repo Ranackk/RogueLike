@@ -126,13 +126,16 @@
 			> Supports CollisionLayers
 				> E.G. the whole Map Geometry is on layer 1, all Friendly Units on layer 2 & all Hostile Units on layer 3.
 				A Collision Matrix that is layed out like this determines whether objects can collide
-					M F H ? ?
+					M F H ; - 
 				M   0 1 1
 				F     0 1
 				H       0
-				?
-				?
-				Currently the system supports up to 5 layers (limited by the length of an int. A long would allow many more layers if needed) and uses bits as flags, meaning that
+				;
+				-
+				.
+				(The other 3 layers that i use are used for projectiles (friendly/hostile) & water )
+
+				Currently the system supports up to 7 layers (limited by the length of an int. A long would allow many more layers if needed) and uses bits as flags, meaning that
 				a check on two layers colliding uses just a single bitwise & between the global layerMaskField and the two layers to collide.
 		> Texture, Model & Material Manager
 			> All of them story identifiers (strings) and combine them with data to be able to easily get a model in the code by calling "getModelByIdentifer("mesh_Player");"
@@ -151,7 +154,7 @@
 				> If it is not fully filled or completly empty, the red heart-mass "waves" around.
 				> If it is the last filled heart, it blinks in bright red to alarm the player
 
-		> 4 Camera Modes (see "Controls")
+		> 5 Camera Modes (see "Controls")
 			> Camera Shake support for Camera Mode 1
 				> Basic Idea: Whenever the player takes damage, he gets some "trauma". Trauma linearly sinks over time.
 					Trauma gets used exponentially to shake the cameras focus point using Perlin Noise.
