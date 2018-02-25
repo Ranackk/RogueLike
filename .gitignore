@@ -273,3 +273,4 @@ __pycache__/
 !/RogueLike/models/map/*.obj
 *.rar
 /RogueLike/ExternalLibraries/glfw-3.2.1.bin.WIN32/docs/
+!/RogueLike/ExternalLibraries/glew-2.1.0/lib/*
