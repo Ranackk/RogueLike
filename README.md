@@ -12,6 +12,7 @@ Self-Written Game Engine
 	And for example doing a completely autonomous physics system requires a system that creates a scene oct tree for performance reasons. 
 	Which I then also would have to incorporate in the render batch system, the pooling system, the render system in general and so on. 
 	What I ended up with is a solution where I add components to gameobject manually and then manually add them to e.g. a vector of "dynamic geometry" which from there on handles the rendering & updating of the object.
+	Still, I tried to incorporate a somewhat linear memory layout as often as possible, e.g. by storying all fields and all pooled objects (Enemies, Bullets) in a container with linear memory layout (c-Array, std::array or std::vector (given a size at initialization)). This helps the engine update those objects very fast as they are iterated in the same way they are in memory.
 - **Transform Hierarchies**
     Supports position, rotation (both via quaternion & via euler) & scale as well as parenting
 - **Custom Render Engine**
@@ -160,5 +161,5 @@ Credits:
 =
 - The Game is heavily inspired by *The Binding Of Isaac*
 - I used the 4 libraries stated in the dependencies section
-- Modeling (Enemies, Rocks & Walls) - Charlotte Kügler
+- Modeling (Enemies, Rocks & Walls) - Charlotte KÃ¼gler
 - Everything else (Programming, UVs, Textures) was created by me!
