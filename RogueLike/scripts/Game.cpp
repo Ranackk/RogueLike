@@ -19,7 +19,7 @@ const float Game::m_s_cShadowFarClip = 30.0f;
 const float Game::m_s_cLightActiveDistance = 23.0f;
 
 
-const string Game::m_s_cWindowTitle = "Ranogue!";
+const string Game::m_s_cWindowTitle = "Ranogue Engine!";
 
 Game::Game()
 {
