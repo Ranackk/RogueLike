@@ -84,7 +84,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>%(SolutionDir)ExternalLibraries\glfw-3.2.1.bin.WIN32\lib-vc2015;%(SolutionDir)ExternalLibraries\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies);opengl32.lib;glew32.lib;glfw3.lib</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);%(SolutionDir)opengl32.lib;%(SolutionDir)glew32.lib;%(SolutionDir)glfw3.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

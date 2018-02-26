@@ -16,7 +16,7 @@ const float Game::m_s_cNearClip = 0.1f;
 const float Game::m_s_cFarClip = 70.0f;
 const float Game::m_s_cShadowNearClip = 0.01f;
 const float Game::m_s_cShadowFarClip = 30.0f;
-const float Game::m_s_cLightActiveDistance = 19.0f;
+const float Game::m_s_cLightActiveDistance = 23.0f;
 
 
 const string Game::m_s_cWindowTitle = "Ranogue!";
