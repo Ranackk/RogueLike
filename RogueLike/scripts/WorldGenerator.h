@@ -1,11 +1,13 @@
 #pragma once
+#include "stdafx.h"
+
 #include "RoomBlueprint.h"
 class Scene;
 
 class WorldGenerator
 {
 public:
-	static void generateWorld(const glm::vec2 roomGridSize, Scene &mapToGenerateIn);
+	static void generateWorld(const glm::vec2 roomGridSize, Scene& mapToGenerateIn);
 
 private:
 	/* Disallow creation of a world generator instance */

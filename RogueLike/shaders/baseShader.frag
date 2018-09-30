@@ -26,6 +26,9 @@ uniform vec4 _Diffuse;
 uniform vec2 _ShadowClippingPlane;
 uniform vec2 _UvOffset;
 
+#define AMBIENT 0.9
+#define LIGHT_STRENGTH 2 //3
+
 vec4 calculateLight(int lightID){
 	float lRange = _LightRanges[lightID];
 	vec3 lPosition = _LightPositions[lightID];
@@ -48,12 +51,12 @@ vec4 calculateLight(int lightID){
 }
 
 void main(){
-	vec4 tex = texture(_Texture, uv + _UvOffset) * 0.5; // * 0.1
+	vec4 tex = texture(_Texture, uv + _UvOffset) * AMBIENT;
 	color = _Diffuse * tex; // * vec4(pos.xyz / pos.w, 1);
 
 	for (int i = 0; i < _LightCount; i++){
 		if (_LightActives[i] == 1){
-			color += tex * calculateLight(i) * 3;
+			color += tex * calculateLight(i) * LIGHT_STRENGTH;
 		}
 	}
 }

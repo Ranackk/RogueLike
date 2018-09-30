@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 #include "Transform.h"
 #include "Component.h"
 #include "UpdateComponent.h"

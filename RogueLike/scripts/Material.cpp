@@ -39,17 +39,17 @@ void Material::setupMatricesOnly() {
 	m_Type = MATRICES_ONLY;
 
 	/* Set up the uniform locations shared between all shaders */
-	this->uniformModelMatrix = glGetUniformLocation(this->shaderProgramID, "_Model");
-	this->uniformViewMatrix = glGetUniformLocation(this->shaderProgramID, "_View");
-	this->uniformProjectionMatrix = glGetUniformLocation(this->shaderProgramID, "_Projection");
+	this->uniformModelMatrix			= glGetUniformLocation(this->shaderProgramID, "_Model");
+	this->uniformViewMatrix				= glGetUniformLocation(this->shaderProgramID, "_View");
+	this->uniformProjectionMatrix		= glGetUniformLocation(this->shaderProgramID, "_Projection");
 
-	this->uniformClippingPlane = glGetUniformLocation(this->shaderProgramID, "_ClippingPlane");
-	this->uniformShadowClippingPlane = glGetUniformLocation(this->shaderProgramID, "_ShadowClippingPlane");
-	this->uniformCosGameTime = glGetUniformLocation(this->shaderProgramID, "_CosGameTime");
-	this->uniformCosGameTimeFast = glGetUniformLocation(this->shaderProgramID, "_CosGameTimeFast");
-	this->uniformGameTime = glGetUniformLocation(this->shaderProgramID, "_GameTime");
+	this->uniformClippingPlane			= glGetUniformLocation(this->shaderProgramID, "_ClippingPlane");
+	this->uniformShadowClippingPlane	= glGetUniformLocation(this->shaderProgramID, "_ShadowClippingPlane");
+	this->uniformCosGameTime			= glGetUniformLocation(this->shaderProgramID, "_CosGameTime");
+	this->uniformCosGameTimeFast		= glGetUniformLocation(this->shaderProgramID, "_CosGameTimeFast");
+	this->uniformGameTime				= glGetUniformLocation(this->shaderProgramID, "_GameTime");
 
-	this->uniformUseInstancing = glGetUniformLocation(this->shaderProgramID, "_UseInstancing");
+	this->uniformUseInstancing			= glGetUniformLocation(this->shaderProgramID, "_UseInstancing");
 }
 void Material::setupBaseShader(const glm::vec4 _diffuseColor, const GLuint _textureID, const GLuint _skyboxID) {
 	setupMatricesOnly();
@@ -60,20 +60,20 @@ void Material::setupBaseShader(const glm::vec4 _diffuseColor, const GLuint _text
 	this->p_textureID = _textureID;
 
 	/* Setup the uniform locations for the base shader */
-	this->uniformDiffuseColor = glGetUniformLocation(this->shaderProgramID, "_Diffuse");
-	this->uniformTexture = glGetUniformLocation(this->shaderProgramID, "_Texture");
-	this->uniformUvOffset = glGetUniformLocation(this->shaderProgramID, "_UvOffset");
+	this->uniformDiffuseColor	= glGetUniformLocation(this->shaderProgramID, "_Diffuse");
+	this->uniformTexture		= glGetUniformLocation(this->shaderProgramID, "_Texture");
+	this->uniformUvOffset		= glGetUniformLocation(this->shaderProgramID, "_UvOffset");
 
 	/* Test Area */
 	p_skyboxID = _skyboxID; 
-	this->uniformSkybox = glGetUniformLocation(this->shaderProgramID, "_Skybox");
+	this->uniformSkybox			= glGetUniformLocation(this->shaderProgramID, "_Skybox");
 }
 void Material::setupBaseUiShader(const GLuint _textureID) {
 	setupMatricesOnly();
 
 	m_Type = UI_BASE_SHADER;
-	this->p_textureID = _textureID;
-	this->uniformTexture = glGetUniformLocation(this->shaderProgramID, "_Texture");
+	this->p_textureID			= _textureID;
+	this->uniformTexture		= glGetUniformLocation(this->shaderProgramID, "_Texture");
 	p_uvOffset = glm::vec2(0);
 }
 void Material::setupHealthBarShader(const GLuint _backgroundTextureID, const GLuint _fillTextureID, const GLuint _gradientTextureID,
@@ -82,16 +82,16 @@ void Material::setupHealthBarShader(const GLuint _backgroundTextureID, const GLu
 
 	m_Type = UI_HEART_CONTAINER;
 
-	this->p_backgroundTextureID = _backgroundTextureID;
-	this->p_fillTextureID = _fillTextureID;
-	this->p_gradientTextureID = _gradientTextureID;
-	this->p_healthbarFillAmount = _fillAmount;
+	this->p_backgroundTextureID		= _backgroundTextureID;
+	this->p_fillTextureID			= _fillTextureID;
+	this->p_gradientTextureID		= _gradientTextureID;
+	this->p_healthbarFillAmount		= _fillAmount;
 
-	this->uniformBackgroundTexture = glGetUniformLocation(this->shaderProgramID, "_BackgroundTexture");
-	this->uniformFillTextue = glGetUniformLocation(this->shaderProgramID, "_FillTexture");
-	this->uniformGradientTexture = glGetUniformLocation(this->shaderProgramID, "_GradientTexture");
+	this->uniformBackgroundTexture	= glGetUniformLocation(this->shaderProgramID, "_BackgroundTexture");
+	this->uniformFillTextue			= glGetUniformLocation(this->shaderProgramID, "_FillTexture");
+	this->uniformGradientTexture	= glGetUniformLocation(this->shaderProgramID, "_GradientTexture");
 	this->uniformHealthbarFillAmount = glGetUniformLocation(this->shaderProgramID, "_FillAmount");
-	this->uniformBlink = glGetUniformLocation(this->shaderProgramID, "_Blink");
+	this->uniformBlink				= glGetUniformLocation(this->shaderProgramID, "_Blink");
 }
 
 void Material::setTexture(const GLuint texture) {
@@ -245,7 +245,7 @@ void Material::bindMaterial(glm::mat4x4 _perspectiveMatrix, glm::mat4x4 _viewMat
 	/* Game Time */
 	glUniform1f(this->uniformGameTime, Game::getInstance()->getGameTime());
 	glUniform1f(this->uniformCosGameTime, cos(Game::getInstance()->getGameTime()));
-	glUniform1f(this->uniformCosGameTimeFast, cos(3.5 * Game::getInstance()->getGameTime()));
+	glUniform1f(this->uniformCosGameTimeFast, (float) cos(3.5f * Game::getInstance()->getGameTime()));
 
 	/* Instancing */
 	glUniform1i(this->uniformUseInstancing, _instanced);

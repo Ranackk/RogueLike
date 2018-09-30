@@ -14,10 +14,10 @@ FieldComponent::FieldComponent() {
 }
 
 void FieldComponent::initialize(Scene* map, const glm::vec2 worldGridPosition, const FieldType fieldType) {
-	m_Map = map;
-	m_fieldID = worldGridPosition.x + worldGridPosition.y * (map->getRoomsPerMap().y * Game::m_s_cRoomWidthInFields);
+	m_Map				= map;
+	m_fieldID			= (int) (worldGridPosition.x + worldGridPosition.y * (map->getRoomsPerMap().y * Game::m_s_cRoomWidthInFields));
 	m_worldGridPosition = worldGridPosition;
-	m_FieldType = fieldType;
+	m_FieldType			= fieldType;
 
 	m_GameObject->getTransform().setLocalPosition(glm::vec3(worldGridPosition.x, 0, worldGridPosition.y));
 

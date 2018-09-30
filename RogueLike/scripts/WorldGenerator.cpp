@@ -58,7 +58,7 @@ void WorldGenerator::generateWorld(const glm::vec2 roomGridSize, Scene &mapToGen
 	}
 
 
-	srand(Game::m_s_cSeed + time(nullptr));
+	srand(Game::m_s_cSeed + (unsigned int) time(nullptr));
 
 	/* Start the room placement of the rest */
 	const int countOfRoomsInGrid = static_cast<int>(roomGridSize.x * roomGridSize.y);

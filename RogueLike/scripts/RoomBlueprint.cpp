@@ -14,7 +14,7 @@ RoomBlueprint::~RoomBlueprint()
 }
 
 void RoomBlueprint::fillWithVoid(const glm::vec2 _roomSize) {
-	this->m_fieldData = new FieldType[_roomSize.x * _roomSize.y];
+	this->m_fieldData = new FieldType[(int) (_roomSize.x * _roomSize.y)];
 	this->m_roomSize = _roomSize;
 
 	for (int iX = 0; iX < _roomSize.x; iX++) {
@@ -26,7 +26,7 @@ void RoomBlueprint::fillWithVoid(const glm::vec2 _roomSize) {
 
 void RoomBlueprint::fillWithTypes(const glm::vec2 _roomSize, FieldType * _fillData)
 {
-	this->m_fieldData = new FieldType[_roomSize.x * _roomSize.y];
+	this->m_fieldData = new FieldType[(int) (_roomSize.x * _roomSize.y)];
 	this->m_fieldData = _fillData;
 	this->m_roomSize = _roomSize;
 
@@ -60,7 +60,7 @@ void RoomBlueprint::fillWithTypes(const glm::vec2 _roomSize, FieldType * _fillDa
 
 void RoomBlueprint::fillWithBlueprint(RoomBlueprint* _data) {
 	this->m_roomSize = _data->m_roomSize;
-	this->m_fieldData = new FieldType[m_roomSize.x * m_roomSize.y];
+	this->m_fieldData = new FieldType[(int) (m_roomSize.x * m_roomSize.y)];
 	this->m_fieldData = _data->getFieldData();
 
 	/* If room is empty, fill it with empty */

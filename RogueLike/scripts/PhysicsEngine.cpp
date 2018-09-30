@@ -54,9 +54,9 @@ bool PhysicsEngine::layerMaskAllowsCollision(Collider& c1, Collider& c2) {
 		m = t;
 	}
 
-	const unsigned char checkFlagIndex = n * m_s_c_CollisionLayers - (pow(n,2) - n) / 2 + m - n; //n * L		- (n^2 - n) / 2		+ m - n
+	const unsigned char checkFlagIndex = n * m_s_c_CollisionLayers - (unsigned char) (pow(n,2) - n) / 2 + m - n; //n * L		- (n^2 - n) / 2		+ m - n
 	/* Transform the index into a number that can be used to bitwise AND the global flag field*/
-	const unsigned int checkFlag = pow(2, checkFlagIndex);
+	const unsigned int checkFlag = (unsigned int) pow(2, checkFlagIndex);
 
 	/* Return true if the flag field is "1" at the checkFlag, "false" if not. */
 	const unsigned int afterCheck = (m_s_c_CollisionLayerMaskFlagField & checkFlag);

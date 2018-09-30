@@ -31,7 +31,7 @@ void LightComponent::initialize(const glm::vec3 _lightPosition, const float _lig
 	m_Static = _isStatic;
 	m_Flicker = _flicker;
 
-	m_FlickerCounter = rand();
+	m_FlickerCounter = (float) rand();
 
 	for (int i = 0; i < 6; i++) {
 		m_CubeMapViewMatrices[i] = glm::lookAt(_lightPosition, _lightPosition + RenderEngine::getCubeMapFaceDirection(i), RenderEngine::getCubeMapUpVector(i));
@@ -55,7 +55,7 @@ void LightComponent::update(GLFWwindow * window, const float deltaTime)
 {
 	if (m_Flicker) {
 		m_FlickerCounter += deltaTime;
-		m_LightRange = m_DefaultLightRange + (m_DefaultLightRange * 0.3f) * glm::sin(m_FlickerCounter * 1.2);
+		m_LightRange = m_DefaultLightRange + (m_DefaultLightRange * 0.3f) * (float) glm::sin(m_FlickerCounter * 1.2);
 	}
 }
 

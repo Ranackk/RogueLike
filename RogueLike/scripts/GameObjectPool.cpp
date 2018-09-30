@@ -23,7 +23,7 @@ void GameObjectPool::initialize(const int _size, const std::shared_ptr<ModelData
 }
 
 void GameObjectPool::initWithGameObjectVector(std::vector<GameObject*> _vector) {
-	for (int i = 0; i < _vector.size(); i++) {
+	for (int i = 0; i < (int) _vector.size(); i++) {
 		m_GameObjects[i] = _vector[i];
 		m_InUse[i] = true;
 	}

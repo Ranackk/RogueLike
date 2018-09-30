@@ -248,11 +248,11 @@ void Game::draw() const {
 
 void Game::update(double ellapsedTime) {
 	if (m_Camera->getMode() != CameraComponent::LOCKED && m_Camera->getMode() != CameraComponent::FREE_PAUSED) {
-		m_GameTime += ellapsedTime;
+		m_GameTime += (float) ellapsedTime;
 
-		m_Scene->update(m_Window, ellapsedTime);
+		m_Scene->update(m_Window, (float) ellapsedTime);
 	}
-	m_Camera->getGameObject()->update(m_Window, ellapsedTime);
+	m_Camera->getGameObject()->update(m_Window, (float) ellapsedTime);
 }
 
 TextureManager* Game::getTextureManager() const {

@@ -7,8 +7,10 @@ class Material
 {
 public:
 	enum Type {
-		MATRICES_ONLY, BASE_SHADER, 
-		UI_BASE_SHADER, UI_HEART_CONTAINER
+		MATRICES_ONLY, 
+		BASE_SHADER, 
+		UI_BASE_SHADER, 
+		UI_HEART_CONTAINER
 	};
 
 	static void compileShader(std::string path);

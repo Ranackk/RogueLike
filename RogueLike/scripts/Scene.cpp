@@ -80,7 +80,7 @@ void Scene::setupSystems() {
 	/* Enemies */
 	// Sort Enemies by type
 	std::map<EnemyComponent::EnemyType, std::vector<GameObject*>> enemiesByType = std::map<EnemyComponent::EnemyType, std::vector<GameObject*>>();
-	for (int i = 0; i < m_Enemies.size(); i++) {
+	for (int i = 0; i < (int) m_Enemies.size(); i++) {
 		EnemyComponent::EnemyType type = m_Enemies[i]->getType();
 		const auto res = m_EnemyPools.find(type);
 		if (res != m_EnemyPools.end()) {
@@ -143,7 +143,7 @@ void Scene::setupSystems() {
 	HUDPlayerHealthDisplayComponent* hudphdc = m_HUDHealthContainer->addComponent(new HUDPlayerHealthDisplayComponent);
 	hudphdc->initialize(m_Player->getGameObject()->getComponent<HealthComponent>());
 	std::vector<HUDRenderComponent*> comps = hudphdc->getHUDComponents();
-	for (int i = 0; i < comps.size(); i++) {
+	for (int i = 0; i < (int) comps.size(); i++) {
 		m_HudRenderComponents.push_back(comps[i]);
 	}
 }
@@ -235,7 +235,7 @@ void Scene::prepareLightsForShaderProgram(const GLuint _shaderProgramID) const {
 			ranges.push_back(range);
 			positions.push_back(position);
 			colors.push_back(color);
-			actives.push_back(glm::distance(playerPos, position) <= Game::m_s_cLightActiveDistance ? 1 : 0);
+			actives.push_back(glm::distance(playerPos, position) <= Game::m_s_cLightActiveDistance ? 1.0f : 0.0f);
 		}
 	}
 
@@ -323,7 +323,7 @@ void Scene::generateMap(const glm::vec2 mapSize) {
 
 bool Scene::collidesWithEnemies(Collider& checkFor, EnemyComponent*& colliderHit) const {
 	// Enemies
-	for (int i = 0; i < m_Enemies.size(); i++) {
+	for (int i = 0; i < (int) m_Enemies.size(); i++) {
 		CircleCollider enemyCollider = m_Enemies[i]->getGameObject()->getComponent<CircleColliderComponent>()->getCollider();
 		if (enemyCollider.collidesWith(checkFor)) {
 			colliderHit = m_Enemies[i];
@@ -341,8 +341,8 @@ bool Scene::collidesWithSceneGeometry(CircleCollider& checkFor, const bool _outO
 	const glm::vec3 checkPos = checkFor.getTransform().getPosition();
 
 	/* check the 9 fields next to the player */
-	const int fieldX = glm::round(checkPos.x);
-	const int fieldY = glm::round(checkPos.z); //+0.5
+	const int fieldX = (int) glm::round(checkPos.x);
+	const int fieldY = (int) glm::round(checkPos.z); //+0.5
 
 	for (int iX = fieldX - 1; iX < fieldX + 1; iX++) {
 		for (int iY = fieldY - 1; iY < fieldY + 1; iY++) {
@@ -382,7 +382,7 @@ bool Scene::collidesWithSceneGeometry(CircleCollider& checkFor, const bool _outO
 
 
 bool Scene::isEnemyInRoomCoord(const glm::vec2 _roomCoord) {
-	for (int i = 0; i < m_Enemies.size(); i++) {
+	for (int i = 0; i < (int) m_Enemies.size(); i++) {
 		if (m_Enemies[i]->getRoomCoord() == _roomCoord) {
 			if (m_Enemies[i]->getGameObject()->isActive()) return true;
 		}

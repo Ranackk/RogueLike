@@ -119,7 +119,7 @@ void RenderBatch::initialize(const std::shared_ptr<ModelData> _modelDataToUse,
 }
 
 void RenderBatch::update(GLFWwindow* window, const float deltaTime) {
-	for (int i = 0; i < m_BatchObjects.size(); i++) {
+	for (int i = 0; i < (int) m_BatchObjects.size(); i++) {
 		m_BatchObjects[i]->update(window, deltaTime);
 	}
 	m_RenderBatchComponent->updateBatch(generateObjectMatrices(), m_BatchObjects.size());
@@ -132,7 +132,7 @@ void RenderBatch::updateBatch(const std::vector<GameObject*> _ObjectsToBatch) {
 
 glm::mat4x4* RenderBatch::generateObjectMatrices() {
 	glm::mat4x4* objectMatrices = new glm::mat4x4[m_BatchObjects.size()];
-	for (int i = 0; i < m_BatchObjects.size(); i++) {
+	for (int i = 0; i < (int)m_BatchObjects.size(); i++) {
 		objectMatrices[i] = m_BatchObjects[i]->getTransform().getObjectMatrix();
 	}
 	return objectMatrices;

@@ -5,9 +5,9 @@
 
 
 void HUDPlayerHealthDisplayComponent::initialize(HealthComponent* _healthComponentToDisplay) {
-	m_HealthComponent = _healthComponentToDisplay;
-	m_CurrentHeartContainerCount = ceil(*m_HealthComponent->getMaximumHealthPointer());
-	m_CurrentVisualHP = *m_HealthComponent->getCurrentHealthPointer();
+	m_HealthComponent				= _healthComponentToDisplay;
+	m_CurrentHeartContainerCount	= (int) ceil(*m_HealthComponent->getMaximumHealthPointer());
+	m_CurrentVisualHP				= *m_HealthComponent->getCurrentHealthPointer();
 	createHudDisplay();
 }
 

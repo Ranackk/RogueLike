@@ -65,7 +65,7 @@ private:
 	float m_ArcherShootSpeed = 4.0f;
 	float m_ArcherShootCooldownDuration = 0.7f;
 	float m_ArcherShootCooldown = 0.0f;
-	float m_ArcherRangedDamage = 0.5f;
+	float m_ArcherRangedDamage = 0.25f;
 	float m_ArcherMeleeDamage = 1.0f;
 	float m_ArcherHealthPoints = 2.0f;
 	float m_ArcherAggroRangeX = 5.0f;
