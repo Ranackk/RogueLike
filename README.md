@@ -1,10 +1,17 @@
 # RogueLike
 
-Game Features:
-=
+RogueLike is a game prototype inspired by the BindingOfIsaac that I worked on in my second semester (early 2018).\
+From a technical view, the interesting parts are that the game runs in a custom C++/OpenGL engine featuring\
+- gameobject component system
+- realtime shadow mapping in forward rendering
+- realtime batching and instancing
+- custom physics implementation
 
-Self-Written Game Engine
--
+See the original description below for more details on these topics or feel free to check out the project yourself!
+
+## Game Features
+### Self-Written Game Engine
+
 - **GameObjects with Components**
     There are basic components for general purposes and special "UpdateComponents" & "RenderComponents" that can participate in the update & rendering systems.
 
